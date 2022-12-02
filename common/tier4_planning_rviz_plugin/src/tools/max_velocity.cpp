@@ -29,10 +29,10 @@ namespace rviz_plugins
 {
 MaxVelocityDisplay::MaxVelocityDisplay()
 {
-  const Screen * screen_info = DefaultScreenOfDisplay(XOpenDisplay(NULL));
+  // const Screen * screen_info = DefaultScreenOfDisplay(XOpenDisplay(NULL));
 
-  constexpr float hight_4k = 2160.0;
-  const float scale = static_cast<float>(screen_info->height) / hight_4k;
+  // constexpr float hight_4k = 2160.0;
+  const float scale = 0.5;
   const int left = static_cast<int>(std::round(595 * scale));
   const int top = static_cast<int>(std::round(280 * scale));
   const int length = static_cast<int>(std::round(96 * scale));

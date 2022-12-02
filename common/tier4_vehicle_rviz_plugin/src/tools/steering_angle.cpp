@@ -33,10 +33,10 @@ SteeringAngleDisplay::SteeringAngleDisplay()
                   "/images/handle.png")
                   .c_str())
 {
-  const Screen * screen_info = DefaultScreenOfDisplay(XOpenDisplay(NULL));
+  // const Screen * screen_info = DefaultScreenOfDisplay(XOpenDisplay(NULL));
 
-  constexpr float hight_4k = 2160.0;
-  const float scale = static_cast<float>(screen_info->height) / hight_4k;
+  // constexpr float hight_4k = 2160.0;
+  const float scale = 0.5;
   const auto left = static_cast<int>(std::round(128 * scale));
   const auto top = static_cast<int>(std::round(128 * scale));
   const auto length = static_cast<int>(std::round(256 * scale));

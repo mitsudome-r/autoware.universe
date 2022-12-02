@@ -9,7 +9,7 @@ set(QT_LIBRARIES Qt5::Widgets)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-add_definitions(-DQT_NO_KEYWORDS)
+# add_definitions(-DQT_NO_KEYWORDS)
 
 set(HEADERS
   src/tools/turn_signal.hpp
