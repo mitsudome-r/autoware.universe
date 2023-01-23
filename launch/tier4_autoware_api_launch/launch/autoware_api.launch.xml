@@ -1,6 +1,6 @@
 <launch>
   <!-- AD API options -->
-  <arg name="launch_deprecated_api" default="false"/>
+  <arg name="launch_deprecated_api" default="true"/>
   <arg name="launch_default_ad_api" default="true"/>
   <arg name="launch_rviz_adaptors" default="true"/>
 
