@@ -22,6 +22,15 @@ jobs:
     steps:
       - name: Check disk space
         run: df -h
+      - name: Free disk space (Ubuntu)
+        uses: jlumbroso/free-disk-space@v1.2.0
+        with:
+          tool-cache: false
+          dotnet: false
+          swap-storage: false
+          large-packages: false
+      - name: Check disk space
+        run: df -h
 
       - name: Check out repository
         uses: actions/checkout@v3
