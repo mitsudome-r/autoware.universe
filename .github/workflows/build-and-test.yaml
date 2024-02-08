@@ -21,7 +21,7 @@ jobs:
           - -cuda
         include:
           - rosdistro: humble
-            container: ghcr.io/autowarefoundation/autoware-universe:humble-latest
+            container: ghcr.io/mitsudome-r/autoware-openadk:devel-humble-latest
             build-depends-repos: build_depends.repos
     steps:
       - name: Check disk space before build
