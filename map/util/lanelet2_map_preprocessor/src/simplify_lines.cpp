@@ -19,12 +19,15 @@
 
 #include <lanelet2_core/LaneletMap.h>
 #include <lanelet2_core/geometry/Lanelet.h>
+#include <lanelet2_core/primitives/LaneletSequence.h>
 #include <lanelet2_io/Io.h>
 
 #include <iostream>
-#include <unordered_set>
+#include <map>
 #include <vector>
 
+using lanelet::utils::getId;
+using lanelet::utils::to2D;
 bool loadLaneletMap(
   const std::string & llt_map_path, lanelet::LaneletMapPtr & lanelet_map_ptr,
   lanelet::Projector & projector)
@@ -43,46 +46,61 @@ bool loadLaneletMap(
   return true;
 }
 
-bool exists(std::unordered_set<lanelet::Id> & set, lanelet::Id element)
-{
-  return std::find(set.begin(), set.end(), element) != set.end();
-}
-
-lanelet::Points3d convertPointsLayerToPoints(lanelet::LaneletMapPtr & lanelet_map_ptr)
+void copyData(lanelet::LineString3d & dst, lanelet::LineString3d & src)
 {
   lanelet::Points3d points;
-  for (const lanelet::Point3d & pt : lanelet_map_ptr->pointLayer) {
-    points.push_back(pt);
+  dst.clear();
+  for (lanelet::Point3d & pt : src) {
+    dst.push_back(pt);
   }
-  return points;
 }
 
-lanelet::LineStrings3d convertLineLayerToLineStrings(lanelet::LaneletMapPtr & lanelet_map_ptr)
+void convert_to_linestring(const std::map<unsigned int, lanelet::Point3d> & point_map, lanelet::LineString3d & line)
 {
-  lanelet::LineStrings3d lines;
-  for (const lanelet::LineString3d & line : lanelet_map_ptr->lineStringLayer) {
-    lines.push_back(line);
+  line.clear();
+  for (const auto& [key, pt]: point_map) {
+    line.push_back(pt);
   }
-  return lines;
 }
 
-void removeUnreferencedGeometry(lanelet::LaneletMapPtr & lanelet_map_ptr)
+void simplifyLineString(lanelet::LineString3d & line, const double threshold)
 {
-  lanelet::LaneletMapPtr new_map(new lanelet::LaneletMap);
-  for (auto llt : lanelet_map_ptr->laneletLayer) {
-    new_map->add(llt);
+  lanelet::LineString3d simplified_line;
+  simplified_line.push_back(line.front());
+
+  // index, point
+  std::map<unsigned int, lanelet::Point3d> point_map;
+  point_map.insert(std::make_pair(0, line.front()));
+  point_map.insert(std::make_pair(line.size() -1 , line.back()));
+
+  convert_to_linestring(point_map, simplified_line);
+
+  for (size_t i = 1; i < line.size() - 1; i++) {
+    lanelet::BasicPoint3d pt = line[i].basicPoint();
+    if (lanelet::geometry::distance2d(simplified_line, pt) > threshold) {
+      point_map.insert(std::make_pair(i, line[i]));
+    }
   }
-  lanelet_map_ptr = new_map;
+  copyData(line, simplified_line);
+  return;
+}
+
+void simplify_lines(lanelet::LaneletMapPtr & lanelet_map_ptr)
+{
+  for (lanelet::LineString3d & line : lanelet_map_ptr->lineStringLayer) {
+    simplifyLineString(line, 0.05);
+  }
+  return;
 }
 
 int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
 
-  auto node = rclcpp::Node::make_shared("remove_unreferenced_geometry");
+  auto node = rclcpp::Node::make_shared("simplify_lines");
 
-  const auto llt_map_path = node->declare_parameter<std::string>("llt_map_path");
-  const auto output_path = node->declare_parameter<std::string>("llt_output_path");
+  const auto llt_map_path = node->declare_parameter<std::string>("input_llt_path");
+  const auto output_path = node->declare_parameter<std::string>("output_llt_path");
 
   lanelet::LaneletMapPtr llt_map_ptr(new lanelet::LaneletMap);
   lanelet::projection::MGRSProjector projector;
@@ -90,7 +108,8 @@ int main(int argc, char * argv[])
   if (!loadLaneletMap(llt_map_path, llt_map_ptr, projector)) {
     return EXIT_FAILURE;
   }
-  removeUnreferencedGeometry(llt_map_ptr);
+
+  simplify_lines(llt_map_ptr);
   lanelet::write(output_path, *llt_map_ptr, projector);
 
   rclcpp::shutdown();

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <node pkg="lanelet2_map_preprocessor" exec="remove_unreferenced_geometry" name="remove_unreferenced_geometry" output="screen">
+    <param from="$(find-pkg-share lanelet2_map_preprocessor)/config/remove_unreferenced_geometry.param.yaml" allow_substs="true"/>
+  </node>
+</launch>

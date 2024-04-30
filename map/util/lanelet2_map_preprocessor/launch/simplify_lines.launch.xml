@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="input_ll2_path" default="lanelet2_map.osm" description="input lanelet2 map file name"/>
+  <arg name="output_ll2_path" default="lanelet2_map_simplified.osm" description="output lanelet2 map file name"/>
+
+  <node pkg="lanelet2_map_preprocessor" exec="simplify_lines" name="simplify_lines" output="screen">
+    <param from="$(find-pkg-share lanelet2_map_preprocessor)/config/simplify_lines.param.yaml" allow_substs="true"/>
+  </node>
+</launch>

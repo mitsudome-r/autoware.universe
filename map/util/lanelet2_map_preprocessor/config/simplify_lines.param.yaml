@@ -1,0 +1,5 @@
+/**:
+  ros__parameters:
+    input_lanelet_path: $(var input_llt_path)
+    output_llt_path: $(var output_llt_path)
+

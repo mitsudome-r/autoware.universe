@@ -22,6 +22,7 @@ ament_auto_add_executable(merge_close_lines src/merge_close_lines.cpp)
 ament_auto_add_executable(merge_close_points src/merge_close_points.cpp)
 ament_auto_add_executable(remove_unreferenced_geometry src/remove_unreferenced_geometry.cpp)
 ament_auto_add_executable(fix_lane_change_tags src/fix_lane_change_tags.cpp)
+ament_auto_add_executable(simplify_lines src/simplify_lines.cpp)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

@@ -1,0 +1,5 @@
+/**:
+  ros__parameters:
+    input_lanelet_path: /home/mitsudome-r/Downloads/b834a80a-e933-441b-90f6-0a7bfbb2b74e_fixed.osm
+    llt_output_path:  /home/mitsudome-r/Downloads/b834a80a-e933-441b-90f6-0a7bfbb2b74e_fixed2.osm
+
