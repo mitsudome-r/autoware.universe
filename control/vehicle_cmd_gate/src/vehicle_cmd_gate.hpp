@@ -29,7 +29,7 @@
 
 #include <autoware_adapi_v1_msgs/msg/mrm_state.hpp>
 #include <autoware_adapi_v1_msgs/msg/operation_mode_state.hpp>
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 #include <autoware_vehicle_msgs/msg/engage.hpp>
 #include <autoware_vehicle_msgs/msg/gear_command.hpp>
 #include <autoware_vehicle_msgs/msg/hazard_lights_command.hpp>
@@ -55,7 +55,7 @@ namespace vehicle_cmd_gate
 
 using autoware_adapi_v1_msgs::msg::MrmState;
 using autoware_adapi_v1_msgs::msg::OperationModeState;
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using autoware_control_msgs::msg::Longitudinal;
 using autoware_vehicle_msgs::msg::GearCommand;
 using autoware_vehicle_msgs::msg::HazardLightsCommand;
@@ -82,7 +82,7 @@ using EngageSrv = tier4_external_api_msgs::srv::Engage;
 using motion_utils::VehicleStopChecker;
 struct Commands
 {
-  Control control;
+  ControlHorizon control;
   TurnIndicatorsCommand turn_indicator;
   HazardLightsCommand hazard_light;
   GearCommand gear;
@@ -100,7 +100,7 @@ public:
 private:
   // Publisher
   rclcpp::Publisher<VehicleEmergencyStamped>::SharedPtr vehicle_cmd_emergency_pub_;
-  rclcpp::Publisher<Control>::SharedPtr control_cmd_pub_;
+  rclcpp::Publisher<ControlHorizon>::SharedPtr control_cmd_pub_;
   rclcpp::Publisher<GearCommand>::SharedPtr gear_cmd_pub_;
   rclcpp::Publisher<TurnIndicatorsCommand>::SharedPtr turn_indicator_cmd_pub_;
   rclcpp::Publisher<HazardLightsCommand>::SharedPtr hazard_light_cmd_pub_;
@@ -149,26 +149,26 @@ private:
 
   // Subscriber for auto
   Commands auto_commands_;
-  rclcpp::Subscription<Control>::SharedPtr auto_control_cmd_sub_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr auto_control_cmd_sub_;
   rclcpp::Subscription<TurnIndicatorsCommand>::SharedPtr auto_turn_indicator_cmd_sub_;
   rclcpp::Subscription<HazardLightsCommand>::SharedPtr auto_hazard_light_cmd_sub_;
   rclcpp::Subscription<GearCommand>::SharedPtr auto_gear_cmd_sub_;
-  void onAutoCtrlCmd(Control::ConstSharedPtr msg);
+  void onAutoCtrlCmd(ControlHorizon::ConstSharedPtr msg);
 
   // Subscription for external
   Commands remote_commands_;
-  rclcpp::Subscription<Control>::SharedPtr remote_control_cmd_sub_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr remote_control_cmd_sub_;
   rclcpp::Subscription<TurnIndicatorsCommand>::SharedPtr remote_turn_indicator_cmd_sub_;
   rclcpp::Subscription<HazardLightsCommand>::SharedPtr remote_hazard_light_cmd_sub_;
   rclcpp::Subscription<GearCommand>::SharedPtr remote_gear_cmd_sub_;
-  void onRemoteCtrlCmd(Control::ConstSharedPtr msg);
+  void onRemoteCtrlCmd(ControlHorizon::ConstSharedPtr msg);
 
   // Subscription for emergency
   Commands emergency_commands_;
-  rclcpp::Subscription<Control>::SharedPtr emergency_control_cmd_sub_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr emergency_control_cmd_sub_;
   rclcpp::Subscription<HazardLightsCommand>::SharedPtr emergency_hazard_light_cmd_sub_;
   rclcpp::Subscription<GearCommand>::SharedPtr emergency_gear_cmd_sub_;
-  void onEmergencyCtrlCmd(Control::ConstSharedPtr msg);
+  void onEmergencyCtrlCmd(ControlHorizon::ConstSharedPtr msg);
 
   // Parameter
   bool use_emergency_handling_;
@@ -220,17 +220,17 @@ private:
   void checkExternalEmergencyStop(diagnostic_updater::DiagnosticStatusWrapper & stat);
 
   // Algorithm
-  Control prev_control_cmd_;
-  Control createStopControlCmd() const;
+  ControlHorizon prev_control_cmd_;
+  ControlHorizon createStopControlCmd() const;
   Longitudinal createLongitudinalStopControlCmd() const;
-  Control createEmergencyStopControlCmd() const;
+  ControlHorizon createEmergencyStopControlCmd() const;
 
   std::shared_ptr<rclcpp::Time> prev_time_;
   double getDt();
-  Control getActualStatusAsCommand();
+  ControlHorizon getActualStatusAsCommand();
 
   VehicleCmdFilter filter_;
-  Control filterControlCommand(const Control & msg);
+  ControlHorizon filterControlCommand(const ControlHorizon & msg);
 
   // filtering on transition
   OperationModeState current_operation_mode_;

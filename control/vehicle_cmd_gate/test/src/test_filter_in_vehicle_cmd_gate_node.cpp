@@ -58,7 +58,7 @@ using vehicle_cmd_gate::VehicleCmdGate;
 
 using autoware_adapi_v1_msgs::msg::MrmState;
 using autoware_adapi_v1_msgs::msg::OperationModeState;
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using autoware_vehicle_msgs::msg::GearCommand;
 using autoware_vehicle_msgs::msg::HazardLightsCommand;
 using autoware_vehicle_msgs::msg::SteeringReport;
@@ -75,8 +75,8 @@ class PubSubNode : public rclcpp::Node
 public:
   PubSubNode() : Node{"test_vehicle_cmd_gate_filter_pubsub"}
   {
-    sub_cmd_ = create_subscription<Control>(
-      "output/control_cmd", rclcpp::QoS{1}, [this](const Control::ConstSharedPtr msg) {
+    sub_cmd_ = create_subscription<ControlHorizon>(
+      "output/control_cmd", rclcpp::QoS{1}, [this](const ControlHorizon::ConstSharedPtr msg) {
         cmd_history_.push_back(msg);
         cmd_received_times_.push_back(now());
         // check the effectiveness of the filter for last x elements in the queue
@@ -96,7 +96,7 @@ public:
     pub_operation_mode_ = create_publisher<OperationModeState>("input/operation_mode", qos);
     pub_mrm_state_ = create_publisher<MrmState>("input/mrm_state", qos);
 
-    pub_auto_control_cmd_ = create_publisher<Control>("input/auto/control_cmd", qos);
+    pub_auto_control_cmd_ = create_publisher<ControlHorizon>("input/auto/control_cmd", qos);
     pub_auto_turn_indicator_cmd_ =
       create_publisher<TurnIndicatorsCommand>("input/auto/turn_indicators_cmd", qos);
     pub_auto_hazard_light_cmd_ =
@@ -104,7 +104,7 @@ public:
     pub_auto_gear_cmd_ = create_publisher<GearCommand>("input/auto/gear_cmd", qos);
   }
 
-  rclcpp::Subscription<Control>::SharedPtr sub_cmd_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr sub_cmd_;
 
   rclcpp::Publisher<Heartbeat>::SharedPtr pub_external_emergency_stop_heartbeat_;
   rclcpp::Publisher<EngageMsg>::SharedPtr pub_engage_;
@@ -114,13 +114,13 @@ public:
   rclcpp::Publisher<SteeringReport>::SharedPtr pub_steer_;
   rclcpp::Publisher<OperationModeState>::SharedPtr pub_operation_mode_;
   rclcpp::Publisher<MrmState>::SharedPtr pub_mrm_state_;
-  rclcpp::Publisher<Control>::SharedPtr pub_auto_control_cmd_;
+  rclcpp::Publisher<ControlHorizon>::SharedPtr pub_auto_control_cmd_;
   rclcpp::Publisher<TurnIndicatorsCommand>::SharedPtr pub_auto_turn_indicator_cmd_;
   rclcpp::Publisher<HazardLightsCommand>::SharedPtr pub_auto_hazard_light_cmd_;
   rclcpp::Publisher<GearCommand>::SharedPtr pub_auto_gear_cmd_;
 
-  std::vector<Control::ConstSharedPtr> cmd_history_;
-  std::vector<Control::ConstSharedPtr> raw_cmd_history_;
+  std::vector<ControlHorizon::ConstSharedPtr> cmd_history_;
+  std::vector<ControlHorizon::ConstSharedPtr> raw_cmd_history_;
   std::vector<rclcpp::Time> cmd_received_times_;
 
   // publish except for the control_cmd
@@ -150,7 +150,7 @@ public:
       msg.twist.twist.linear.x = 0.0;
       if (!cmd_history_.empty()) {  // ego moves as commanded.
         msg.twist.twist.linear.x =
-          cmd_history_.back()->longitudinal.velocity;  // ego moves as commanded.
+          cmd_history_.back()->controls.at(0).longitudinal.velocity;  // ego moves as commanded.
       }
       pub_odom_->publish(msg);
     }
@@ -160,7 +160,7 @@ public:
       msg.header.stamp = now();
       msg.accel.accel.linear.x = 0.0;
       if (!cmd_history_.empty()) {  // ego moves as commanded.
-        msg.accel.accel.linear.x = cmd_history_.back()->longitudinal.acceleration;
+        msg.accel.accel.linear.x = cmd_history_.back()->controls.at(0).longitudinal.acceleration;
       }
       pub_acc_->publish(msg);
     }
@@ -169,7 +169,7 @@ public:
       msg.stamp = now();
       msg.steering_tire_angle = 0.0;
       if (!cmd_history_.empty()) {  // ego moves as commanded.
-        msg.steering_tire_angle = cmd_history_.back()->lateral.steering_tire_angle;
+        msg.steering_tire_angle = cmd_history_.back()->controls.at(0).lateral.steering_tire_angle;
       }
       pub_steer_->publish(msg);
     }
@@ -207,11 +207,11 @@ public:
     }
   }
 
-  void publishControlCommand(Control msg)
+  void publishControlCommand(ControlHorizon msg)
   {
     msg.stamp = now();
     pub_auto_control_cmd_->publish(msg);
-    raw_cmd_history_.push_back(std::make_shared<Control>(msg));
+    raw_cmd_history_.push_back(std::make_shared<ControlHorizon>(msg));
   }
 
   void checkFilter(size_t last_x)
@@ -243,13 +243,13 @@ public:
     size_t ind_start = history_size - last_x + 1;
     {
       const auto & cmd_start = cmd_history_.at(ind_start - 1);
-      prev_lon_acc = cmd_start->longitudinal.acceleration;
+      prev_lon_acc = cmd_start->controls.at(0).longitudinal.acceleration;
       // TODO(Horibe): prev_lat_acc should use the previous velocity, but use the current velocity
       // since the current filtering logic uses the current velocity.
       // when it's fixed, should be like this:
-      // prev_lat_acc = calculate_lateral_acceleration(cmd_start->longitudinal.velocity,
-      // cmd_start->lateral.steering_tire_angle, wheelbase);
-      prev_tire_angle = cmd_start->lateral.steering_tire_angle;
+      // prev_lat_acc = calculate_lateral_acceleration(cmd_start->controls.at(0).longitudinal.velocity,
+      // cmd_start->controls.at(0).lateral.steering_tire_angle, wheelbase);
+      prev_tire_angle = cmd_start->controls.at(0).lateral.steering_tire_angle;
     }
 
     for (size_t i = ind_start; i < history_size; ++i) {
@@ -259,12 +259,12 @@ public:
 
       ASSERT_GT(dt, 0.0) << "Invalid dt. Time must be strictly positive.";
 
-      lon_vel = cmd->longitudinal.velocity;
-      const auto lon_acc = cmd->longitudinal.acceleration;
+      lon_vel = cmd->controls.at(0).longitudinal.velocity;
+      const auto lon_acc = cmd->controls.at(0).longitudinal.acceleration;
       const auto lon_jerk = (lon_acc - prev_lon_acc) / dt;
 
       const auto lat_acc =
-        calculate_lateral_acceleration(lon_vel, cmd->lateral.steering_tire_angle, wheelbase);
+        calculate_lateral_acceleration(lon_vel, cmd->controls.at(0).lateral.steering_tire_angle, wheelbase);
       // TODO(Horibe): prev_lat_acc should use the previous velocity, but use the current velocity
       // since the current filtering logic uses the current velocity.
       // when it's fixed, it should be moved to the bottom of this loop.
@@ -278,7 +278,7 @@ public:
 
       prev_lon_acc = lon_acc;
       // TODO(Horibe): when the filtering logic is fixed, this line should be removed.
-      prev_tire_angle = cmd->lateral.steering_tire_angle;
+      prev_tire_angle = cmd->controls.at(0).lateral.steering_tire_angle;
     }
 
     // Compute averages
@@ -339,7 +339,7 @@ public:
 
   // generate ControlCommand with sin wave format.
   // TODO(Horibe): implement steering_rate and jerk command.
-  Control calcSinWaveCommand(bool reset_clock = false)
+  ControlHorizon calcSinWaveCommand(bool reset_clock = false)
   {
     if (reset_clock) {
       start_time_ = Clock::now();
@@ -353,11 +353,12 @@ public:
       return amp * std::sin(2.0 * M_PI * freq * dt_s + bias);
     };
 
-    Control cmd;
-    cmd.lateral.steering_tire_angle = sinWave(p_.steering.max, p_.steering.freq, p_.steering.bias);
-    cmd.longitudinal.velocity =
+    ControlHorizon cmd;
+    cmd.controls.push_back(autoware_control_msgs::msg::Control());
+    cmd.controls.at(0).lateral.steering_tire_angle = sinWave(p_.steering.max, p_.steering.freq, p_.steering.bias);
+    cmd.controls.at(0).longitudinal.velocity =
       sinWave(p_.velocity.max, p_.velocity.freq, p_.velocity.bias) + p_.velocity.max;
-    cmd.longitudinal.acceleration =
+    cmd.controls.at(0).longitudinal.acceleration =
       sinWave(p_.acceleration.max, p_.acceleration.freq, p_.acceleration.bias);
 
     return cmd;

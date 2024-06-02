@@ -21,7 +21,7 @@
 #include "trajectory_follower_test_utils.hpp"
 
 #include "autoware_adapi_v1_msgs/msg/operation_mode_state.hpp"
-#include "autoware_control_msgs/msg/control.hpp"
+#include "autoware_control_msgs/msg/control_horizon.hpp"
 #include "autoware_planning_msgs/msg/trajectory.hpp"
 #include "autoware_vehicle_msgs/msg/steering_report.hpp"
 #include "geometry_msgs/msg/accel_with_covariance_stamped.hpp"
@@ -34,7 +34,7 @@
 #include <vector>
 
 using Controller = autoware::motion::control::trajectory_follower_node::Controller;
-using Control = autoware_control_msgs::msg::Control;
+using ControlHorizon = autoware_control_msgs::msg::ControlHorizon;
 using Trajectory = autoware_planning_msgs::msg::Trajectory;
 using TrajectoryPoint = autoware_planning_msgs::msg::TrajectoryPoint;
 using VehicleOdometry = nav_msgs::msg::Odometry;
@@ -95,7 +95,7 @@ public:
   FakeNodeFixture * fnf;
   std::shared_ptr<Controller> node;
 
-  Control::SharedPtr cmd_msg;
+  ControlHorizon::SharedPtr cmd_msg;
   bool received_control_command = false;
 
   void publish_default_odom()
@@ -177,8 +177,8 @@ public:
   rclcpp::Publisher<OperationModeState>::SharedPtr operation_mode_pub =
     fnf->create_publisher<OperationModeState>("controller/input/current_operation_mode");
 
-  rclcpp::Subscription<Control>::SharedPtr cmd_sub = fnf->create_subscription<Control>(
-    "controller/output/control_cmd", *fnf->get_fake_node(), [this](const Control::SharedPtr msg) {
+  rclcpp::Subscription<ControlHorizon>::SharedPtr cmd_sub = fnf->create_subscription<ControlHorizon>(
+    "controller/output/control_cmd", *fnf->get_fake_node(), [this](const ControlHorizon::SharedPtr msg) {
       cmd_msg = msg;
       received_control_command = true;
     });
@@ -250,9 +250,9 @@ TEST_F(FakeNodeFixture, straight_trajectory)
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
   // following conditions will pass even if the MPC solution does not converge
-  EXPECT_EQ(tester.cmd_msg->lateral.steering_tire_angle, 0.0f);
-  EXPECT_EQ(tester.cmd_msg->lateral.steering_tire_rotation_rate, 0.0f);
-  EXPECT_GT(tester.cmd_msg->longitudinal.velocity, 0.0f);
+  EXPECT_EQ(tester.cmd_msg->controls.at(0).lateral.steering_tire_angle, 0.0f);
+  EXPECT_EQ(tester.cmd_msg->controls.at(0).lateral.steering_tire_rotation_rate, 0.0f);
+  EXPECT_GT(tester.cmd_msg->controls.at(0).longitudinal.velocity, 0.0f);
   EXPECT_GT(rclcpp::Time(tester.cmd_msg->stamp), rclcpp::Time(traj_msg.header.stamp));
 }
 
@@ -279,8 +279,8 @@ TEST_F(FakeNodeFixture, right_turn)
 
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_LT(tester.cmd_msg->lateral.steering_tire_angle, 0.0f);
-  EXPECT_LT(tester.cmd_msg->lateral.steering_tire_rotation_rate, 0.0f);
+  EXPECT_LT(tester.cmd_msg->controls.at(0).lateral.steering_tire_angle, 0.0f);
+  EXPECT_LT(tester.cmd_msg->controls.at(0).lateral.steering_tire_rotation_rate, 0.0f);
   EXPECT_GT(rclcpp::Time(tester.cmd_msg->stamp), rclcpp::Time(traj_msg.header.stamp));
 }
 
@@ -307,8 +307,8 @@ TEST_F(FakeNodeFixture, left_turn)
 
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_GT(tester.cmd_msg->lateral.steering_tire_angle, 0.0f);
-  EXPECT_GT(tester.cmd_msg->lateral.steering_tire_rotation_rate, 0.0f);
+  EXPECT_GT(tester.cmd_msg->controls.at(0).lateral.steering_tire_angle, 0.0f);
+  EXPECT_GT(tester.cmd_msg->controls.at(0).lateral.steering_tire_rotation_rate, 0.0f);
   EXPECT_GT(rclcpp::Time(tester.cmd_msg->stamp), rclcpp::Time(traj_msg.header.stamp));
 }
 
@@ -337,8 +337,8 @@ TEST_F(FakeNodeFixture, stopped)
 
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_EQ(tester.cmd_msg->lateral.steering_tire_angle, steering_tire_angle);
-  EXPECT_EQ(tester.cmd_msg->lateral.steering_tire_rotation_rate, 0.0f);
+  EXPECT_EQ(tester.cmd_msg->controls.at(0).lateral.steering_tire_angle, steering_tire_angle);
+  EXPECT_EQ(tester.cmd_msg->controls.at(0).lateral.steering_tire_rotation_rate, 0.0f);
   EXPECT_GT(rclcpp::Time(tester.cmd_msg->stamp), rclcpp::Time(traj_msg.header.stamp));
 }
 
@@ -366,15 +366,15 @@ TEST_F(FakeNodeFixture, longitudinal_keep_velocity)
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
 
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.velocity, 1.0);
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.acceleration, 0.0);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.velocity, 1.0);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0);
 
   // Generate another control message
   tester.traj_pub->publish(traj_msg);
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.velocity, 1.0);
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.acceleration, 0.0);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.velocity, 1.0);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0);
 }
 
 TEST_F(FakeNodeFixture, longitudinal_slow_down)
@@ -403,15 +403,15 @@ TEST_F(FakeNodeFixture, longitudinal_slow_down)
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
 
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_LT(tester.cmd_msg->longitudinal.velocity, static_cast<float>(odom_vx));
-  EXPECT_LT(tester.cmd_msg->longitudinal.acceleration, 0.0f);
+  EXPECT_LT(tester.cmd_msg->controls.at(0).longitudinal.velocity, static_cast<float>(odom_vx));
+  EXPECT_LT(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0f);
 
   // Generate another control message
   tester.traj_pub->publish(traj);
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_LT(tester.cmd_msg->longitudinal.velocity, static_cast<float>(odom_vx));
-  EXPECT_LT(tester.cmd_msg->longitudinal.acceleration, 0.0f);
+  EXPECT_LT(tester.cmd_msg->controls.at(0).longitudinal.velocity, static_cast<float>(odom_vx));
+  EXPECT_LT(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0f);
 }
 
 TEST_F(FakeNodeFixture, longitudinal_accelerate)
@@ -440,15 +440,15 @@ TEST_F(FakeNodeFixture, longitudinal_accelerate)
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
 
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_GT(tester.cmd_msg->longitudinal.velocity, static_cast<float>(odom_vx));
-  EXPECT_GT(tester.cmd_msg->longitudinal.acceleration, 0.0f);
+  EXPECT_GT(tester.cmd_msg->controls.at(0).longitudinal.velocity, static_cast<float>(odom_vx));
+  EXPECT_GT(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0f);
 
   // Generate another control message
   tester.traj_pub->publish(traj);
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_GT(tester.cmd_msg->longitudinal.velocity, static_cast<float>(odom_vx));
-  EXPECT_GT(tester.cmd_msg->longitudinal.acceleration, 0.0f);
+  EXPECT_GT(tester.cmd_msg->controls.at(0).longitudinal.velocity, static_cast<float>(odom_vx));
+  EXPECT_GT(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0f);
 }
 
 TEST_F(FakeNodeFixture, longitudinal_stopped)
@@ -474,9 +474,9 @@ TEST_F(FakeNodeFixture, longitudinal_stopped)
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
 
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.velocity, 0.0f);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.velocity, 0.0f);
   EXPECT_LT(
-    tester.cmd_msg->longitudinal.acceleration,
+    tester.cmd_msg->controls.at(0).longitudinal.acceleration,
     0.0f);  // when stopped negative acceleration to brake
 }
 
@@ -504,8 +504,8 @@ TEST_F(FakeNodeFixture, longitudinal_reverse)
   test_utils::waitForMessage(tester.node, this, tester.received_control_command);
 
   ASSERT_TRUE(tester.received_control_command);
-  EXPECT_LT(tester.cmd_msg->longitudinal.velocity, 0.0f);
-  EXPECT_GT(tester.cmd_msg->longitudinal.acceleration, 0.0f);
+  EXPECT_LT(tester.cmd_msg->controls.at(0).longitudinal.velocity, 0.0f);
+  EXPECT_GT(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0f);
 }
 
 TEST_F(FakeNodeFixture, longitudinal_emergency)
@@ -532,8 +532,8 @@ TEST_F(FakeNodeFixture, longitudinal_emergency)
 
   ASSERT_TRUE(tester.received_control_command);
   // Emergencies (e.g., far from trajectory) produces braking command (0 vel, negative accel)
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.velocity, 0.0f);
-  EXPECT_LT(tester.cmd_msg->longitudinal.acceleration, 0.0f);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.velocity, 0.0f);
+  EXPECT_LT(tester.cmd_msg->controls.at(0).longitudinal.acceleration, 0.0f);
 }
 
 TEST_F(FakeNodeFixture, longitudinal_not_check_steer_converged)
@@ -563,7 +563,7 @@ TEST_F(FakeNodeFixture, longitudinal_not_check_steer_converged)
 
   ASSERT_TRUE(tester.received_control_command);
   // Not keep stopped state when the lateral control is not converged.
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.velocity, 1.0f);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.velocity, 1.0f);
 }
 
 TEST_F(FakeNodeFixture, longitudinal_check_steer_converged)
@@ -594,5 +594,5 @@ TEST_F(FakeNodeFixture, longitudinal_check_steer_converged)
 
   ASSERT_TRUE(tester.received_control_command);
   // Keep stopped state when the lateral control is not converged.
-  EXPECT_DOUBLE_EQ(tester.cmd_msg->longitudinal.velocity, 0.0f);
+  EXPECT_DOUBLE_EQ(tester.cmd_msg->controls.at(0).longitudinal.velocity, 0.0f);
 }

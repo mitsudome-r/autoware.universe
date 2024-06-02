@@ -75,9 +75,9 @@ void ControlPerformanceAnalysisCore::setCurrentPose(const Pose & msg)
   current_vec_pose_ptr_ = std::make_shared<Pose>(msg);
 }
 
-void ControlPerformanceAnalysisCore::setCurrentControlValue(const Control & msg)
+void ControlPerformanceAnalysisCore::setCurrentControlValue(const ControlHorizon & msg)
 {
-  current_control_ptr_ = std::make_shared<Control>(msg);
+  current_control_ptr_ = std::make_shared<ControlHorizon>(msg);
 }
 
 std::pair<bool, int32_t> ControlPerformanceAnalysisCore::findClosestPrevWayPointIdx_path_direction()
@@ -190,7 +190,7 @@ bool ControlPerformanceAnalysisCore::calculateErrorVars()
   const double lateral_error_velocity =
     Vx * sin(heading_yaw_error) - *interpolated_velocity_ptr_ * curvature_est * longitudinal_error;
 
-  const double steering_cmd = current_control_ptr_->lateral.steering_tire_angle;
+  const double steering_cmd = current_control_ptr_->controls.at(0).lateral.steering_tire_angle;
   const double current_steering_val = current_vec_steering_msg_ptr_->steering_tire_angle;
   error_vars.error.control_effort_energy = contR * steering_cmd * steering_cmd;  // u*R*u';
 

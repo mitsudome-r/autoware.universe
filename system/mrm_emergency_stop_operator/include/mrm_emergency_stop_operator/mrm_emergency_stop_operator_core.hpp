@@ -20,7 +20,7 @@
 #include <memory>
 
 // Autoware
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 #include <tier4_system_msgs/msg/mrm_behavior_status.hpp>
 #include <tier4_system_msgs/srv/operate_mrm.hpp>
 
@@ -29,7 +29,7 @@
 
 namespace mrm_emergency_stop_operator
 {
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using tier4_system_msgs::msg::MrmBehaviorStatus;
 using tier4_system_msgs::srv::OperateMrm;
 
@@ -50,9 +50,9 @@ private:
   Parameters params_;
 
   // Subscriber
-  rclcpp::Subscription<Control>::SharedPtr sub_control_cmd_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr sub_control_cmd_;
 
-  void onControlCommand(Control::ConstSharedPtr msg);
+  void onControlCommand(ControlHorizon::ConstSharedPtr msg);
 
   // Server
   rclcpp::Service<OperateMrm>::SharedPtr service_operation_;
@@ -62,10 +62,10 @@ private:
 
   // Publisher
   rclcpp::Publisher<MrmBehaviorStatus>::SharedPtr pub_status_;
-  rclcpp::Publisher<Control>::SharedPtr pub_control_cmd_;
+  rclcpp::Publisher<ControlHorizon>::SharedPtr pub_control_cmd_;
 
   void publishStatus() const;
-  void publishControlCommand(const Control & command) const;
+  void publishControlCommand(const ControlHorizon & command) const;
 
   // Timer
   rclcpp::TimerBase::SharedPtr timer_;
@@ -74,11 +74,11 @@ private:
 
   // States
   MrmBehaviorStatus status_;
-  Control prev_control_cmd_;
+  ControlHorizon prev_control_cmd_;
   bool is_prev_control_cmd_subscribed_;
 
   // Algorithm
-  Control calcTargetAcceleration(const Control & prev_control_cmd) const;
+  ControlHorizon calcTargetAcceleration(const ControlHorizon & prev_control_cmd) const;
 };
 
 }  // namespace mrm_emergency_stop_operator

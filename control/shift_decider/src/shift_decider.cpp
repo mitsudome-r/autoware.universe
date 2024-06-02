@@ -34,7 +34,7 @@ ShiftDecider::ShiftDecider(const rclcpp::NodeOptions & node_options)
 
   pub_shift_cmd_ =
     create_publisher<autoware_vehicle_msgs::msg::GearCommand>("output/gear_cmd", durable_qos);
-  sub_control_cmd_ = create_subscription<autoware_control_msgs::msg::Control>(
+  sub_control_cmd_ = create_subscription<autoware_control_msgs::msg::ControlHorizon>(
     "input/control_cmd", queue_size, std::bind(&ShiftDecider::onControlCmd, this, _1));
   sub_autoware_state_ = create_subscription<autoware_system_msgs::msg::AutowareState>(
     "input/state", queue_size, std::bind(&ShiftDecider::onAutowareState, this, _1));
@@ -44,7 +44,7 @@ ShiftDecider::ShiftDecider(const rclcpp::NodeOptions & node_options)
   initTimer(0.1);
 }
 
-void ShiftDecider::onControlCmd(autoware_control_msgs::msg::Control::SharedPtr msg)
+void ShiftDecider::onControlCmd(autoware_control_msgs::msg::ControlHorizon::SharedPtr msg)
 {
   control_cmd_ = msg;
 }
@@ -77,9 +77,9 @@ void ShiftDecider::updateCurrentShiftCmd()
   shift_cmd_.stamp = now();
   static constexpr double vel_threshold = 0.01;  // to prevent chattering
   if (autoware_state_->state == AutowareState::DRIVING) {
-    if (control_cmd_->longitudinal.velocity > vel_threshold) {
+    if (control_cmd_->controls.at(0).longitudinal.velocity > vel_threshold) {
       shift_cmd_.command = GearCommand::DRIVE;
-    } else if (control_cmd_->longitudinal.velocity < -vel_threshold) {
+    } else if (control_cmd_->controls.at(0).longitudinal.velocity < -vel_threshold) {
       shift_cmd_.command = GearCommand::REVERSE;
     } else {
       shift_cmd_.command = prev_shift_command;

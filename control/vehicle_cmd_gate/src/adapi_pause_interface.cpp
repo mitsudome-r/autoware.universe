@@ -53,9 +53,9 @@ void AdapiPauseInterface::publish()
   }
 }
 
-void AdapiPauseInterface::update(const Control & control)
+void AdapiPauseInterface::update(const ControlHorizon & control)
 {
-  is_start_requested_ = eps < std::abs(control.longitudinal.velocity);
+  is_start_requested_ = eps < std::abs(control.controls.at(0).longitudinal.velocity);
 }
 
 void AdapiPauseInterface::on_pause(

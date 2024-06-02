@@ -24,7 +24,7 @@ namespace autoware_auto_msgs_adapter
 {
 
 using autoware_auto_control_msgs::msg::AckermannControlCommand;
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 
 using MapStringAdapter = AutowareAutoMsgsAdapterNode::MapStringAdapter;
 

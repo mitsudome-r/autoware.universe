@@ -254,32 +254,32 @@ void AutowareJoyControllerNode::onTimer()
 
 void AutowareJoyControllerNode::publishControlCommand()
 {
-  autoware_control_msgs::msg::Control cmd;
+  autoware_control_msgs::msg::ControlHorizon cmd;
   cmd.stamp = this->now();
   {
-    cmd.lateral.steering_tire_angle = steer_ratio_ * joy_->steer();
-    cmd.lateral.steering_tire_rotation_rate = steering_angle_velocity_;
+    cmd.controls.at(0).lateral.steering_tire_angle = steer_ratio_ * joy_->steer();
+    cmd.controls.at(0).lateral.steering_tire_rotation_rate = steering_angle_velocity_;
 
     if (joy_->accel()) {
-      cmd.longitudinal.acceleration = accel_ratio_ * joy_->accel();
-      cmd.longitudinal.velocity =
-        twist_->twist.linear.x + velocity_gain_ * cmd.longitudinal.acceleration;
-      cmd.longitudinal.velocity =
-        std::min(cmd.longitudinal.velocity, static_cast<float>(max_forward_velocity_));
+      cmd.controls.at(0).longitudinal.acceleration = accel_ratio_ * joy_->accel();
+      cmd.controls.at(0).longitudinal.velocity =
+        twist_->twist.linear.x + velocity_gain_ * cmd.controls.at(0).longitudinal.acceleration;
+      cmd.controls.at(0).longitudinal.velocity =
+        std::min(cmd.controls.at(0).longitudinal.velocity, static_cast<float>(max_forward_velocity_));
     }
 
     if (joy_->brake()) {
-      cmd.longitudinal.velocity = 0.0;
-      cmd.longitudinal.acceleration = -brake_ratio_ * joy_->brake();
+      cmd.controls.at(0).longitudinal.velocity = 0.0;
+      cmd.controls.at(0).longitudinal.acceleration = -brake_ratio_ * joy_->brake();
     }
 
     // Backward
     if (joy_->accel() && joy_->brake()) {
-      cmd.longitudinal.acceleration = backward_accel_ratio_ * joy_->accel();
-      cmd.longitudinal.velocity =
-        twist_->twist.linear.x - velocity_gain_ * cmd.longitudinal.acceleration;
-      cmd.longitudinal.velocity =
-        std::max(cmd.longitudinal.velocity, static_cast<float>(-max_backward_velocity_));
+      cmd.controls.at(0).longitudinal.acceleration = backward_accel_ratio_ * joy_->accel();
+      cmd.controls.at(0).longitudinal.velocity =
+        twist_->twist.linear.x - velocity_gain_ * cmd.controls.at(0).longitudinal.acceleration;
+      cmd.controls.at(0).longitudinal.velocity =
+        std::max(cmd.controls.at(0).longitudinal.velocity, static_cast<float>(-max_backward_velocity_));
     }
   }
 
@@ -492,7 +492,7 @@ AutowareJoyControllerNode::AutowareJoyControllerNode(const rclcpp::NodeOptions &
 
   // Publisher
   pub_control_command_ =
-    this->create_publisher<autoware_control_msgs::msg::Control>("output/control_command", 1);
+    this->create_publisher<autoware_control_msgs::msg::ControlHorizon>("output/control_command", 1);
   pub_external_control_command_ =
     this->create_publisher<tier4_external_api_msgs::msg::ControlCommandStamped>(
       "output/external_control_command", 1);

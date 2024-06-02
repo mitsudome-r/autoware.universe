@@ -26,7 +26,7 @@ MrmEmergencyStopOperator::MrmEmergencyStopOperator(const rclcpp::NodeOptions & n
   params_.target_jerk = declare_parameter<double>("target_jerk", -1.5);
 
   // Subscriber
-  sub_control_cmd_ = create_subscription<Control>(
+  sub_control_cmd_ = create_subscription<ControlHorizon>(
     "~/input/control/control_cmd", 1,
     std::bind(&MrmEmergencyStopOperator::onControlCommand, this, std::placeholders::_1));
 
@@ -38,7 +38,7 @@ MrmEmergencyStopOperator::MrmEmergencyStopOperator(const rclcpp::NodeOptions & n
 
   // Publisher
   pub_status_ = create_publisher<MrmBehaviorStatus>("~/output/mrm/emergency_stop/status", 1);
-  pub_control_cmd_ = create_publisher<Control>("~/output/mrm/emergency_stop/control_cmd", 1);
+  pub_control_cmd_ = create_publisher<ControlHorizon>("~/output/mrm/emergency_stop/control_cmd", 1);
 
   // Timer
   const auto update_period_ns = rclcpp::Rate(params_.update_rate).period();
@@ -50,7 +50,7 @@ MrmEmergencyStopOperator::MrmEmergencyStopOperator(const rclcpp::NodeOptions & n
   is_prev_control_cmd_subscribed_ = false;
 }
 
-void MrmEmergencyStopOperator::onControlCommand(Control::ConstSharedPtr msg)
+void MrmEmergencyStopOperator::onControlCommand(ControlHorizon::ConstSharedPtr msg)
 {
   if (status_.state != MrmBehaviorStatus::OPERATING) {
     prev_control_cmd_ = *msg;
@@ -77,7 +77,7 @@ void MrmEmergencyStopOperator::publishStatus() const
   pub_status_->publish(status);
 }
 
-void MrmEmergencyStopOperator::publishControlCommand(const Control & command) const
+void MrmEmergencyStopOperator::publishControlCommand(const ControlHorizon & command) const
 {
   pub_control_cmd_->publish(command);
 }
@@ -94,19 +94,20 @@ void MrmEmergencyStopOperator::onTimer()
   publishStatus();
 }
 
-Control MrmEmergencyStopOperator::calcTargetAcceleration(const Control & prev_control_cmd) const
+ControlHorizon MrmEmergencyStopOperator::calcTargetAcceleration(const ControlHorizon & prev_control_cmd) const
 {
   auto control_cmd = Control();
 
   if (!is_prev_control_cmd_subscribed_) {
     control_cmd.stamp = this->now();
-    control_cmd.longitudinal.stamp = this->now();
-    control_cmd.longitudinal.velocity = 0.0;
-    control_cmd.longitudinal.acceleration = static_cast<float>(params_.target_acceleration);
-    control_cmd.longitudinal.jerk = 0.0;
-    control_cmd.lateral.stamp = this->now();
-    control_cmd.lateral.steering_tire_angle = 0.0;
-    control_cmd.lateral.steering_tire_rotation_rate = 0.0;
+    control_cmd.controls.push_back(autoware_control_msgs::msg::Control());
+    control_cmd.controls.at(0).longitudinal.stamp = this->now();
+    control_cmd.controls.at(0).longitudinal.velocity = 0.0;
+    control_cmd.controls.at(0).longitudinal.acceleration = static_cast<float>(params_.target_acceleration);
+    control_cmd.controls.at(0).longitudinal.jerk = 0.0;
+    control_cmd.controls.at(0).lateral.stamp = this->now();
+    control_cmd.controls.at(0).lateral.steering_tire_angle = 0.0;
+    control_cmd.controls.at(0).lateral.steering_tire_rotation_rate = 0.0;
     return control_cmd;
   }
 
@@ -114,16 +115,16 @@ Control MrmEmergencyStopOperator::calcTargetAcceleration(const Control & prev_co
   const auto dt = (this->now() - prev_control_cmd.stamp).seconds();
 
   control_cmd.stamp = this->now();
-  control_cmd.longitudinal.stamp = this->now();
-  control_cmd.longitudinal.velocity = static_cast<float>(std::max(
-    prev_control_cmd.longitudinal.velocity + prev_control_cmd.longitudinal.acceleration * dt, 0.0));
-  control_cmd.longitudinal.acceleration = static_cast<float>(std::max(
-    prev_control_cmd.longitudinal.acceleration + params_.target_jerk * dt,
+  control_cmd.controls.at(0).longitudinal.stamp = this->now();
+  control_cmd.controls.at(0).longitudinal.velocity = static_cast<float>(std::max(
+    prev_control_cmd.controls.at(0).longitudinal.velocity + prev_control_cmd.controls.at(0).longitudinal.acceleration * dt, 0.0));
+  control_cmd.controls.at(0).longitudinal.acceleration = static_cast<float>(std::max(
+    prev_control_cmd.controls.at(0).longitudinal.acceleration + params_.target_jerk * dt,
     params_.target_acceleration));
-  if (prev_control_cmd.longitudinal.acceleration == params_.target_acceleration) {
-    control_cmd.longitudinal.jerk = 0.0;
+  if (prev_control_cmd.controls.at(0).longitudinal.acceleration == params_.target_acceleration) {
+    control_cmd.controls.at(0).longitudinal.jerk = 0.0;
   } else {
-    control_cmd.longitudinal.jerk = static_cast<float>(params_.target_jerk);
+    control_cmd.controls.at(0).longitudinal.jerk = static_cast<float>(params_.target_jerk);
   }
 
   return control_cmd;

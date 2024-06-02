@@ -33,7 +33,7 @@ EmergencyHandler::EmergencyHandler() : Node("emergency_handler")
   sub_hazard_status_stamped_ = create_subscription<autoware_system_msgs::msg::HazardStatusStamped>(
     "~/input/hazard_status", rclcpp::QoS{1},
     std::bind(&EmergencyHandler::onHazardStatusStamped, this, _1));
-  sub_prev_control_command_ = create_subscription<autoware_control_msgs::msg::Control>(
+  sub_prev_control_command_ = create_subscription<autoware_control_msgs::msg::ControlHorizon>(
     "~/input/prev_control_command", rclcpp::QoS{1},
     std::bind(&EmergencyHandler::onPrevControlCommand, this, _1));
   sub_odom_ = create_subscription<nav_msgs::msg::Odometry>(
@@ -49,7 +49,7 @@ EmergencyHandler::EmergencyHandler() : Node("emergency_handler")
     std::bind(&EmergencyHandler::onMrmEmergencyStopStatus, this, _1));
 
   // Publisher
-  pub_control_command_ = create_publisher<autoware_control_msgs::msg::Control>(
+  pub_control_command_ = create_publisher<autoware_control_msgs::msg::ControlHorizon>(
     "~/output/control_command", rclcpp::QoS{1});
   pub_hazard_cmd_ = create_publisher<autoware_vehicle_msgs::msg::HazardLightsCommand>(
     "~/output/hazard", rclcpp::QoS{1});
@@ -73,8 +73,10 @@ EmergencyHandler::EmergencyHandler() : Node("emergency_handler")
   // Initialize
   odom_ = std::make_shared<const nav_msgs::msg::Odometry>();
   control_mode_ = std::make_shared<const autoware_vehicle_msgs::msg::ControlModeReport>();
+  autoware_control_msgs::msg::ControlHorizon empty_command;
+  empty_command.controls.push_back(autoware_control_msgs::msg::Control());
   prev_control_command_ =
-    autoware_control_msgs::msg::Control::ConstSharedPtr(new autoware_control_msgs::msg::Control);
+    autoware_control_msgs::msg::ControlHorizon::ConstSharedPtr(new autoware_control_msgs::msg::ControlHorizon(empty_command));
   mrm_comfortable_stop_status_ =
     std::make_shared<const tier4_system_msgs::msg::MrmBehaviorStatus>();
   mrm_emergency_stop_status_ = std::make_shared<const tier4_system_msgs::msg::MrmBehaviorStatus>();
@@ -97,11 +99,11 @@ void EmergencyHandler::onHazardStatusStamped(
 }
 
 void EmergencyHandler::onPrevControlCommand(
-  const autoware_control_msgs::msg::Control::ConstSharedPtr msg)
+  const autoware_control_msgs::msg::ControlHorizon::ConstSharedPtr msg)
 {
-  auto control_command = new autoware_control_msgs::msg::Control(*msg);
+  auto control_command = new autoware_control_msgs::msg::ControlHorizon(*msg);
   control_command->stamp = msg->stamp;
-  prev_control_command_ = autoware_control_msgs::msg::Control::ConstSharedPtr(control_command);
+  prev_control_command_ = autoware_control_msgs::msg::ControlHorizon::ConstSharedPtr(control_command);
 }
 
 void EmergencyHandler::onOdometry(const nav_msgs::msg::Odometry::ConstSharedPtr msg)

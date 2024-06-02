@@ -27,7 +27,7 @@
 #include "autoware_vehicle_msgs/msg/velocity_report.hpp"
 #include "geometry_msgs/msg/accel_with_covariance_stamped.hpp"
 #include "geometry_msgs/msg/twist.hpp"
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 #include <autoware_vehicle_msgs/msg/engage.hpp>
 #include <autoware_vehicle_msgs/msg/gear_command.hpp>
 #include <autoware_vehicle_msgs/msg/gear_report.hpp>
@@ -38,7 +38,7 @@
 
 namespace rviz_plugins
 {
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using autoware_vehicle_msgs::msg::GearCommand;
 using autoware_vehicle_msgs::msg::VelocityReport;
 using geometry_msgs::msg::AccelWithCovarianceStamped;
@@ -77,7 +77,7 @@ protected:
   rclcpp::Subscription<VelocityReport>::SharedPtr sub_velocity_;
   rclcpp::Subscription<Engage>::SharedPtr sub_engage_;
   rclcpp::Publisher<tier4_control_msgs::msg::GateMode>::SharedPtr pub_gate_mode_;
-  rclcpp::Publisher<Control>::SharedPtr pub_control_command_;
+  rclcpp::Publisher<ControlHorizon>::SharedPtr pub_control_command_;
   rclcpp::Publisher<GearCommand>::SharedPtr pub_gear_cmd_;
   rclcpp::Client<EngageSrv>::SharedPtr client_engage_;
   rclcpp::Subscription<GearReport>::SharedPtr sub_gear_;

@@ -19,17 +19,17 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <autoware_auto_control_msgs/msg/ackermann_control_command.hpp>
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 
 #include <string>
 
 namespace autoware_auto_msgs_adapter
 {
 using autoware_auto_control_msgs::msg::AckermannControlCommand;
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 
 class AdapterControl
-: public autoware_auto_msgs_adapter::AdapterBase<Control, AckermannControlCommand>
+: public autoware_auto_msgs_adapter::AdapterBase<ControlHorizon, AckermannControlCommand>
 {
 public:
   AdapterControl(
@@ -43,18 +43,18 @@ public:
   }
 
 protected:
-  AckermannControlCommand convert(const Control & msg_source) override
+  AckermannControlCommand convert(const ControlHorizon & msg_source) override
   {
     autoware_auto_control_msgs::msg::AckermannControlCommand msg_auto;
     msg_auto.stamp = msg_source.stamp;
 
-    const auto & lateral = msg_source.lateral;
+    const auto & lateral = msg_source.controls.at(0).lateral;
     auto & lateral_auto = msg_auto.lateral;
     lateral_auto.stamp = lateral.stamp;
     lateral_auto.steering_tire_angle = lateral.steering_tire_angle;
     lateral_auto.steering_tire_rotation_rate = lateral.steering_tire_rotation_rate;
 
-    const auto & longitudinal = msg_source.longitudinal;
+    const auto & longitudinal = msg_source.controls.at(0).longitudinal;
     auto & longitudinal_auto = msg_auto.longitudinal;
     longitudinal_auto.stamp = longitudinal.stamp;
     longitudinal_auto.acceleration = longitudinal.acceleration;

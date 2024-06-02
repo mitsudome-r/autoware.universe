@@ -19,7 +19,7 @@
 #include <component_interface_utils/rclcpp.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 
 namespace vehicle_cmd_gate
 {
@@ -28,7 +28,7 @@ class AdapiPauseInterface
 {
 private:
   static constexpr double eps = 1e-3;
-  using Control = autoware_control_msgs::msg::Control;
+  using ControlHorizon = autoware_control_msgs::msg::ControlHorizon;
   using SetPause = control_interface::SetPause;
   using IsPaused = control_interface::IsPaused;
   using IsStartRequested = control_interface::IsStartRequested;
@@ -37,7 +37,7 @@ public:
   explicit AdapiPauseInterface(rclcpp::Node * node);
   bool is_paused();
   void publish();
-  void update(const Control & control);
+  void update(const ControlHorizon & control);
 
 private:
   bool is_paused_;

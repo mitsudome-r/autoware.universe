@@ -61,7 +61,7 @@ VehicleCmdGate::VehicleCmdGate(const rclcpp::NodeOptions & node_options)
   // Publisher
   vehicle_cmd_emergency_pub_ =
     create_publisher<VehicleEmergencyStamped>("output/vehicle_cmd_emergency", durable_qos);
-  control_cmd_pub_ = create_publisher<Control>("output/control_cmd", durable_qos);
+  control_cmd_pub_ = create_publisher<ControlHorizon>("output/control_cmd", durable_qos);
   gear_cmd_pub_ = create_publisher<GearCommand>("output/gear_cmd", durable_qos);
   turn_indicator_cmd_pub_ =
     create_publisher<TurnIndicatorsCommand>("output/turn_indicators_cmd", durable_qos);
@@ -107,7 +107,7 @@ VehicleCmdGate::VehicleCmdGate(const rclcpp::NodeOptions & node_options)
     "input/mrm_state", 1, std::bind(&VehicleCmdGate::onMrmState, this, _1));
 
   // Subscriber for auto
-  auto_control_cmd_sub_ = create_subscription<Control>(
+  auto_control_cmd_sub_ = create_subscription<ControlHorizon>(
     "input/auto/control_cmd", 1, std::bind(&VehicleCmdGate::onAutoCtrlCmd, this, _1));
 
   auto_turn_indicator_cmd_sub_ = create_subscription<TurnIndicatorsCommand>(
@@ -123,7 +123,7 @@ VehicleCmdGate::VehicleCmdGate(const rclcpp::NodeOptions & node_options)
     [this](GearCommand::ConstSharedPtr msg) { auto_commands_.gear = *msg; });
 
   // Subscriber for external
-  remote_control_cmd_sub_ = create_subscription<Control>(
+  remote_control_cmd_sub_ = create_subscription<ControlHorizon>(
     "input/external/control_cmd", 1, std::bind(&VehicleCmdGate::onRemoteCtrlCmd, this, _1));
 
   remote_turn_indicator_cmd_sub_ = create_subscription<TurnIndicatorsCommand>(
@@ -139,7 +139,7 @@ VehicleCmdGate::VehicleCmdGate(const rclcpp::NodeOptions & node_options)
     [this](GearCommand::ConstSharedPtr msg) { remote_commands_.gear = *msg; });
 
   // Subscriber for emergency
-  emergency_control_cmd_sub_ = create_subscription<Control>(
+  emergency_control_cmd_sub_ = create_subscription<ControlHorizon>(
     "input/emergency/control_cmd", 1, std::bind(&VehicleCmdGate::onEmergencyCtrlCmd, this, _1));
 
   emergency_hazard_light_cmd_sub_ = create_subscription<HazardLightsCommand>(
@@ -207,6 +207,8 @@ VehicleCmdGate::VehicleCmdGate(const rclcpp::NodeOptions & node_options)
   // Set default value
   current_gate_mode_.data = GateMode::AUTO;
   current_operation_mode_.mode = OperationModeState::STOP;
+  prev_control_cmd_.controls.push_back(autoware_control_msgs::msg::Control());
+
 
   // Service
   srv_engage_ = create_service<EngageSrv>(
@@ -283,7 +285,7 @@ bool VehicleCmdGate::isDataReady()
 }
 
 // for auto
-void VehicleCmdGate::onAutoCtrlCmd(Control::ConstSharedPtr msg)
+void VehicleCmdGate::onAutoCtrlCmd(ControlHorizon::ConstSharedPtr msg)
 {
   auto_commands_.control = *msg;
 
@@ -293,7 +295,7 @@ void VehicleCmdGate::onAutoCtrlCmd(Control::ConstSharedPtr msg)
 }
 
 // for remote
-void VehicleCmdGate::onRemoteCtrlCmd(Control::ConstSharedPtr msg)
+void VehicleCmdGate::onRemoteCtrlCmd(ControlHorizon::ConstSharedPtr msg)
 {
   remote_commands_.control = *msg;
 
@@ -303,7 +305,7 @@ void VehicleCmdGate::onRemoteCtrlCmd(Control::ConstSharedPtr msg)
 }
 
 // for emergency
-void VehicleCmdGate::onEmergencyCtrlCmd(Control::ConstSharedPtr msg)
+void VehicleCmdGate::onEmergencyCtrlCmd(ControlHorizon::ConstSharedPtr msg)
 {
   emergency_commands_.control = *msg;
 
@@ -418,8 +420,8 @@ void VehicleCmdGate::publishControlCommands(const Commands & commands)
   }
 
   if (moderate_stop_interface_->is_stop_requested()) {  // if stop requested, stop the vehicle
-    filtered_commands.control.longitudinal.velocity = 0.0;
-    filtered_commands.control.longitudinal.acceleration = moderate_stop_service_acceleration_;
+    filtered_commands.control.controls.at(0).longitudinal.velocity = 0.0;
+    filtered_commands.control.controls.at(0).longitudinal.acceleration = moderate_stop_service_acceleration_;
   }
 
   // Check emergency
@@ -432,14 +434,14 @@ void VehicleCmdGate::publishControlCommands(const Commands & commands)
 
   // Check engage
   if (!is_engaged_) {
-    filtered_commands.control.longitudinal = createLongitudinalStopControlCmd();
+    filtered_commands.control.controls.at(0).longitudinal = createLongitudinalStopControlCmd();
   }
 
   // Check pause. Place this check after all other checks as it needs the final output.
   adapi_pause_->update(filtered_commands.control);
   if (adapi_pause_->is_paused()) {
     if (is_engaged_) {
-      filtered_commands.control.longitudinal = createLongitudinalStopControlCmd();
+      filtered_commands.control.controls.at(0).longitudinal = createLongitudinalStopControlCmd();
     } else {
       filtered_commands.control = createStopControlCmd();
     }
@@ -472,7 +474,7 @@ void VehicleCmdGate::publishEmergencyStopControlCommands()
   const auto stamp = this->now();
 
   // ControlCommand
-  Control control_cmd;
+  ControlHorizon control_cmd;
   control_cmd.stamp = stamp;
   control_cmd = createEmergencyStopControlCmd();
 
@@ -529,14 +531,14 @@ void VehicleCmdGate::publishStatus()
   moderate_stop_interface_->publish();
 }
 
-Control VehicleCmdGate::filterControlCommand(const Control & in)
+ControlHorizon VehicleCmdGate::filterControlCommand(const ControlHorizon & in)
 {
-  Control out = in;
+  ControlHorizon out = in;
   const double dt = getDt();
   const auto mode = current_operation_mode_;
   const auto current_status_cmd = getActualStatusAsCommand();
   const auto ego_is_stopped = vehicle_stop_checker_->isVehicleStopped(stop_check_duration_);
-  const auto input_cmd_is_stopping = in.longitudinal.acceleration < 0.0;
+  const auto input_cmd_is_stopping = in.controls.at(0).longitudinal.acceleration < 0.0;
 
   filter_.setCurrentSpeed(current_kinematics_.twist.twist.linear.x);
   filter_on_transition_.setCurrentSpeed(current_kinematics_.twist.twist.linear.x);
@@ -555,13 +557,13 @@ Control VehicleCmdGate::filterControlCommand(const Control & in)
 
     if (ego_is_stopped && !input_cmd_is_stopping) {
       auto prev_cmd = filter_.getPrevCmd();
-      prev_cmd.longitudinal.acceleration =
-        std::max(prev_cmd.longitudinal.acceleration, current_status_cmd.longitudinal.acceleration);
+      prev_cmd.controls.at(0).longitudinal.acceleration =
+        std::max(prev_cmd.controls.at(0).longitudinal.acceleration, current_status_cmd.controls.at(0).longitudinal.acceleration);
       // consider reverse driving
-      prev_cmd.longitudinal.velocity = std::fabs(prev_cmd.longitudinal.velocity) >
-                                           std::fabs(current_status_cmd.longitudinal.velocity)
-                                         ? prev_cmd.longitudinal.velocity
-                                         : current_status_cmd.longitudinal.velocity;
+      prev_cmd.controls.at(0).longitudinal.velocity = std::fabs(prev_cmd.controls.at(0).longitudinal.velocity) >
+                                           std::fabs(current_status_cmd.controls.at(0).longitudinal.velocity)
+                                         ? prev_cmd.controls.at(0).longitudinal.velocity
+                                         : current_status_cmd.controls.at(0).longitudinal.velocity;
       filter_.setPrevCmd(prev_cmd);
     }
     filter_.filterAll(dt, current_steer_, out, is_filter_activated);
@@ -573,7 +575,7 @@ Control VehicleCmdGate::filterControlCommand(const Control & in)
   auto prev_values = mode.is_autoware_control_enabled ? out : current_status_cmd;
 
   if (ego_is_stopped) {
-    prev_values.longitudinal = out.longitudinal;
+    prev_values.controls.at(0).longitudinal = out.controls.at(0).longitudinal;
   }
 
   // TODO(Horibe): To prevent sudden acceleration/deceleration when switching from manual to
@@ -592,17 +594,18 @@ Control VehicleCmdGate::filterControlCommand(const Control & in)
   return out;
 }
 
-Control VehicleCmdGate::createStopControlCmd() const
+ControlHorizon VehicleCmdGate::createStopControlCmd() const
 {
-  Control cmd;
+  ControlHorizon cmd;
   const auto t = this->now();
   cmd.stamp = t;
-  cmd.lateral.stamp = t;
-  cmd.longitudinal.stamp = t;
-  cmd.lateral.steering_tire_angle = current_steer_;
-  cmd.lateral.steering_tire_rotation_rate = 0.0;
-  cmd.longitudinal.velocity = 0.0;
-  cmd.longitudinal.acceleration = stop_hold_acceleration_;
+  cmd.controls.push_back(autoware_control_msgs::msg::Control());
+  cmd.controls.at(0).lateral.stamp = t;
+  cmd.controls.at(0).longitudinal.stamp = t;
+  cmd.controls.at(0).lateral.steering_tire_angle = current_steer_;
+  cmd.controls.at(0).lateral.steering_tire_rotation_rate = 0.0;
+  cmd.controls.at(0).longitudinal.velocity = 0.0;
+  cmd.controls.at(0).longitudinal.acceleration = stop_hold_acceleration_;
 
   return cmd;
 }
@@ -618,17 +621,18 @@ Longitudinal VehicleCmdGate::createLongitudinalStopControlCmd() const
   return cmd;
 }
 
-Control VehicleCmdGate::createEmergencyStopControlCmd() const
+ControlHorizon VehicleCmdGate::createEmergencyStopControlCmd() const
 {
-  Control cmd;
+  ControlHorizon cmd;
   const auto t = this->now();
   cmd.stamp = t;
-  cmd.lateral.stamp = t;
-  cmd.longitudinal.stamp = t;
-  cmd.lateral.steering_tire_angle = prev_control_cmd_.lateral.steering_tire_angle;
-  cmd.lateral.steering_tire_rotation_rate = prev_control_cmd_.lateral.steering_tire_rotation_rate;
-  cmd.longitudinal.velocity = 0.0;
-  cmd.longitudinal.acceleration = emergency_acceleration_;
+  cmd.controls.push_back(autoware_control_msgs::msg::Control());
+  cmd.controls.at(0).lateral.stamp = t;
+  cmd.controls.at(0).longitudinal.stamp = t;
+  cmd.controls.at(0).lateral.steering_tire_angle = prev_control_cmd_.controls.at(0).lateral.steering_tire_angle;
+  cmd.controls.at(0).lateral.steering_tire_rotation_rate = prev_control_cmd_.controls.at(0).lateral.steering_tire_rotation_rate;
+  cmd.controls.at(0).longitudinal.velocity = 0.0;
+  cmd.controls.at(0).longitudinal.acceleration = emergency_acceleration_;
 
   return cmd;
 }
@@ -686,14 +690,15 @@ double VehicleCmdGate::getDt()
   return dt;
 }
 
-Control VehicleCmdGate::getActualStatusAsCommand()
+ControlHorizon VehicleCmdGate::getActualStatusAsCommand()
 {
-  Control status;
-  status.stamp = status.lateral.stamp = status.longitudinal.stamp = this->now();
-  status.lateral.steering_tire_angle = current_steer_;
-  status.lateral.steering_tire_rotation_rate = 0.0;
-  status.longitudinal.velocity = current_kinematics_.twist.twist.linear.x;
-  status.longitudinal.acceleration = current_acceleration_;
+  ControlHorizon status;
+  status.controls.push_back(autoware_control_msgs::msg::Control());
+  status.stamp = status.controls.at(0).lateral.stamp = status.controls.at(0).longitudinal.stamp = this->now();
+  status.controls.at(0).lateral.steering_tire_angle = current_steer_;
+  status.controls.at(0).lateral.steering_tire_rotation_rate = 0.0;
+  status.controls.at(0).longitudinal.velocity = current_kinematics_.twist.twist.linear.x;
+  status.controls.at(0).longitudinal.acceleration = current_acceleration_;
   return status;
 }
 

@@ -24,7 +24,7 @@
 #define ASSERT_LT_NEAR(x, y) ASSERT_LT(x, y + THRESHOLD)
 #define ASSERT_GT_NEAR(x, y) ASSERT_GT(x, y - THRESHOLD)
 
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using vehicle_cmd_gate::LimitArray;
 
 constexpr double NOMINAL_INTERVAL = 1.0;
@@ -49,58 +49,59 @@ void setFilterParams(
   f.setParam(p);
 }
 
-Control genCmd(double s, double sr, double v, double a)
+ControlHorizon genCmd(double s, double sr, double v, double a)
 {
-  Control cmd;
-  cmd.lateral.steering_tire_angle = s;
-  cmd.lateral.steering_tire_rotation_rate = sr;
-  cmd.longitudinal.velocity = v;
-  cmd.longitudinal.acceleration = a;
+  ControlHorizon cmd;
+  cmd.controls.push_back(autoware_control_msgs::msg::Control());
+  cmd.controls.at(0).lateral.steering_tire_angle = s;
+  cmd.controls.at(0).lateral.steering_tire_rotation_rate = sr;
+  cmd.controls.at(0).longitudinal.velocity = v;
+  cmd.controls.at(0).longitudinal.acceleration = a;
   return cmd;
 }
 
 // calc from ego velocity
-double calcLatAcc(const Control & cmd, const double wheelbase, const double ego_v)
+double calcLatAcc(const ControlHorizon & cmd, const double wheelbase, const double ego_v)
 {
-  return ego_v * ego_v * std::tan(cmd.lateral.steering_tire_angle) / wheelbase;
+  return ego_v * ego_v * std::tan(cmd.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 }
 
 // calc from command velocity
-double calcLatAcc(const Control & cmd, const double wheelbase)
+double calcLatAcc(const ControlHorizon & cmd, const double wheelbase)
 {
-  double v = cmd.longitudinal.velocity;
-  return v * v * std::tan(cmd.lateral.steering_tire_angle) / wheelbase;
+  double v = cmd.controls.at(0).longitudinal.velocity;
+  return v * v * std::tan(cmd.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 }
 
 // calc from command velocity
 double calcLatJerk(
-  const Control & cmd, const Control & prev_cmd, const double wheelbase, const double dt)
+  const ControlHorizon & cmd, const ControlHorizon & prev_cmd, const double wheelbase, const double dt)
 {
-  const auto prev_v = prev_cmd.longitudinal.velocity;
-  const auto prev = prev_v * prev_v * std::tan(prev_cmd.lateral.steering_tire_angle) / wheelbase;
+  const auto prev_v = prev_cmd.controls.at(0).longitudinal.velocity;
+  const auto prev = prev_v * prev_v * std::tan(prev_cmd.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 
-  const auto curr_v = cmd.longitudinal.velocity;
-  const auto curr = curr_v * curr_v * std::tan(cmd.lateral.steering_tire_angle) / wheelbase;
+  const auto curr_v = cmd.controls.at(0).longitudinal.velocity;
+  const auto curr = curr_v * curr_v * std::tan(cmd.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 
   return (curr - prev) / dt;
 }
 
 // calc from ego velocity
 double calcLatJerk(
-  const Control & cmd, const Control & prev_cmd, const double wheelbase, const double dt,
+  const ControlHorizon & cmd, const ControlHorizon & prev_cmd, const double wheelbase, const double dt,
   const double ego_v)
 {
-  const auto prev = ego_v * ego_v * std::tan(prev_cmd.lateral.steering_tire_angle) / wheelbase;
+  const auto prev = ego_v * ego_v * std::tan(prev_cmd.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 
-  const auto curr = ego_v * ego_v * std::tan(cmd.lateral.steering_tire_angle) / wheelbase;
+  const auto curr = ego_v * ego_v * std::tan(cmd.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 
   return (curr - prev) / dt;
 }
 
 void test_1d_limit(
   double ego_v, double V_LIM, double A_LIM, double J_LIM, double LAT_A_LIM, double LAT_J_LIM,
-  double STEER_DIFF, double STEER_LIM, double STEER_RATE_LIM, const Control & prev_cmd,
-  const Control & raw_cmd)
+  double STEER_DIFF, double STEER_LIM, double STEER_RATE_LIM, const ControlHorizon & prev_cmd,
+  const ControlHorizon & raw_cmd)
 {
   const double WHEELBASE = 3.0;
   const double DT = 0.1;  // [s]
@@ -118,11 +119,11 @@ void test_1d_limit(
     filter.limitLongitudinalWithVel(filtered_cmd);
 
     // check if the filtered value does not exceed the limit.
-    ASSERT_LT_NEAR(filtered_cmd.longitudinal.velocity, V_LIM);
+    ASSERT_LT_NEAR(filtered_cmd.controls.at(0).longitudinal.velocity, V_LIM);
 
     // check if the undesired filter is not applied.
-    if (std::abs(raw_cmd.longitudinal.velocity) < V_LIM) {
-      ASSERT_NEAR(filtered_cmd.longitudinal.velocity, raw_cmd.longitudinal.velocity, THRESHOLD);
+    if (std::abs(raw_cmd.controls.at(0).longitudinal.velocity) < V_LIM) {
+      ASSERT_NEAR(filtered_cmd.controls.at(0).longitudinal.velocity, raw_cmd.controls.at(0).longitudinal.velocity, THRESHOLD);
     }
   }
 
@@ -132,26 +133,26 @@ void test_1d_limit(
     filter.limitLongitudinalWithAcc(DT, filtered_cmd);
 
     // check if the filtered value does not exceed the limit.
-    ASSERT_LT_NEAR(filtered_cmd.longitudinal.acceleration, A_LIM);
-    ASSERT_GT_NEAR(filtered_cmd.longitudinal.acceleration, -A_LIM);
+    ASSERT_LT_NEAR(filtered_cmd.controls.at(0).longitudinal.acceleration, A_LIM);
+    ASSERT_GT_NEAR(filtered_cmd.controls.at(0).longitudinal.acceleration, -A_LIM);
 
     // check if the undesired filter is not applied.
     if (
-      -A_LIM < filtered_cmd.longitudinal.acceleration &&
-      filtered_cmd.longitudinal.acceleration < A_LIM) {
+      -A_LIM < filtered_cmd.controls.at(0).longitudinal.acceleration &&
+      filtered_cmd.controls.at(0).longitudinal.acceleration < A_LIM) {
       ASSERT_NEAR(
-        filtered_cmd.longitudinal.acceleration, raw_cmd.longitudinal.acceleration, THRESHOLD);
+        filtered_cmd.controls.at(0).longitudinal.acceleration, raw_cmd.controls.at(0).longitudinal.acceleration, THRESHOLD);
     }
 
     // check if the filtered value does not exceed the limit.
-    const double v_max = prev_cmd.longitudinal.velocity + A_LIM * DT;
-    const double v_min = prev_cmd.longitudinal.velocity - A_LIM * DT;
-    ASSERT_LT_NEAR(filtered_cmd.longitudinal.velocity, v_max);
-    ASSERT_GT_NEAR(filtered_cmd.longitudinal.velocity, v_min);
+    const double v_max = prev_cmd.controls.at(0).longitudinal.velocity + A_LIM * DT;
+    const double v_min = prev_cmd.controls.at(0).longitudinal.velocity - A_LIM * DT;
+    ASSERT_LT_NEAR(filtered_cmd.controls.at(0).longitudinal.velocity, v_max);
+    ASSERT_GT_NEAR(filtered_cmd.controls.at(0).longitudinal.velocity, v_min);
 
     // check if the undesired filter is not applied.
-    if (v_min < raw_cmd.longitudinal.velocity && raw_cmd.longitudinal.velocity < v_max) {
-      ASSERT_NEAR(filtered_cmd.longitudinal.velocity, raw_cmd.longitudinal.velocity, THRESHOLD);
+    if (v_min < raw_cmd.controls.at(0).longitudinal.velocity && raw_cmd.controls.at(0).longitudinal.velocity < v_max) {
+      ASSERT_NEAR(filtered_cmd.controls.at(0).longitudinal.velocity, raw_cmd.controls.at(0).longitudinal.velocity, THRESHOLD);
     }
   }
 
@@ -159,18 +160,18 @@ void test_1d_limit(
   {
     auto filtered_cmd = raw_cmd;
     filter.limitLongitudinalWithJerk(DT, filtered_cmd);
-    const double acc_max = prev_cmd.longitudinal.acceleration + J_LIM * DT;
-    const double acc_min = prev_cmd.longitudinal.acceleration - J_LIM * DT;
+    const double acc_max = prev_cmd.controls.at(0).longitudinal.acceleration + J_LIM * DT;
+    const double acc_min = prev_cmd.controls.at(0).longitudinal.acceleration - J_LIM * DT;
 
     // check if the filtered value does not exceed the limit.
-    ASSERT_LT_NEAR(filtered_cmd.longitudinal.acceleration, acc_max);
-    ASSERT_GT_NEAR(filtered_cmd.longitudinal.acceleration, acc_min);
+    ASSERT_LT_NEAR(filtered_cmd.controls.at(0).longitudinal.acceleration, acc_max);
+    ASSERT_GT_NEAR(filtered_cmd.controls.at(0).longitudinal.acceleration, acc_min);
 
     // check if the undesired filter is not applied.
     if (
-      acc_min < raw_cmd.longitudinal.acceleration && raw_cmd.longitudinal.acceleration < acc_max) {
+      acc_min < raw_cmd.controls.at(0).longitudinal.acceleration && raw_cmd.controls.at(0).longitudinal.acceleration < acc_max) {
       ASSERT_NEAR(
-        filtered_cmd.longitudinal.acceleration, raw_cmd.longitudinal.acceleration, THRESHOLD);
+        filtered_cmd.controls.at(0).longitudinal.acceleration, raw_cmd.controls.at(0).longitudinal.acceleration, THRESHOLD);
     }
   }
 
@@ -206,7 +207,7 @@ void test_1d_limit(
     const double raw_lateral_jerk = (raw_lat_acc - prev_lat_acc) / DT;
     if (std::abs(raw_lateral_jerk) < LAT_J_LIM) {
       ASSERT_NEAR(
-        filtered_cmd.lateral.steering_tire_angle, raw_cmd.lateral.steering_tire_angle, THRESHOLD);
+        filtered_cmd.controls.at(0).lateral.steering_tire_angle, raw_cmd.controls.at(0).lateral.steering_tire_angle, THRESHOLD);
     }
   }
 
@@ -215,15 +216,15 @@ void test_1d_limit(
     const auto current_steering = 0.1;
     auto filtered_cmd = raw_cmd;
     filter.limitActualSteerDiff(current_steering, filtered_cmd);
-    const auto filtered_steer_diff = filtered_cmd.lateral.steering_tire_angle - current_steering;
-    const auto raw_steer_diff = raw_cmd.lateral.steering_tire_angle - current_steering;
+    const auto filtered_steer_diff = filtered_cmd.controls.at(0).lateral.steering_tire_angle - current_steering;
+    const auto raw_steer_diff = raw_cmd.controls.at(0).lateral.steering_tire_angle - current_steering;
     // check if the filtered value does not exceed the limit.
     ASSERT_LT_NEAR(std::abs(filtered_steer_diff), STEER_DIFF);
 
     // check if the undesired filter is not applied.
     if (std::abs(raw_steer_diff) < STEER_DIFF) {
       ASSERT_NEAR(
-        filtered_cmd.lateral.steering_tire_angle, raw_cmd.lateral.steering_tire_angle, THRESHOLD);
+        filtered_cmd.controls.at(0).lateral.steering_tire_angle, raw_cmd.controls.at(0).lateral.steering_tire_angle, THRESHOLD);
     }
   }
 }
@@ -240,10 +241,10 @@ TEST(VehicleCmdFilter, VehicleCmdFilter)
   const std::vector<double> steer_rate_lim_arr = {0.01, 1.0, 100.0};
   const std::vector<double> ego_v_arr = {0.0, 0.1, 1.0, 3.0, 15.0};
 
-  const std::vector<Control> prev_cmd_arr = {
+  const std::vector<ControlHorizon> prev_cmd_arr = {
     genCmd(0.0, 0.0, 0.0, 0.0), genCmd(1.0, 1.0, 1.0, 1.0)};
 
-  const std::vector<Control> raw_cmd_arr = {
+  const std::vector<ControlHorizon> raw_cmd_arr = {
     genCmd(1.0, 1.0, 1.0, 1.0), genCmd(10.0, -1.0, -1.0, -1.0)};
 
   for (const auto & v : v_arr) {
@@ -293,12 +294,13 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   const auto DT = 0.033;
 
   const auto orig_cmd = []() {
-    Control cmd;
-    cmd.lateral.steering_tire_angle = 0.5;
-    cmd.lateral.steering_tire_rotation_rate = 0.5;
-    cmd.longitudinal.velocity = 30.0;
-    cmd.longitudinal.acceleration = 10.0;
-    cmd.longitudinal.jerk = 10.0;
+    ControlHorizon cmd;
+    cmd.controls.push_back(autoware_control_msgs::msg::Control());
+    cmd.controls.at(0).lateral.steering_tire_angle = 0.5;
+    cmd.controls.at(0).lateral.steering_tire_rotation_rate = 0.5;
+    cmd.controls.at(0).longitudinal.velocity = 30.0;
+    cmd.controls.at(0).longitudinal.acceleration = 10.0;
+    cmd.controls.at(0).longitudinal.jerk = 10.0;
     return cmd;
   }();
 
@@ -352,7 +354,7 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   // vel lim
   {
     set_speed_and_reset_prev(0.0);
-    EXPECT_NEAR(_limitLongitudinalWithVel(orig_cmd).longitudinal.velocity, 20.0, ep);
+    EXPECT_NEAR(_limitLongitudinalWithVel(orig_cmd).controls.at(0).longitudinal.velocity, 20.0, ep);
   }
 
   // steer angle lim
@@ -360,25 +362,25 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   // p.steer_lim = std::vector<double>{0.1, 0.2, 0.3};
   {
     set_speed_and_reset_prev(0.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.1, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.1, ep);
 
     set_speed_and_reset_prev(2.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.1, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.1, ep);
 
     set_speed_and_reset_prev(3.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.15, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.15, ep);
 
     set_speed_and_reset_prev(5.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.2 + 0.1 / 6.0, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.2 + 0.1 / 6.0, ep);
 
     set_speed_and_reset_prev(8.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.2 + 0.1 * 4.0 / 6.0, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.2 + 0.1 * 4.0 / 6.0, ep);
 
     set_speed_and_reset_prev(10.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.3, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.3, ep);
 
     set_speed_and_reset_prev(15.0);
-    EXPECT_NEAR(_limitSteer(orig_cmd).lateral.steering_tire_angle, 0.3, ep);
+    EXPECT_NEAR(_limitSteer(orig_cmd).controls.at(0).lateral.steering_tire_angle, 0.3, ep);
   }
 
   // steer angle rate lim
@@ -391,37 +393,37 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
     autoware_control_msgs::msg::Lateral filtered;
 
     set_speed_and_reset_prev(0.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.2, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.2, ep);
 
     set_speed_and_reset_prev(2.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.2, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.2, ep);
 
     set_speed_and_reset_prev(3.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.15, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.15, ep);
 
     set_speed_and_reset_prev(5.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.1 - 0.05 * 1.0 / 6.0, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.1 - 0.05 * 1.0 / 6.0, ep);
 
     set_speed_and_reset_prev(8.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.1 - 0.05 * 4.0 / 6.0, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.1 - 0.05 * 4.0 / 6.0, ep);
 
     set_speed_and_reset_prev(10.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.05, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.05, ep);
 
     set_speed_and_reset_prev(15.0);
-    filtered = _limitSteerRate(orig_cmd).lateral;
+    filtered = _limitSteerRate(orig_cmd).controls.at(0).lateral;
     EXPECT_NEAR(calcSteerRateFromAngle(filtered), 0.05, ep);
     EXPECT_NEAR(filtered.steering_tire_rotation_rate, 0.05, ep);
   }
@@ -429,25 +431,25 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   // longitudinal acc lim
   {
     set_speed_and_reset_prev(0.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.3, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.3, ep);
 
     set_speed_and_reset_prev(2.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.3, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.3, ep);
 
     set_speed_and_reset_prev(3.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.35, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.35, ep);
 
     set_speed_and_reset_prev(5.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.4 + 0.1 / 6.0, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.4 + 0.1 / 6.0, ep);
 
     set_speed_and_reset_prev(8.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.4 + 0.4 / 6.0, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.4 + 0.4 / 6.0, ep);
 
     set_speed_and_reset_prev(10.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.5, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.5, ep);
 
     set_speed_and_reset_prev(15.0);
-    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).longitudinal.acceleration, 0.5, ep);
+    EXPECT_NEAR(_limitLongitudinalWithAcc(orig_cmd).controls.at(0).longitudinal.acceleration, 0.5, ep);
   }
 
   // longitudinal jerk lim
@@ -455,34 +457,34 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   // p.lon_jerk_lim = std::vector<double>{0.4, 0.4, 0.7};
   {
     set_speed_and_reset_prev(0.0);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, 0.4, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * 0.4, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, 0.4, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * 0.4, ep);
 
     set_speed_and_reset_prev(2.0);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, 0.4, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * 0.4, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, 0.4, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * 0.4, ep);
 
     set_speed_and_reset_prev(3.0);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, 0.4, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * 0.4, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, 0.4, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * 0.4, ep);
 
     set_speed_and_reset_prev(5.0);
     const auto expect_v5 = 0.4 + 0.3 / 6.0;
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, expect_v5, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * expect_v5, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, expect_v5, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * expect_v5, ep);
 
     set_speed_and_reset_prev(8.0);
     const auto expect_v8 = 0.4 + 1.2 / 6.0;
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, expect_v8, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * expect_v8, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, expect_v8, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * expect_v8, ep);
 
     set_speed_and_reset_prev(10.0);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, 0.7, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * 0.7, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, 0.7, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * 0.7, ep);
 
     set_speed_and_reset_prev(15.0);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.jerk, 0.7, ep);
-    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).longitudinal.acceleration, DT * 0.7, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.jerk, 0.7, ep);
+    EXPECT_NEAR(_limitLongitudinalWithJerk(orig_cmd).controls.at(0).longitudinal.acceleration, DT * 0.7, ep);
   }
 
   // lateral acc lim
@@ -520,7 +522,7 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   // p.reference_speed_points = std::vector<double>{2.0, 4.0, 10.0};
   // p.lat_jerk_lim = std::vector<double>{0.9, 0.7, 0.1};
   const auto _calcLatJerk = [&](const auto & cmd, const double ego_v) {
-    return calcLatJerk(cmd, Control{}, WHEELBASE, DT, ego_v);
+    return calcLatJerk(cmd, ControlHorizon{}, WHEELBASE, DT, ego_v);
   };
   {
     // since the lateral acceleration and jerk is 0 when the velocity is 0, the target value is 0
@@ -561,26 +563,26 @@ TEST(VehicleCmdFilter, VehicleCmdFilterInterpolate)
   // p.actual_steer_diff_lim = std::vector<double>{0.1, 0.3, 0.2};
   {
     set_speed_and_reset_prev(0.0);
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), 0.1, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), 0.1, ep);
 
     set_speed_and_reset_prev(2.0);
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), 0.1, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), 0.1, ep);
 
     set_speed_and_reset_prev(3.0);
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), 0.2, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), 0.2, ep);
 
     set_speed_and_reset_prev(5.0);
     const auto expect_v5 = 0.3 - 0.1 / 6.0;
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), expect_v5, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), expect_v5, ep);
 
     set_speed_and_reset_prev(8.0);
     const auto expect_v8 = 0.3 - 0.4 / 6.0;
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), expect_v8, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), expect_v8, ep);
 
     set_speed_and_reset_prev(10.0);
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), 0.2, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), 0.2, ep);
 
     set_speed_and_reset_prev(15.0);
-    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).lateral.steering_tire_angle), 0.2, ep);
+    EXPECT_NEAR((_limitActualSteerDiff(orig_cmd).controls.at(0).lateral.steering_tire_angle), 0.2, ep);
   }
 }

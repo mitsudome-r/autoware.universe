@@ -18,7 +18,7 @@
 
 #include <random>
 
-autoware_control_msgs::msg::Control generate_control_msg()
+autoware_control_msgs::msg::ControlHorizon generate_control_msg()
 {
   // generate deterministic random float
   std::mt19937 gen(0);
@@ -29,17 +29,18 @@ autoware_control_msgs::msg::Control generate_control_msg()
   std::uniform_int_distribution<> dis_int(0, 1000000);
   auto rand_int = [&dis_int, &gen]() { return dis_int(gen); };
 
-  autoware_control_msgs::msg::Control msg_control;
+  autoware_control_msgs::msg::ControlHorizon msg_control;
+  msg_control.controls.push_back(autoware_control_msgs::msg::Control());
   msg_control.stamp = rclcpp::Time(rand_int());
 
-  msg_control.lateral.stamp = rclcpp::Time(rand_int());
-  msg_control.lateral.steering_tire_angle = rand_float();
-  msg_control.lateral.steering_tire_rotation_rate = rand_float();
+  msg_control.controls.at(0).lateral.stamp = rclcpp::Time(rand_int());
+  msg_control.controls.at(0).lateral.steering_tire_angle = rand_float();
+  msg_control.controls.at(0).lateral.steering_tire_rotation_rate = rand_float();
 
-  msg_control.longitudinal.stamp = rclcpp::Time(rand_int());
-  msg_control.longitudinal.velocity = rand_float();
-  msg_control.longitudinal.jerk = rand_float();
-  msg_control.longitudinal.acceleration = rand_float();
+  msg_control.controls.at(0).longitudinal.stamp = rclcpp::Time(rand_int());
+  msg_control.controls.at(0).longitudinal.velocity = rand_float();
+  msg_control.controls.at(0).longitudinal.jerk = rand_float();
+  msg_control.controls.at(0).longitudinal.acceleration = rand_float();
   return msg_control;
 }
 
@@ -74,23 +75,23 @@ TEST(AutowareAutoMsgsAdapter, TestMsgAckermannControlCommand)  // NOLINT for gte
         const autoware_auto_control_msgs::msg::AckermannControlCommand::SharedPtr msg) {
         EXPECT_EQ(msg->stamp, msg_control.stamp);
 
-        EXPECT_EQ(msg->lateral.stamp, msg_control.lateral.stamp);
-        EXPECT_FLOAT_EQ(msg->lateral.steering_tire_angle, msg_control.lateral.steering_tire_angle);
+        EXPECT_EQ(msg->lateral.stamp, msg_control.controls.at(0).lateral.stamp);
+        EXPECT_FLOAT_EQ(msg->lateral.steering_tire_angle, msg_control.controls.at(0).lateral.steering_tire_angle);
         EXPECT_FLOAT_EQ(
           msg->lateral.steering_tire_rotation_rate,
-          msg_control.lateral.steering_tire_rotation_rate);
+          msg_control.controls.at(0).lateral.steering_tire_rotation_rate);
 
-        EXPECT_EQ(msg->longitudinal.stamp, msg_control.longitudinal.stamp);
-        EXPECT_FLOAT_EQ(msg->longitudinal.speed, msg_control.longitudinal.velocity);
-        EXPECT_FLOAT_EQ(msg->longitudinal.acceleration, msg_control.longitudinal.acceleration);
-        EXPECT_FLOAT_EQ(msg->longitudinal.jerk, msg_control.longitudinal.jerk);
+        EXPECT_EQ(msg->longitudinal.stamp, msg_control.controls.at(0).longitudinal.stamp);
+        EXPECT_FLOAT_EQ(msg->longitudinal.speed, msg_control.controls.at(0).longitudinal.velocity);
+        EXPECT_FLOAT_EQ(msg->longitudinal.acceleration, msg_control.controls.at(0).longitudinal.acceleration);
+        EXPECT_FLOAT_EQ(msg->longitudinal.jerk, msg_control.controls.at(0).longitudinal.jerk);
         test_completed = true;
       });
 
   std::cout << "Creating the publisher node..." << std::endl;
 
   auto node_publisher = std::make_shared<rclcpp::Node>("node_publisher", rclcpp::NodeOptions{});
-  auto pub = node_publisher->create_publisher<autoware_control_msgs::msg::Control>(
+  auto pub = node_publisher->create_publisher<autoware_control_msgs::msg::ControlHorizon>(
     topic_name_source, rclcpp::QoS{1});
   pub->publish(msg_control);
 

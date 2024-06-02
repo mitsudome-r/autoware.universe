@@ -23,7 +23,7 @@
 #include <signal_processing/lowpass_filter_1d.hpp>
 #include <tier4_autoware_utils/ros/self_pose_listener.hpp>
 
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <autoware_vehicle_msgs/msg/steering_report.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
@@ -36,7 +36,7 @@
 
 namespace control_performance_analysis
 {
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using autoware_planning_msgs::msg::Trajectory;
 using autoware_vehicle_msgs::msg::SteeringReport;
 using control_performance_analysis::msg::DrivingMonitorStamped;
@@ -52,8 +52,9 @@ public:
 private:
   // Subscribers and Local Variable Assignment
   rclcpp::Subscription<Trajectory>::SharedPtr sub_trajectory_;  // subscribe to trajectory
-  rclcpp::Subscription<Control>::SharedPtr sub_control_cmd_;  // subscribe to steering control value
-  rclcpp::Subscription<Odometry>::SharedPtr sub_velocity_;    // subscribe to velocity
+  rclcpp::Subscription<ControlHorizon>::SharedPtr
+    sub_control_cmd_;                                       // subscribe to steering control value
+  rclcpp::Subscription<Odometry>::SharedPtr sub_velocity_;  // subscribe to velocity
   rclcpp::Subscription<SteeringReport>::SharedPtr sub_vehicle_steering_;
 
   // Publishers
@@ -67,27 +68,22 @@ private:
 
   // Callback Methods
   void onTrajectory(const Trajectory::ConstSharedPtr msg);
-  void onControlRaw(const Control::ConstSharedPtr control_msg);
+  void onControlRaw(const ControlHorizon::ConstSharedPtr control_msg);
   void onVecSteeringMeasured(const SteeringReport::ConstSharedPtr meas_steer_msg);
   void onVelocity(const Odometry::ConstSharedPtr msg);
 
   // Parameters
   Params param_{};  // wheelbase, control period and feedback coefficients.
   // State holder
-  Control::ConstSharedPtr last_control_cmd_;
+  ControlHorizon::ConstSharedPtr last_control_cmd_;
   double d_control_cmd_{0};
 
   // Subscriber Parameters
   Trajectory::ConstSharedPtr current_trajectory_ptr_;  // ConstPtr to local traj.
-  Control::ConstSharedPtr current_control_msg_ptr_;
+  ControlHorizon::ConstSharedPtr current_control_msg_ptr_;
   SteeringReport::ConstSharedPtr current_vec_steering_msg_ptr_;
   Odometry::ConstSharedPtr current_odom_ptr_;
   PoseStamped::ConstSharedPtr current_pose_;  // pose of the vehicle, x, y, heading
-
-  // prev states
-  Trajectory prev_traj;
-  Control prev_cmd;
-  SteeringReport prev_steering;
 
   // Algorithm
   std::unique_ptr<ControlPerformanceAnalysisCore> control_performance_core_ptr_;

@@ -18,7 +18,7 @@ This package is to mimic external control for simulation.
 | Name                             | Type                                      | Description     |
 | -------------------------------- | ----------------------------------------- | --------------- |
 | `/control/gate_mode_cmd`         | `tier4_control_msgs::msg::GateMode`       | GATE mode       |
-| `/external/selected/control_cmd` | `autoware_control_msgs::msg::Control`     | Control command |
+| `/external/selected/control_cmd` | `autoware_control_msgs::msg::ControlHorizon`     | Control command |
 | `/external/selected/gear_cmd`    | `autoware_vehicle_msgs::msg::GearCommand` | GEAR            |
 
 ## Usage

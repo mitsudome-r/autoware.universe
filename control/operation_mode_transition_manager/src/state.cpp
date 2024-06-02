@@ -35,11 +35,11 @@ AutonomousMode::AutonomousMode(rclcpp::Node * node)
 {
   vehicle_info_ = vehicle_info_util::VehicleInfoUtil(*node).getVehicleInfo();
 
-  sub_control_cmd_ = node->create_subscription<Control>(
-    "control_cmd", 1, [this](const Control::SharedPtr msg) { control_cmd_ = *msg; });
-  sub_trajectory_follower_control_cmd_ = node->create_subscription<Control>(
+  sub_control_cmd_ = node->create_subscription<ControlHorizon>(
+    "control_cmd", 1, [this](const ControlHorizon::SharedPtr msg) { control_cmd_ = *msg; });
+  sub_trajectory_follower_control_cmd_ = node->create_subscription<ControlHorizon>(
     "trajectory_follower_control_cmd", 1,
-    [this](const Control::SharedPtr msg) { trajectory_follower_control_cmd_ = *msg; });
+    [this](const ControlHorizon::SharedPtr msg) { trajectory_follower_control_cmd_ = *msg; });
 
   sub_kinematics_ = node->create_subscription<Odometry>(
     "kinematics", 1, [this](const Odometry::SharedPtr msg) { kinematics_ = *msg; });
@@ -174,7 +174,7 @@ bool AutonomousMode::isModeChangeCompleted()
 
 bool AutonomousMode::hasDangerAcceleration()
 {
-  debug_info_.target_control_acceleration = control_cmd_.longitudinal.acceleration;
+  debug_info_.target_control_acceleration = control_cmd_.controls.at(0).longitudinal.acceleration;
 
   const bool is_stopping = std::abs(kinematics_.twist.twist.linear.x) < 0.01;
   if (is_stopping) {
@@ -182,7 +182,7 @@ bool AutonomousMode::hasDangerAcceleration()
   }
 
   const bool has_large_acc =
-    std::abs(control_cmd_.longitudinal.acceleration) > engage_acceptable_param_.acc_threshold;
+    std::abs(control_cmd_.controls.at(0).longitudinal.acceleration) > engage_acceptable_param_.acc_threshold;
   return has_large_acc;
 }
 
@@ -194,7 +194,7 @@ std::pair<bool, bool> AutonomousMode::hasDangerLateralAcceleration()
 
   // Calculate angular velocity from kinematics model.
   // Use current_vx to focus on the steering behavior.
-  const auto target_wz = curr_vx * std::tan(control_cmd_.lateral.steering_tire_angle) / wheelbase;
+  const auto target_wz = curr_vx * std::tan(control_cmd_.controls.at(0).lateral.steering_tire_angle) / wheelbase;
 
   const auto curr_lat_acc = curr_vx * curr_wz;
   const auto target_lat_acc = curr_vx * target_wz;
@@ -218,7 +218,7 @@ bool AutonomousMode::isModeChangeAvailable()
   }
 
   const auto current_speed = kinematics_.twist.twist.linear.x;
-  const auto target_control_speed = control_cmd_.longitudinal.velocity;
+  const auto target_control_speed = control_cmd_.controls.at(0).longitudinal.velocity;
   const auto & param = engage_acceptable_param_;
 
   if (!enable_engage_on_driving_ && std::fabs(current_speed) > 1.0e-2) {
@@ -265,7 +265,7 @@ bool AutonomousMode::isModeChangeAvailable()
   // No engagement if the vehicle is moving but the target speed is zero.
   const bool is_stop_cmd_indicated =
     std::abs(target_control_speed) < 0.01 ||
-    std::abs(trajectory_follower_control_cmd_.longitudinal.velocity) < 0.01;
+    std::abs(trajectory_follower_control_cmd_.controls.at(0).longitudinal.velocity) < 0.01;
   const bool stop_ok = !(std::abs(current_speed) > 0.1 && is_stop_cmd_indicated);
 
   // No engagement if the large acceleration is commanded.

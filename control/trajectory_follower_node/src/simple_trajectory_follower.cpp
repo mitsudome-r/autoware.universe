@@ -29,7 +29,7 @@ using tier4_autoware_utils::calcYawDeviation;
 SimpleTrajectoryFollower::SimpleTrajectoryFollower(const rclcpp::NodeOptions & options)
 : Node("simple_trajectory_follower", options)
 {
-  pub_cmd_ = create_publisher<Control>("output/control_cmd", 1);
+  pub_cmd_ = create_publisher<ControlHorizon>("output/control_cmd", 1);
 
   sub_kinematics_ = create_subscription<Odometry>(
     "input/kinematics", 1, [this](const Odometry::SharedPtr msg) { odometry_ = msg; });
@@ -54,13 +54,14 @@ void SimpleTrajectoryFollower::onTimer()
 
   updateClosest();
 
-  Control cmd;
-  cmd.stamp = cmd.lateral.stamp = cmd.longitudinal.stamp = get_clock()->now();
-  cmd.lateral.steering_tire_angle = static_cast<float>(calcSteerCmd());
-  cmd.longitudinal.velocity = use_external_target_vel_
+  ControlHorizon cmd;
+  cmd.controls.push_back(autoware_control_msgs::msg::Control());
+  cmd.stamp = cmd.controls.at(0).lateral.stamp = cmd.controls.at(0).longitudinal.stamp = get_clock()->now();
+  cmd.controls.at(0).lateral.steering_tire_angle = static_cast<float>(calcSteerCmd());
+  cmd.controls.at(0).longitudinal.velocity = use_external_target_vel_
                                 ? static_cast<float>(external_target_vel_)
                                 : closest_traj_point_.longitudinal_velocity_mps;
-  cmd.longitudinal.acceleration = static_cast<float>(calcAccCmd());
+  cmd.controls.at(0).longitudinal.acceleration = static_cast<float>(calcAccCmd());
   pub_cmd_->publish(cmd);
 }
 

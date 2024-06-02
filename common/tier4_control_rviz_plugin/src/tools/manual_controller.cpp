@@ -102,11 +102,12 @@ ManualController::ManualController(QWidget * parent) : rviz_common::Panel(parent
 void ManualController::update()
 {
   if (!raw_node_) return;
-  Control control_cmd;
+  ControlHorizon control_cmd;
   {
     control_cmd.stamp = raw_node_->get_clock()->now();
-    control_cmd.lateral.steering_tire_angle = steering_angle_;
-    control_cmd.longitudinal.velocity = cruise_velocity_;
+    control_cmd.controls.push_back(autoware_control_msgs::msg::Control());
+    control_cmd.controls.at(0).lateral.steering_tire_angle = steering_angle_;
+    control_cmd.controls.at(0).longitudinal.velocity = cruise_velocity_;
     if (current_acceleration_) {
       /**
        * @brief Calculate desired acceleration by simple BackSteppingControl
@@ -119,17 +120,17 @@ void ManualController::update()
       const double v_des = cruise_velocity_;
       const double a = current_acceleration_;
       const double a_des = k * (v - v_des) + a;
-      control_cmd.longitudinal.acceleration = std::clamp(a_des, -1.0, 1.0);
+      control_cmd.controls.at(0).longitudinal.acceleration = std::clamp(a_des, -1.0, 1.0);
     }
   }
   GearCommand gear_cmd;
   {
     const double eps = 0.001;
-    if (control_cmd.longitudinal.velocity > eps && current_velocity_ > -eps) {
+    if (control_cmd.controls.at(0).longitudinal.velocity > eps && current_velocity_ > -eps) {
       gear_cmd.command = GearCommand::DRIVE;
-    } else if (control_cmd.longitudinal.velocity < -eps && current_velocity_ < eps) {
+    } else if (control_cmd.controls.at(0).longitudinal.velocity < -eps && current_velocity_ < eps) {
       gear_cmd.command = GearCommand::REVERSE;
-      control_cmd.longitudinal.acceleration *= -1.0;
+      control_cmd.controls.at(0).longitudinal.acceleration *= -1.0;
     } else {
       gear_cmd.command = GearCommand::PARK;
     }
@@ -173,7 +174,7 @@ void ManualController::onInitialize()
   pub_gate_mode_ = raw_node_->create_publisher<GateMode>("/control/gate_mode_cmd", rclcpp::QoS(1));
 
   pub_control_command_ =
-    raw_node_->create_publisher<Control>("/external/selected/control_cmd", rclcpp::QoS(1));
+    raw_node_->create_publisher<ControlHorizon>("/external/selected/control_cmd", rclcpp::QoS(1));
 
   pub_gear_cmd_ = raw_node_->create_publisher<GearCommand>("/external/selected/gear_cmd", 1);
 }

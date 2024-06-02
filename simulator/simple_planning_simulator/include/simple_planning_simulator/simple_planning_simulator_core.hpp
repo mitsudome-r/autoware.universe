@@ -20,7 +20,7 @@
 #include "simple_planning_simulator/visibility_control.hpp"
 #include "tier4_api_utils/tier4_api_utils.hpp"
 
-#include "autoware_control_msgs/msg/control.hpp"
+#include "autoware_control_msgs/msg/control_horizon.hpp"
 #include "autoware_map_msgs/msg/lanelet_map_bin.hpp"
 #include "autoware_planning_msgs/msg/trajectory.hpp"
 #include "autoware_vehicle_msgs/msg/control_mode_report.hpp"
@@ -59,7 +59,7 @@ namespace simulation
 namespace simple_planning_simulator
 {
 
-using autoware_control_msgs::msg::Control;
+using autoware_control_msgs::msg::ControlHorizon;
 using autoware_map_msgs::msg::LaneletMapBin;
 using autoware_planning_msgs::msg::Trajectory;
 using autoware_vehicle_msgs::msg::ControlModeReport;
@@ -138,8 +138,8 @@ private:
   rclcpp::Subscription<GearCommand>::SharedPtr sub_manual_gear_cmd_;
   rclcpp::Subscription<TurnIndicatorsCommand>::SharedPtr sub_turn_indicators_cmd_;
   rclcpp::Subscription<HazardLightsCommand>::SharedPtr sub_hazard_lights_cmd_;
-  rclcpp::Subscription<Control>::SharedPtr sub_ackermann_cmd_;
-  rclcpp::Subscription<Control>::SharedPtr sub_manual_ackermann_cmd_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr sub_ackermann_cmd_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr sub_manual_ackermann_cmd_;
   rclcpp::Subscription<LaneletMapBin>::SharedPtr sub_map_;
   rclcpp::Subscription<PoseWithCovarianceStamped>::SharedPtr sub_init_pose_;
   rclcpp::Subscription<TwistStamped>::SharedPtr sub_init_twist_;
@@ -170,8 +170,8 @@ private:
   VelocityReport current_velocity_{};
   Odometry current_odometry_{};
   SteeringReport current_steer_{};
-  Control current_ackermann_cmd_{};
-  Control current_manual_ackermann_cmd_{};
+  ControlHorizon current_ackermann_cmd_{};
+  ControlHorizon current_manual_ackermann_cmd_{};
   GearCommand current_gear_cmd_{};
   GearCommand current_manual_gear_cmd_{};
   TurnIndicatorsCommand::ConstSharedPtr current_turn_indicators_cmd_ptr_{};
@@ -212,7 +212,7 @@ private:
   /**
    * @brief set input steering, velocity, and acceleration of the vehicle model
    */
-  void set_input(const Control & cmd, const double acc_by_slope);
+  void set_input(const ControlHorizon & cmd, const double acc_by_slope);
 
   /**
    * @brief set current_vehicle_state_ with received message

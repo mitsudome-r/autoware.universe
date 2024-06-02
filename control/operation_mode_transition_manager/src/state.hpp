@@ -21,7 +21,7 @@
 #include <rclcpp/rclcpp.hpp>
 #include <vehicle_info_util/vehicle_info_util.hpp>
 
-#include <autoware_control_msgs/msg/control.hpp>
+#include <autoware_control_msgs/msg/control_horizon.hpp>
 #include <autoware_planning_msgs/msg/trajectory.hpp>
 #include <nav_msgs/msg/odometry.hpp>
 
@@ -63,11 +63,11 @@ private:
   bool hasDangerAcceleration();
   std::pair<bool, bool> hasDangerLateralAcceleration();
 
-  using Control = autoware_control_msgs::msg::Control;
+  using ControlHorizon = autoware_control_msgs::msg::ControlHorizon;
   using Odometry = nav_msgs::msg::Odometry;
   using Trajectory = autoware_planning_msgs::msg::Trajectory;
-  rclcpp::Subscription<Control>::SharedPtr sub_control_cmd_;
-  rclcpp::Subscription<Control>::SharedPtr sub_trajectory_follower_control_cmd_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr sub_control_cmd_;
+  rclcpp::Subscription<ControlHorizon>::SharedPtr sub_trajectory_follower_control_cmd_;
   rclcpp::Subscription<Odometry>::SharedPtr sub_kinematics_;
   rclcpp::Subscription<Trajectory>::SharedPtr sub_trajectory_;
   rclcpp::Logger logger_;
@@ -79,8 +79,8 @@ private:
   double nearest_yaw_deviation_threshold_;   // [rad] for finding nearest index
   EngageAcceptableParam engage_acceptable_param_;
   StableCheckParam stable_check_param_;
-  Control control_cmd_;
-  Control trajectory_follower_control_cmd_;
+  ControlHorizon control_cmd_;
+  ControlHorizon trajectory_follower_control_cmd_;
   Odometry kinematics_;
   Trajectory trajectory_;
   vehicle_info_util::VehicleInfo vehicle_info_;
