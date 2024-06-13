@@ -31,7 +31,7 @@
  *
  */
 
-#include "map_loader/lanelet2_map_visualization_node.hpp"
+#include "autoware_map_loader/lanelet2_map_visualization_node.hpp"
 
 #include <lanelet2_extension/regulatory_elements/autoware_traffic_light.hpp>
 #include <lanelet2_extension/utility/message_conversion.hpp>
