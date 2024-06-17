@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
-#define MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
+#ifndef AUTOWARE_MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
+#define AUTOWARE_MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
 
 #include <component_interface_specs/map.hpp>
 #include <component_interface_utils/rclcpp.hpp>
@@ -51,4 +51,4 @@ private:
   rclcpp::Publisher<LaneletMapBin>::SharedPtr pub_map_bin_;
 };
 
-#endif  // MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
+#endif  // AUTOWARE_MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
