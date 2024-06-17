@@ -31,7 +31,7 @@
  *
  */
 
-#include "map_loader/lanelet2_map_loader_node.hpp"
+#include "autoware_map_loader/lanelet2_map_loader_node.hpp"
 
 #include "lanelet2_local_projector.hpp"
 
