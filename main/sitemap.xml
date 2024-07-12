@@ -1371,6 +1371,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/system/autoware_component_monitor/</loc>
+         <lastmod>2024-07-12</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/system/autoware_processing_time_checker/</loc>
          <lastmod>2024-07-12</lastmod>
          <changefreq>daily</changefreq>
