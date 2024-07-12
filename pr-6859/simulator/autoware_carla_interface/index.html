@@ -13306,6 +13306,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#traffic-light-recognition" class="md-nav__link">
+    Traffic Light Recognition
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tips" class="md-nav__link">
     Tips
   </a>
@@ -13557,6 +13564,29 @@ This ros package enables communication between Autoware and CARLA for autonomous
 </code></pre></div>
 </li>
 </ol>
+<h2 id="traffic-light-recognition">Traffic Light Recognition<a class="headerlink" href="#traffic-light-recognition" title="Permanent link">#</a></h2>
+<p>The maps provided by the Carla Simulator (<a href="https://bitbucket.org/carla-simulator/autoware-contents/src/master/maps/">Carla Lanelet2 Maps</a>) currently lack proper traffic light components for Autoware and have different latitude and longitude coordinates compared to the pointcloud map. To enable traffic light recognition, follow the steps below to modify the maps.</p>
+<ul>
+<li>
+<p>Options to Modify the Map</p>
+<ul>
+<li>A. Create a New Map from Scratch</li>
+<li>Use the <a href="https://tools.tier4.jp/feature/vector_map_builder_ll2/">Tier4 Vector Map Builder</a> to create a new map.</li>
+</ul>
+<ul>
+<li>B. Modify the Existing Carla Lanelet2 Maps</li>
+<li>Adjust the longitude and latitude of the <a href="https://bitbucket.org/carla-simulator/autoware-contents/src/master/maps/">Carla Lanelet2 Maps</a> to align with the PCD (origin).<ul>
+<li>Use this <a href="https://github.com/mraditya01/offset_lanelet2/tree/main">tool</a> to modify the coordinates.</li>
+<li>Snap Lanelet with PCD and add the traffic lights using the <a href="https://tools.tier4.jp/feature/vector_map_builder_ll2/">Tier4 Vector Map Builder</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>When using the Tier4 Vector Map Builder, you must convert the PCD format from <code>binary_compressed</code> to <code>ascii</code>. You can use <code>pcl_tools</code> for this conversion.</li>
+<li>For reference, an example of Town01 with added traffic lights at one intersection can be downloaded <a href="https://drive.google.com/drive/folders/1QFU0p3C8NW71sT5wwdnCKXoZFQJzXfTG?usp=sharing">here</a>.</li>
+</ul>
 <h2 id="tips">Tips<a class="headerlink" href="#tips" title="Permanent link">#</a></h2>
 <ul>
 <li>Misalignment might occurs during initialization, pressing <code>init by gnss</code> button should fix it.</li>
