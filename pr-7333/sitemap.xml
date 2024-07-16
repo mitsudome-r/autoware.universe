@@ -581,6 +581,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/autoware_cluster_merger/</loc>
+         <lastmod>2024-07-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/autoware_crosswalk_traffic_light_estimator/</loc>
          <lastmod>2024-07-16</lastmod>
          <changefreq>daily</changefreq>
@@ -632,11 +637,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/bytetrack/</loc>
-         <lastmod>2024-07-16</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/cluster_merger/</loc>
          <lastmod>2024-07-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
