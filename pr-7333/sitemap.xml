@@ -636,6 +636,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/autoware_raindrop_cluster_filter/raindrop_cluster_filter/</loc>
+         <lastmod>2024-07-16</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/bytetrack/</loc>
          <lastmod>2024-07-16</lastmod>
          <changefreq>daily</changefreq>
@@ -807,11 +812,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/radar_tracks_msgs_converter/</loc>
-         <lastmod>2024-07-16</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/pr-7333/perception/raindrop_cluster_filter/raindrop_cluster_filter/</loc>
          <lastmod>2024-07-16</lastmod>
          <changefreq>daily</changefreq>
     </url>
