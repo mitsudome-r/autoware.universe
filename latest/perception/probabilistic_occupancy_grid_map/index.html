@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#probabilistic_occupancy_grid_map" class="md-skip">
+        <a href="#macro-rendering-error" class="md-skip">
           Skip to content
         </a>
       
@@ -13097,75 +13097,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#purpose" class="md-nav__link">
-    Purpose
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#referencesexternal-links" class="md-nav__link">
-    References/External links
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#settings" class="md-nav__link">
-    Settings
-  </a>
-  
-    <nav class="md-nav" aria-label="Settings">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#each-config-parameters" class="md-nav__link">
-    Each config parameters
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#other-parameters" class="md-nav__link">
-    Other parameters
-  </a>
-  
-    <nav class="md-nav" aria-label="Other parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#downsample-input-pointcloudoptional" class="md-nav__link">
-    Downsample input pointcloud(Optional)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
-    Test
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -13182,226 +13113,23 @@
   
 
 
-<div><h1 id="probabilistic_occupancy_grid_map">probabilistic_occupancy_grid_map<a class="headerlink" href="#probabilistic_occupancy_grid_map" title="Permanent link">#</a></h1>
-<h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">#</a></h2>
-<p>This package outputs the probability of having an obstacle as occupancy grid map.
-<img alt="pointcloud_based_occupancy_grid_map_sample_image" src="image/pointcloud_based_occupancy_grid_map_sample_image.gif"></p>
-<h2 id="referencesexternal-links">References/External links<a class="headerlink" href="#referencesexternal-links" title="Permanent link">#</a></h2>
-<ul>
-<li><a href="pointcloud-based-occupancy-grid-map/">Pointcloud based occupancy grid map</a></li>
-<li><a href="laserscan-based-occupancy-grid-map/">Laserscan based occupancy grid map</a></li>
-<li><a href="synchronized_grid_map_fusion/">Grid map fusion</a></li>
-</ul>
-<h2 id="settings">Settings<a class="headerlink" href="#settings" title="Permanent link">#</a></h2>
-<p>Occupancy grid map is generated on <code>map_frame</code>, and grid orientation is fixed.</p>
-<p>You may need to choose <code>scan_origin_frame</code> and <code>gridmap_origin_frame</code> which means sensor origin and gridmap origin respectively. Especially, set your main LiDAR sensor frame (e.g. <code>velodyne_top</code> in sample_vehicle) as a <code>scan_origin_frame</code> would result in better performance.</p>
-<p><img alt="image_for_frame_parameter_visualization" src="image/gridmap_frame_settings.drawio.svg"></p>
-<h3 id="each-config-parameters">Each config parameters<a class="headerlink" href="#each-config-parameters" title="Permanent link">#</a></h3>
-<p>Config parameters are managed in <code>config/*.yaml</code> and here shows its outline.</p>
-<ul>
-<li>Pointcloud based occupancy grid map</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Ros param name</th>
-<th>Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>map_frame</td>
-<td>"map"</td>
-</tr>
-<tr>
-<td>base_link_frame</td>
-<td>"base_link"</td>
-</tr>
-<tr>
-<td>scan_origin_frame</td>
-<td>"base_link"</td>
-</tr>
-<tr>
-<td>gridmap_origin_frame</td>
-<td>"base_link"</td>
-</tr>
-<tr>
-<td>use_height_filter</td>
-<td>true</td>
-</tr>
-<tr>
-<td>enable_single_frame_mode</td>
-<td>false</td>
-</tr>
-<tr>
-<td>filter_obstacle_pointcloud_by_raw_pointcloud</td>
-<td>false</td>
-</tr>
-<tr>
-<td>map_length</td>
-<td>150.0 [m]</td>
-</tr>
-<tr>
-<td>map_resolution</td>
-<td>0.5 [m]</td>
-</tr>
-<tr>
-<td>use_projection</td>
-<td>false</td>
-</tr>
-<tr>
-<td>projection_dz_threshold</td>
-<td>0.01</td>
-</tr>
-<tr>
-<td>obstacle_separation_threshold</td>
-<td>1.0</td>
-</tr>
-<tr>
-<td>input_obstacle_pointcloud</td>
-<td>true</td>
-</tr>
-<tr>
-<td>input_obstacle_and_raw_pointcloud</td>
-<td>true</td>
-</tr>
-</tbody>
-</table>
-<ul>
-<li>Laserscan based occupancy grid map</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>Ros param name</th>
-<th>Default value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>map_length</td>
-<td>150 [m]</td>
-</tr>
-<tr>
-<td>map_width</td>
-<td>150 [m]</td>
-</tr>
-<tr>
-<td>map_resolution</td>
-<td>0.5 [m]</td>
-</tr>
-<tr>
-<td>use_height_filter</td>
-<td>true</td>
-</tr>
-<tr>
-<td>enable_single_frame_mode</td>
-<td>false</td>
-</tr>
-<tr>
-<td>map_frame</td>
-<td>"map"</td>
-</tr>
-<tr>
-<td>base_link_frame</td>
-<td>"base_link"</td>
-</tr>
-<tr>
-<td>scan_origin_frame</td>
-<td>"base_link"</td>
-</tr>
-<tr>
-<td>gridmap_origin_frame</td>
-<td>"base_link"</td>
-</tr>
-</tbody>
-</table>
-<h2 id="other-parameters">Other parameters<a class="headerlink" href="#other-parameters" title="Permanent link">#</a></h2>
-<p>Additional argument is shown below:</p>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Default</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>use_multithread</code></td>
-<td><code>false</code></td>
-<td>whether to use multithread</td>
-</tr>
-<tr>
-<td><code>use_intra_process</code></td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>map_origin</code></td>
-<td>``</td>
-<td>parameter to override <code>map_origin_frame</code> which means grid map origin</td>
-</tr>
-<tr>
-<td><code>scan_origin</code></td>
-<td>``</td>
-<td>parameter to override <code>scan_origin_frame</code> which means scanning center</td>
-</tr>
-<tr>
-<td><code>output</code></td>
-<td><code>occupancy_grid</code></td>
-<td>output name</td>
-</tr>
-<tr>
-<td><code>use_pointcloud_container</code></td>
-<td><code>false</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>container_name</code></td>
-<td><code>occupancy_grid_map_container</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>input_obstacle_pointcloud</code></td>
-<td><code>false</code></td>
-<td>only for laserscan based method. If true, the node subscribe obstacle pointcloud</td>
-</tr>
-<tr>
-<td><code>input_obstacle_and_raw_pointcloud</code></td>
-<td><code>true</code></td>
-<td>only for laserscan based method. If true, the node subscribe both obstacle and raw pointcloud</td>
-</tr>
-</tbody>
-</table>
-<h3 id="downsample-input-pointcloudoptional">Downsample input pointcloud(Optional)<a class="headerlink" href="#downsample-input-pointcloudoptional" title="Permanent link">#</a></h3>
-<p>If you set <code>downsample_input_pointcloud</code> to <code>true</code>, the input pointcloud will be downsampled and following topics are also used. This feature is currently only for the pointcloud based occupancy grid map.</p>
-<ul>
-<li>pointcloud_based_occupancy_grid_map method</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># downsampled raw and obstacle pointcloud</span>
-<span class="l l-Scalar l-Scalar-Plain">/perception/occupancy_grid_map/obstacle/downsample/pointcloud</span>
-<span class="l l-Scalar l-Scalar-Plain">/perception/occupancy_grid_map/raw/downsample/pointcloud</span>
-</code></pre></div>
-<ul>
-<li>multi_lidar_pointcloud_based_point_cloud</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c1"># downsampled raw and obstacle pointcloud</span>
-<span class="l l-Scalar l-Scalar-Plain">/perception/occupancy_grid_map/obstacle/downsample/pointcloud</span>
-<span class="l l-Scalar l-Scalar-Plain">/perception/occupancy_grid_map/&lt;sensor_name&gt;/raw/downsample/pointcloud</span>
-</code></pre></div>
-<h3 id="test">Test<a class="headerlink" href="#test" title="Permanent link">#</a></h3>
-<p>This package provides unit tests using <code>gtest</code>.
-You can run the test by the following command.</p>
-<div class="highlight"><pre><span></span><code>colcon<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--packages-select<span class="w"> </span>probabilistic_occupancy_grid_map<span class="w"> </span>--event-handlers<span class="w"> </span>console_direct+
-</code></pre></div>
-<p>Test contains the following.</p>
-<ul>
-<li>Unit test for cost value conversion function</li>
-<li>Unit test for utility functions</li>
-<li>Unit test for occupancy grid map fusion functions</li>
-<li>Input/Output test for pointcloud based occupancy grid map</li>
-</ul></div>
+<div><h1 id="macro-rendering-error"><em>Macro Rendering Error</em><a class="headerlink" href="#macro-rendering-error" title="Permanent link">#</a></h1>
+<p><em>File</em>: <code>perception/probabilistic_occupancy_grid_map/README.md</code></p>
+<p><em>KeyError</em>: 'definitions'</p>
+<div class="highlight"><pre><span></span><code>Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/mkdocs_macros/plugin.py", line 527, in render
+    return md_template.render(**page_variables)
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/jinja2/environment.py", line 1304, in render
+    self.environment.handle_exception()
+  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/jinja2/environment.py", line 939, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "&lt;template&gt;", line 29, in top-level template code
+  File "/home/runner/work/autoware.universe/autoware.universe/mkdocs_macros.py", line 72, in json_to_markdown
+    return format_json(data)
+  File "/home/runner/work/autoware.universe/autoware.universe/mkdocs_macros.py", line 61, in format_json
+    parameters = list(json_data["definitions"].values())[0]["properties"]
+KeyError: 'definitions'
+</code></pre></div></div>
 
 
 
