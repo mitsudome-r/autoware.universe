@@ -1346,6 +1346,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/simulator/autoware_carla_interface/</loc>
+         <lastmod>2024-07-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/simulator/dummy_perception_publisher/</loc>
          <lastmod>2024-07-19</lastmod>
          <changefreq>daily</changefreq>
