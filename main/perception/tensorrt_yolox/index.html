@@ -13162,26 +13162,6 @@
     Parameters
   </a>
   
-    <nav class="md-nav" aria-label="Parameters">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#core-parameters" class="md-nav__link">
-    Core Parameters
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#node-parameters" class="md-nav__link">
-    Node Parameters
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
         <li class="md-nav__item">
@@ -13302,192 +13282,212 @@
 </tbody>
 </table>
 <h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h2>
-<h3 id="core-parameters">Core Parameters<a class="headerlink" href="#core-parameters" title="Permanent link">#</a></h3>
 <table>
 <thead>
 <tr>
 <th>Name</th>
 <th>Type</th>
-<th>Default Value</th>
 <th>Description</th>
+<th>Default</th>
+<th>Range</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>score_threshold</code></td>
-<td>float</td>
-<td>0.3</td>
-<td>If the objectness score is less than this value, the object is ignored in yolox layer.</td>
+<td>model_path</td>
+<td>string</td>
+<td>Path to onnx model.</td>
+<td><span class="arithmatex">\((var data_path)/tensorrt_yolox/\)</span>(var model_name).onnx</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>nms_threshold</code></td>
+<td>label_path</td>
+<td>string</td>
+<td>Path to label file.</td>
+<td>$(var data_path)/tensorrt_yolox/label.txt</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>score_threshold</td>
 <td>float</td>
+<td>A threshold value of existence probability score, all of objects with score less than this threshold are ignored.</td>
+<td>0.35</td>
+<td>≥0.0<br>≤1.0</td>
+</tr>
+<tr>
+<td>nms_threshold</td>
+<td>float</td>
+<td>A threshold value of NMS.</td>
 <td>0.7</td>
-<td>The IoU threshold for NMS method</td>
+<td>≥0.0<br>≤1.0</td>
 </tr>
-</tbody>
-</table>
-<p><strong>NOTE:</strong> These two parameters are only valid for "plain" model (described later).</p>
-<h3 id="node-parameters">Node Parameters<a class="headerlink" href="#node-parameters" title="Permanent link">#</a></h3>
-<table>
-<thead>
 <tr>
-<th>Name</th>
-<th>Type</th>
-<th>Default Value</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>model_path</code></td>
+<td>precision</td>
 <td>string</td>
-<td>""</td>
-<td>The onnx file name for yolox model</td>
+<td>Operation precision to be used on inference. Valid value is one of: [fp32, fp16, int8].</td>
+<td>int8</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>model_name</code></td>
+<td>calibration_algorithm</td>
 <td>string</td>
-<td>""</td>
-<td>The yolox model name: <br> "yolox-sPlus-T4-960x960-pseudo-finetune" for detection only, could reduce resource and processing_time <br> "yolox-sPlus-opt-pseudoV2-T4-960x960-T4-seg16cls" for multi-task including semantic segmentation</td>
+<td>Calibration algorithm to be used for quantization when precision==int8. Valid value is one of: [Entropy, (Legacy</td>
+<td>Percentile), MinMax].</td>
+<td>Entropy</td>
 </tr>
 <tr>
-<td><code>label_path</code></td>
-<td>string</td>
-<td>""</td>
-<td>The label file with label names for detected objects written on it</td>
-</tr>
-<tr>
-<td><code>precision</code></td>
-<td>string</td>
-<td>"fp16"</td>
-<td>The inference mode: "fp32", "fp16", "int8"</td>
-</tr>
-<tr>
-<td><code>build_only</code></td>
-<td>bool</td>
-<td>false</td>
-<td>shutdown node after TensorRT engine file is built</td>
-</tr>
-<tr>
-<td><code>calibration_algorithm</code></td>
-<td>string</td>
-<td>"MinMax"</td>
-<td>Calibration algorithm to be used for quantization when precision==int8. Valid value is one of: Entropy",("Legacy" | "Percentile"), "MinMax"]</td>
-</tr>
-<tr>
-<td><code>dla_core_id</code></td>
-<td>int</td>
-<td>-1</td>
-<td>If positive ID value is specified, the node assign inference task to the DLA core</td>
-</tr>
-<tr>
-<td><code>quantize_first_layer</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, set the operating precision for the first (input) layer to be fp16. This option is valid only when precision==int8</td>
-</tr>
-<tr>
-<td><code>quantize_last_layer</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, set the operating precision for the last (output) layer to be fp16. This option is valid only when precision==int8</td>
-</tr>
-<tr>
-<td><code>profile_per_layer</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, profiler function will be enabled. Since the profile function may affect execution speed, it is recommended to set this flag true only for development purpose.</td>
-</tr>
-<tr>
-<td><code>clip_value</code></td>
-<td>double</td>
-<td>0.0</td>
-<td>If positive value is specified, the value of each layer output will be clipped between [0.0, clip_value]. This option is valid only when precision==int8 and used to manually specify the dynamic range instead of using any calibration</td>
-</tr>
-<tr>
-<td><code>preprocess_on_gpu</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, pre-processing is performed on GPU</td>
-</tr>
-<tr>
-<td><code>calibration_image_list_path</code></td>
-<td>string</td>
-<td>""</td>
-<td>Path to a file which contains path to images. Those images will be used for int8 quantization.</td>
-</tr>
-<tr>
-<td><code>yolox_s_plus_opt_param_path</code></td>
-<td>string</td>
-<td>""</td>
-<td>Path to parameter file</td>
-</tr>
-<tr>
-<td><code>is_publish_color_mask</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, publish color mask for result visualization</td>
-</tr>
-<tr>
-<td><code>is_roi_overlap_segment</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, overlay detected object roi onto semantic segmentation to avoid over-filtering pointcloud especially small size objects</td>
-</tr>
-<tr>
-<td><code>overlap_roi_score_threshold</code></td>
+<td>dla_core_id</td>
 <td>float</td>
-<td>0.3</td>
-<td>minimum existence_probability of detected roi considered to replace segmentation</td>
+<td>If positive ID value is specified, the node assign inference task to the DLA core.</td>
+<td>-1</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.UNKNOWN</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, unknown objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>quantize_first_layer</td>
+<td>boolean</td>
+<td>If true, set the operating precision for the first (input) layer to be fp16. This option is valid only when precision==int8.</td>
+<td>False</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.CAR</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, car objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>quantize_last_layer</td>
+<td>boolean</td>
+<td>If true, set the operating precision for the last (output) layer to be fp16. This option is valid only when precision==int8.</td>
+<td>False</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.TRUCK</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, truck objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>profile_per_layer</td>
+<td>boolean</td>
+<td>If true, profiler function will be enabled. Since the profile function may affect execution speed, it is recommended to set this flag true only for development purpose.</td>
+<td>False</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.BUS</code></td>
-<td>bool</td>
-<td>false</td>
-<td>If true, bus objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>clip_value</td>
+<td>float</td>
+<td>If positive value is specified, the value of each layer output will be clipped between [0.0, clip_value]. This option is valid only when precision==int8 and used to manually specify the dynamic range instead of using any calibration.</td>
+<td>6.0</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.MOTORCYCLE</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, motorcycle objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>preprocess_on_gpu</td>
+<td>boolean</td>
+<td>If true, pre-processing is performed on GPU.</td>
+<td>True</td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.BICYCLE</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, bicycle objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>calibration_image_list_path</td>
+<td>string</td>
+<td>Path to a file which contains path to images. Those images will be used for int8 quantization.</td>
+<td></td>
+<td>N/A</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.PEDESTRIAN</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, pedestrian objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>Name</td>
+<td>Type</td>
+<td>Description</td>
+<td>Default</td>
+<td>Range</td>
 </tr>
 <tr>
-<td><code>roi_overlay_segment_label.ANIMAL</code></td>
-<td>bool</td>
-<td>true</td>
-<td>If true, animal objects roi will be overlaid onto sematic segmentation mask.</td>
+<td>-----------------------------</td>
+<td>---------</td>
+<td>-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------</td>
+<td>--------------------------------------------------------</td>
+<td>---------------</td>
+</tr>
+<tr>
+<td>model_path</td>
+<td>string</td>
+<td>Path to onnx model.</td>
+<td><span class="arithmatex">\((var data_path)/tensorrt_yolox/\)</span>(var model_name).onnx</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>label_path</td>
+<td>string</td>
+<td>Path to label file.</td>
+<td>$(var data_path)/tensorrt_yolox/label.txt</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>score_threshold</td>
+<td>float</td>
+<td>A threshold value of existence probability score, all of objects with score less than this threshold are ignored.</td>
+<td>0.35</td>
+<td>≥0.0<br>≤1.0</td>
+</tr>
+<tr>
+<td>nms_threshold</td>
+<td>float</td>
+<td>A threshold value of NMS.</td>
+<td>0.7</td>
+<td>≥0.0<br>≤1.0</td>
+</tr>
+<tr>
+<td>precision</td>
+<td>string</td>
+<td>Operation precision to be used on inference. Valid value is one of: [fp32, fp16, int8].</td>
+<td>fp16</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>calibration_algorithm</td>
+<td>string</td>
+<td>Calibration algorithm to be used for quantization when precision==int8. Valid value is one of: [Entropy, (Legacy</td>
+<td>Percentile), MinMax].</td>
+<td>MinMax</td>
+</tr>
+<tr>
+<td>dla_core_id</td>
+<td>float</td>
+<td>If positive ID value is specified, the node assign inference task to the DLA core.</td>
+<td>-1</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>quantize_first_layer</td>
+<td>boolean</td>
+<td>If true, set the operating precision for the first (input) layer to be fp16. This option is valid only when precision==int8.</td>
+<td>False</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>quantize_last_layer</td>
+<td>boolean</td>
+<td>If true, set the operating precision for the last (output) layer to be fp16. This option is valid only when precision==int8.</td>
+<td>False</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>profile_per_layer</td>
+<td>boolean</td>
+<td>If true, profiler function will be enabled. Since the profile function may affect execution speed, it is recommended to set this flag true only for development purpose.</td>
+<td>False</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>clip_value</td>
+<td>float</td>
+<td>If positive value is specified, the value of each layer output will be clipped between [0.0, clip_value]. This option is valid only when precision==int8 and used to manually specify the dynamic range instead of using any calibration.</td>
+<td>0.0</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>preprocess_on_gpu</td>
+<td>boolean</td>
+<td>If true, pre-processing is performed on GPU.</td>
+<td>True</td>
+<td>N/A</td>
+</tr>
+<tr>
+<td>calibration_image_list_path</td>
+<td>string</td>
+<td>Path to a file which contains path to images. Those images will be used for int8 quantization.</td>
+<td></td>
+<td>N/A</td>
 </tr>
 </tbody>
 </table>
