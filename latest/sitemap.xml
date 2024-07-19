@@ -651,6 +651,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/latest/perception/autoware_tracking_object_merger/</loc>
+         <lastmod>2024-07-19</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/latest/perception/bytetrack/</loc>
          <lastmod>2024-07-19</lastmod>
          <changefreq>daily</changefreq>
@@ -832,11 +837,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/latest/perception/tensorrt_yolox/</loc>
-         <lastmod>2024-07-19</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/latest/perception/tracking_object_merger/</loc>
          <lastmod>2024-07-19</lastmod>
          <changefreq>daily</changefreq>
     </url>
