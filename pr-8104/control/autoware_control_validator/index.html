@@ -13201,17 +13201,13 @@ The listed features below does not always correspond to the latest implementatio
 <tr>
 <td>Inverse velocity: Measured velocity has a different sign from the target velocity.</td>
 <td>measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold velocity parameter <span class="arithmatex">\(k\)</span></td>
-<td align="center">
-<script type="math/tex; mode=display"> v \hat{v} < 0, \quad \lvert v \rvert > k </script>
-</td>
+<td align="center"><span class="arithmatex">\(v \hat{v} &lt; 0, \quad \lvert v \rvert &gt; k\)</span></td>
 <td><code>checkValidVelocityDeviation()</code></td>
 </tr>
 <tr>
 <td>Overspeed: Measured speed exceeds target speed significantly.</td>
 <td>measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold ratio parameter <span class="arithmatex">\(r\)</span></td>
-<td align="center">
-<script type="math/tex; mode=display"> \lvert v \rvert > (1 + r) \lvert \hat{v} \rvert </script>
-</td>
+<td align="center"><span class="arithmatex">\(\lvert v \rvert &gt; (1 + r) \lvert \hat{v} \rvert\)</span></td>
 <td><code>checkValidVelocityDeviation()</code></td>
 </tr>
 </tbody>
