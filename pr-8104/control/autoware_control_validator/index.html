@@ -13190,7 +13190,7 @@
 The listed features below does not always correspond to the latest implementation.
 | Description | Arguments | Diagnostic equation | Implemented function name |
 | ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | :--------------------------------: | ------------------------------- |
-| Inverse velocity: Measured velocity has a different sign from the target velocity. | measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold velocity parameter <span class="arithmatex">\(k\)</span> | $ v \hat{v} &lt; 0,~ \lvert v \rvert &gt; k $ | <code>checkValidVelocityDeviation()</code> |
+| Inverse velocity: Measured velocity has a different sign from the target velocity. | measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold velocity parameter <span class="arithmatex">\(k\)</span> | $ v \hat{v} &lt; 0, \quad \lvert v \rvert &gt; k $ | <code>checkValidVelocityDeviation()</code> |
 | Overspeed: Measured speed exceeds target speed significantly. | measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold ratio parameter <span class="arithmatex">\(r\)</span> | $ \lvert v \rvert &gt; (1 + r) \lvert \hat{v} \rvert $ | <code>checkValidVelocityDeviation()</code> |</p>
 <ul>
 <li><strong>Deviation check between reference trajectory and predicted trajectory</strong> : invalid when the largest deviation between the predicted trajectory and reference trajectory is greater than the given threshold.</li>
