@@ -13187,11 +13187,31 @@
 <p><img alt="control_validator" src="image/control_validator.drawio.svg"></p>
 <h2 id="supported-features">Supported features<a class="headerlink" href="#supported-features" title="Permanent link">#</a></h2>
 <p>The following features are supported for the validation and can have thresholds set by parameters.
-The listed features below does not always correspond to the latest implementation.
-| Description | Arguments | Diagnostic equation | Implemented function name |
-| ---------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | :--------------------------------: | ------------------------------- |
-| Inverse velocity: Measured velocity has a different sign from the target velocity. | measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold velocity parameter <span class="arithmatex">\(k\)</span> | $v\hat{v}&lt;0,~|v|&gt;k $       | <code>checkValidVelocityDeviation()</code> |
-| Overspeed: Measured speed exceeds target speed significantly.                      | measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold ratio parameter <span class="arithmatex">\(r\)</span> | $| v | &gt; (1 + r) | \hat{v} | $ | <code>checkValidVelocityDeviation()</code> |</p>
+The listed features below does not always correspond to the latest implementation.</p>
+<table>
+<thead>
+<tr>
+<th>Description</th>
+<th>Arguments</th>
+<th align="center">Diagnostic equation</th>
+<th>Implemented function name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inverse velocity: Measured velocity has a different sign from the target velocity.</td>
+<td>measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold velocity parameter <span class="arithmatex">\(k\)</span></td>
+<td align="center"><span class="arithmatex">\(v \hat{v} &lt; 0, \quad \lvert v \rvert &gt; k\)</span></td>
+<td><code>checkValidVelocityDeviation()</code></td>
+</tr>
+<tr>
+<td>Overspeed: Measured speed exceeds target speed significantly.</td>
+<td>measured velocity <span class="arithmatex">\(v\)</span>, target velocity <span class="arithmatex">\(\hat{v}\)</span>, and threshold ratio parameter <span class="arithmatex">\(r\)</span></td>
+<td align="center"><span class="arithmatex">\(\lvert v \rvert &gt; (1 + r) \lvert \hat{v} \rvert\)</span></td>
+<td><code>checkValidVelocityDeviation()</code></td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li><strong>Deviation check between reference trajectory and predicted trajectory</strong> : invalid when the largest deviation between the predicted trajectory and reference trajectory is greater than the given threshold.</li>
 </ul>
