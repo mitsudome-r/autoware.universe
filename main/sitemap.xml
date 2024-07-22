@@ -1216,6 +1216,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/autoware_image_diagnostics/</loc>
+         <lastmod>2024-07-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/autoware_pointcloud_preprocessor/</loc>
          <lastmod>2024-07-22</lastmod>
          <changefreq>daily</changefreq>
@@ -1292,11 +1297,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/gnss_poser/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/image_diagnostics/</loc>
          <lastmod>2024-07-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
