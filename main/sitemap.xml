@@ -596,6 +596,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/autoware_euclidean_cluster/</loc>
+         <lastmod>2024-07-22</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/autoware_map_based_prediction/</loc>
          <lastmod>2024-07-22</lastmod>
          <changefreq>daily</changefreq>
@@ -712,11 +717,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/elevation_map_loader/</loc>
-         <lastmod>2024-07-22</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/euclidean_cluster/</loc>
          <lastmod>2024-07-22</lastmod>
          <changefreq>daily</changefreq>
     </url>
