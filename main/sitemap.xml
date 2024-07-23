@@ -1296,6 +1296,21 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/autoware_radar_scan_to_pointcloud2/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/autoware_radar_static_pointcloud_filter/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/autoware_radar_threshold_filter/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/gnss_poser/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
@@ -1312,21 +1327,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/livox/autoware_livox_tag_filter/</loc>
-         <lastmod>2024-07-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/radar_scan_to_pointcloud2/</loc>
-         <lastmod>2024-07-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/radar_static_pointcloud_filter/</loc>
-         <lastmod>2024-07-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/main/sensing/radar_threshold_filter/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
