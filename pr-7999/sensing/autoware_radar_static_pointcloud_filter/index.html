@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/pr-7999/sensing/radar_threshold_filter/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/pr-7999/sensing/autoware_radar_static_pointcloud_filter/">
       
       
-        <link rel="prev" href="../radar_static_pointcloud_filter/">
+        <link rel="prev" href="../autoware_radar_scan_to_pointcloud2/">
       
       
-        <link rel="next" href="../radar_tracks_noise_filter/">
+        <link rel="next" href="../autoware_radar_threshold_filter/">
       
       <link rel="icon" href="../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>radar_threshold_filter - Autoware Universe Documentation</title>
+        <title>radar_static_pointcloud_filter - Autoware Universe Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#radar_threshold_filter" class="md-skip">
+        <a href="#radar_static_pointcloud_filter" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              radar_threshold_filter
+              radar_static_pointcloud_filter
             
           </span>
         </div>
@@ -5462,22 +5462,114 @@
             
           
         
+          
+        
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_lidar_centerpoint/">Autoware lidar centerpoint</a>
+          <a href="../../perception/autoware_ground_segmentation/">Autoware ground segmentation</a>
+          
+            <label for="__nav_7_7">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_7">
           <span class="md-nav__icon md-icon"></span>
-          Autoware lidar centerpoint
+          Autoware ground segmentation
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_7_2" >
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7_7_2" id="__nav_7_7_2_label" tabindex="0">
+          Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_7_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_7_2">
+          <span class="md-nav__icon md-icon"></span>
+          Docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../perception/autoware_ground_segmentation/docs/ransac-ground-filter/" class="md-nav__link">
+        RANSAC Ground Filter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../perception/autoware_ground_segmentation/docs/ray-ground-filter/" class="md-nav__link">
+        Ray Ground Filter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../perception/autoware_ground_segmentation/docs/scan-ground-filter/" class="md-nav__link">
+        Scan Ground Filter
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
             
           
         </ul>
@@ -5515,14 +5607,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_lidar_transfusion/">Autoware lidar transfusion</a>
+          <a href="../../perception/autoware_lidar_centerpoint/">Autoware lidar centerpoint</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_8">
           <span class="md-nav__icon md-icon"></span>
-          Autoware lidar transfusion
+          Autoware lidar centerpoint
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5563,14 +5655,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_map_based_prediction/">Autoware map based prediction</a>
+          <a href="../../perception/autoware_lidar_transfusion/">Autoware lidar transfusion</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_9_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_9">
           <span class="md-nav__icon md-icon"></span>
-          Autoware map based prediction
+          Autoware lidar transfusion
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5606,6 +5698,54 @@
             
           
         
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../perception/autoware_map_based_prediction/">Autoware map based prediction</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_10">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware map based prediction
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_11" >
+      
+      
+        
+          
+            
+          
+        
           
         
       
@@ -5615,14 +5755,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../perception/autoware_multi_object_tracker/">Autoware multi object tracker</a>
           
-            <label for="__nav_7_10">
+            <label for="__nav_7_11">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_10">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_11">
           <span class="md-nav__icon md-icon"></span>
           Autoware multi object tracker
         </label>
@@ -5666,7 +5806,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_11" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_12" >
       
       
         
@@ -5683,58 +5823,10 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_11">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware object merger
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_12" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_object_range_splitter/">Autoware object range splitter</a>
-          
-        </div>
-      
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_12">
           <span class="md-nav__icon md-icon"></span>
-          Autoware object range splitter
+          Autoware object merger
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5775,14 +5867,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_object_velocity_splitter/">Autoware object velocity splitter</a>
+          <a href="../../perception/autoware_object_range_splitter/">Autoware object range splitter</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_13_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_13">
           <span class="md-nav__icon md-icon"></span>
-          Autoware object velocity splitter
+          Autoware object range splitter
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5823,14 +5915,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_radar_crossing_objects_noise_filter/">Autoware radar crossing objects noise filter</a>
+          <a href="../../perception/autoware_object_velocity_splitter/">Autoware object velocity splitter</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_14_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_14">
           <span class="md-nav__icon md-icon"></span>
-          Autoware radar crossing objects noise filter
+          Autoware object velocity splitter
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -5866,6 +5958,54 @@
             
           
         
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../perception/autoware_radar_crossing_objects_noise_filter/">Autoware radar crossing objects noise filter</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_15">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware radar crossing objects noise filter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_16" >
+      
+      
+        
+          
+            
+          
+        
           
         
       
@@ -5875,14 +6015,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../perception/autoware_radar_fusion_to_detected_object/">Autoware radar fusion to detected object</a>
           
-            <label for="__nav_7_15">
+            <label for="__nav_7_16">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_15_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_15">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_16">
           <span class="md-nav__icon md-icon"></span>
           Autoware radar fusion to detected object
         </label>
@@ -5903,7 +6043,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_15_2" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_16_2" >
       
       
         
@@ -5911,13 +6051,13 @@
         
       
       
-        <label class="md-nav__link" for="__nav_7_15_2" id="__nav_7_15_2_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_7_16_2" id="__nav_7_16_2_label" tabindex="0">
           Docs
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_15_2_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_15_2">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_16_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_16_2">
           <span class="md-nav__icon md-icon"></span>
           Docs
         </label>
@@ -5966,7 +6106,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_16" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_17" >
       
       
         
@@ -5983,8 +6123,8 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_16_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_16">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_17_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_17">
           <span class="md-nav__icon md-icon"></span>
           Autoware radar object clustering
         </label>
@@ -6014,7 +6154,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_17" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_18" >
       
       
         
@@ -6031,14 +6171,14 @@
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../perception/autoware_radar_object_tracker/">Autoware radar object tracker</a>
           
-            <label for="__nav_7_17">
+            <label for="__nav_7_18">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_17_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_17">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_18_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_18">
           <span class="md-nav__icon md-icon"></span>
           Autoware radar object tracker
         </label>
@@ -6082,7 +6222,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_18" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_19" >
       
       
         
@@ -6090,13 +6230,13 @@
         
       
       
-        <label class="md-nav__link" for="__nav_7_18" id="__nav_7_18_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_7_19" id="__nav_7_19_label" tabindex="0">
           Autoware raindrop cluster filter
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_18_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_18">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_19">
           <span class="md-nav__icon md-icon"></span>
           Autoware raindrop cluster filter
         </label>
@@ -6138,7 +6278,7 @@
       
         
       
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_19" >
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_20" >
       
       
         
@@ -6155,58 +6295,10 @@
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_19_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_19">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware shape estimation
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_20" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_tensorrt_classifier/">Autoware tensorrt classifier</a>
-          
-        </div>
-      
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_20_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_20">
           <span class="md-nav__icon md-icon"></span>
-          Autoware tensorrt classifier
+          Autoware shape estimation
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -6247,14 +6339,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/autoware_tracking_object_merger/">Autoware tracking object merger</a>
+          <a href="../../perception/autoware_tensorrt_classifier/">Autoware tensorrt classifier</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_21_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_21">
           <span class="md-nav__icon md-icon"></span>
-          Autoware tracking object merger
+          Autoware tensorrt classifier
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -6295,14 +6387,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/bytetrack/">Bytetrack</a>
+          <a href="../../perception/autoware_tracking_object_merger/">Autoware tracking object merger</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_22_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_22">
           <span class="md-nav__icon md-icon"></span>
-          Bytetrack
+          Autoware tracking object merger
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -6343,14 +6435,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/compare_map_segmentation/">Compare map segmentation</a>
+          <a href="../../perception/bytetrack/">Bytetrack</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_23_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_23">
           <span class="md-nav__icon md-icon"></span>
-          Compare map segmentation
+          Bytetrack
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -6391,14 +6483,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/elevation_map_loader/">Elevation map loader</a>
+          <a href="../../perception/compare_map_segmentation/">Compare map segmentation</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_24_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_24">
           <span class="md-nav__icon md-icon"></span>
-          Elevation map loader
+          Compare map segmentation
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -6434,114 +6526,22 @@
             
           
         
-          
-        
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../perception/ground_segmentation/">Ground segmentation</a>
-          
-            <label for="__nav_7_25">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
+          <a href="../../perception/elevation_map_loader/">Elevation map loader</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_25_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_7_25">
           <span class="md-nav__icon md-icon"></span>
-          Ground segmentation
+          Elevation map loader
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_25_2" >
-      
-      
-        
-          
-        
-          
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_7_25_2" id="__nav_7_25_2_label" tabindex="0">
-          Docs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_25_2_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_25_2">
-          <span class="md-nav__icon md-icon"></span>
-          Docs
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../perception/ground_segmentation/docs/ransac-ground-filter/" class="md-nav__link">
-        RANSAC Ground Filter
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../perception/ground_segmentation/docs/ray-ground-filter/" class="md-nav__link">
-        Ray Ground Filter
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../perception/ground_segmentation/docs/scan-ground-filter/" class="md-nav__link">
-        Scan Ground Filter
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
             
           
         </ul>
@@ -9833,14 +9833,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../gnss_poser/">Gnss poser</a>
+          <a href="../autoware_radar_scan_to_pointcloud2/">Autoware radar scan to pointcloud2</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_3_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_9_3">
           <span class="md-nav__icon md-icon"></span>
-          Gnss poser
+          Autoware radar scan to pointcloud2
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -9857,18 +9857,18 @@
               
   
   
+    
+  
   
     
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
       
       
       
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_4" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_4" checked>
       
       
         
@@ -9880,15 +9880,15 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../image_transport_decompressor/">Image transport decompressor</a>
+        <div class="md-nav__link md-nav__link--index md-nav__link--active">
+          <a href="./">Autoware radar static pointcloud filter</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_4_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_4_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_9_4">
           <span class="md-nav__icon md-icon"></span>
-          Image transport decompressor
+          Autoware radar static pointcloud filter
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -9929,14 +9929,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../imu_corrector/">Imu corrector</a>
+          <a href="../autoware_radar_threshold_filter/">Autoware radar threshold filter</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_5_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_9_5">
           <span class="md-nav__icon md-icon"></span>
-          Imu corrector
+          Autoware radar threshold filter
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -9969,39 +9969,6 @@
       
         
           
-        
-      
-      
-        <label class="md-nav__link" for="__nav_9_6" id="__nav_9_6_label" tabindex="0">
-          Livox
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_9_6">
-          <span class="md-nav__icon md-icon"></span>
-          Livox
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_6_1" >
-      
-      
-        
-          
             
           
         
@@ -10010,24 +9977,17 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../livox/autoware_livox_tag_filter/">Autoware livox tag filter</a>
+          <a href="../gnss_poser/">Gnss poser</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_9_6_1_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_9_6_1">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_6_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9_6">
           <span class="md-nav__icon md-icon"></span>
-          Autoware livox tag filter
+          Gnss poser
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
             
           
         </ul>
@@ -10065,14 +10025,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../radar_scan_to_pointcloud2/">Radar scan to pointcloud2</a>
+          <a href="../image_transport_decompressor/">Image transport decompressor</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_7_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_9_7">
           <span class="md-nav__icon md-icon"></span>
-          Radar scan to pointcloud2
+          Image transport decompressor
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -10113,14 +10073,14 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../radar_static_pointcloud_filter/">Radar static pointcloud filter</a>
+          <a href="../imu_corrector/">Imu corrector</a>
           
         </div>
       
       <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_8_label" aria-expanded="false">
         <label class="md-nav__title" for="__nav_9_8">
           <span class="md-nav__icon md-icon"></span>
-          Radar static pointcloud filter
+          Imu corrector
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -10137,18 +10097,51 @@
               
   
   
-    
-  
   
     
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9_9" checked>
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_9" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_9_9" id="__nav_9_9_label" tabindex="0">
+          Livox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9_9">
+          <span class="md-nav__icon md-icon"></span>
+          Livox
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9_9_1" >
       
       
         
@@ -10160,18 +10153,25 @@
       
         
         
-        <div class="md-nav__link md-nav__link--index md-nav__link--active">
-          <a href="./">Radar threshold filter</a>
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../livox/autoware_livox_tag_filter/">Autoware livox tag filter</a>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_9_9_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_9_9">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_9_9_1_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_9_9_1">
           <span class="md-nav__icon md-icon"></span>
-          Radar threshold filter
+          Autoware livox tag filter
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
             
           
         </ul>
@@ -13154,11 +13154,11 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#radar_threshold_filter_node" class="md-nav__link">
-    radar_threshold_filter_node
+  <a href="#radar_static_pointcloud_filter_node" class="md-nav__link">
+    radar_static_pointcloud_filter_node
   </a>
   
-    <nav class="md-nav" aria-label="radar_threshold_filter_node">
+    <nav class="md-nav" aria-label="radar_static_pointcloud_filter_node">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -13189,6 +13189,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#algorithm" class="md-nav__link">
+    Algorithm
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -13212,15 +13219,10 @@
   
 
 
-<div><h1 id="radar_threshold_filter">radar_threshold_filter<a class="headerlink" href="#radar_threshold_filter" title="Permanent link">#</a></h1>
-<h2 id="radar_threshold_filter_node">radar_threshold_filter_node<a class="headerlink" href="#radar_threshold_filter_node" title="Permanent link">#</a></h2>
-<p>Remove noise from radar return by threshold.</p>
-<ul>
-<li>Amplitude filter: Low amplitude consider noise</li>
-<li>FOV filter: Pointcloud from radar's FOV edge occur perturbation</li>
-<li>Range filter: Too near pointcloud often occur noise</li>
-</ul>
-<p>Calculation cost is O(n). <code>n</code> is the number of radar return.</p>
+<div><h1 id="radar_static_pointcloud_filter">radar_static_pointcloud_filter<a class="headerlink" href="#radar_static_pointcloud_filter" title="Permanent link">#</a></h1>
+<h2 id="radar_static_pointcloud_filter_node">radar_static_pointcloud_filter_node<a class="headerlink" href="#radar_static_pointcloud_filter_node" title="Permanent link">#</a></h2>
+<p>Extract static/dynamic radar pointcloud by using doppler velocity and ego motion.
+Calculation cost is O(n). <code>n</code> is the number of radar pointcloud.</p>
 <h3 id="input-topics">Input topics<a class="headerlink" href="#input-topics" title="Permanent link">#</a></h3>
 <table>
 <thead>
@@ -13233,8 +13235,13 @@
 <tbody>
 <tr>
 <td>input/radar</td>
-<td>radar_msgs/msg/RadarScan.msg</td>
-<td>Radar pointcloud data</td>
+<td>radar_msgs::msg::RadarScan</td>
+<td>RadarScan</td>
+</tr>
+<tr>
+<td>input/odometry</td>
+<td>nav_msgs::msg::Odometry</td>
+<td>Ego vehicle odometry topic</td>
 </tr>
 </tbody>
 </table>
@@ -13249,16 +13256,18 @@
 </thead>
 <tbody>
 <tr>
-<td>output/radar</td>
-<td>radar_msgs/msg/RadarScan.msg</td>
-<td>Filtered radar pointcloud</td>
+<td>output/static_radar_scan</td>
+<td>radar_msgs::msg::RadarScan</td>
+<td>static radar pointcloud</td>
+</tr>
+<tr>
+<td>output/dynamic_radar_scan</td>
+<td>radar_msgs::msg::RadarScan</td>
+<td>dynamic radar pointcloud</td>
 </tr>
 </tbody>
 </table>
 <h3 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h3>
-<ul>
-<li>For node parameter</li>
-</ul>
 <table>
 <thead>
 <tr>
@@ -13269,70 +13278,17 @@
 </thead>
 <tbody>
 <tr>
-<td>is_amplitude_filter</td>
-<td>bool</td>
-<td>if this parameter is true, apply amplitude filter (publish amplitude_min &lt; amplitude &lt; amplitude_max)</td>
-</tr>
-<tr>
-<td>amplitude_min</td>
+<td>doppler_velocity_sd</td>
 <td>double</td>
-<td>[dBm^2]</td>
-</tr>
-<tr>
-<td>amplitude_max</td>
-<td>double</td>
-<td>[dBm^2]</td>
-</tr>
-<tr>
-<td>is_range_filter</td>
-<td>bool</td>
-<td>if this parameter is true, apply range filter (publish range_min &lt; range &lt; range_max)</td>
-</tr>
-<tr>
-<td>range_min</td>
-<td>double</td>
-<td>[m]</td>
-</tr>
-<tr>
-<td>range_max</td>
-<td>double</td>
-<td>[m]</td>
-</tr>
-<tr>
-<td>is_azimuth_filter</td>
-<td>bool</td>
-<td>if this parameter is true, apply angle filter (publish azimuth_min &lt; range &lt; azimuth_max)</td>
-</tr>
-<tr>
-<td>azimuth_min</td>
-<td>double</td>
-<td>[rad]</td>
-</tr>
-<tr>
-<td>azimuth_max</td>
-<td>double</td>
-<td>[rad]</td>
-</tr>
-<tr>
-<td>is_z_filter</td>
-<td>bool</td>
-<td>if this parameter is true, apply z position filter (publish z_min &lt; z &lt; z_max)</td>
-</tr>
-<tr>
-<td>z_min</td>
-<td>double</td>
-<td>[m]</td>
-</tr>
-<tr>
-<td>z_max</td>
-<td>double</td>
-<td>[m]</td>
+<td>Standard deviation for radar doppler velocity. [m/s]</td>
 </tr>
 </tbody>
 </table>
 <h3 id="how-to-launch">How to launch<a class="headerlink" href="#how-to-launch" title="Permanent link">#</a></h3>
-<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>launch<span class="w"> </span>radar_threshold_filter<span class="w"> </span>radar_threshold_filter.launch.xml
-</code></pre></div></div>
+<div class="highlight"><pre><span></span><code>ros2<span class="w"> </span>launch<span class="w"> </span>autoware_radar_static_pointcloud_filter<span class="w"> </span>radar_static_pointcloud_filter.launch.xml
+</code></pre></div>
+<h3 id="algorithm">Algorithm<a class="headerlink" href="#algorithm" title="Permanent link">#</a></h3>
+<p><img alt="algorithm" src="docs/radar_static_pointcloud_filter.drawio.svg"></p></div>
 
 
 
@@ -13359,7 +13315,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../radar_static_pointcloud_filter/" class="md-footer__link md-footer__link--prev" aria-label="Previous: radar_static_pointcloud_filter" rel="prev">
+          <a href="../autoware_radar_scan_to_pointcloud2/" class="md-footer__link md-footer__link--prev" aria-label="Previous: radar_scan_to_pointcloud2" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -13368,20 +13324,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                radar_static_pointcloud_filter
+                radar_scan_to_pointcloud2
               </div>
             </div>
           </a>
         
         
           
-          <a href="../radar_tracks_noise_filter/" class="md-footer__link md-footer__link--next" aria-label="Next: radar_tracks_noise_filter" rel="next">
+          <a href="../autoware_radar_threshold_filter/" class="md-footer__link md-footer__link--next" aria-label="Next: radar_threshold_filter" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                radar_tracks_noise_filter
+                radar_threshold_filter
               </div>
             </div>
             <div class="md-footer__button md-icon">
