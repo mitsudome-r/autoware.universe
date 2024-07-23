@@ -726,6 +726,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/autoware_shape_estimation/</loc>
+         <lastmod>2024-07-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/autoware_tensorrt_classifier/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
@@ -822,11 +827,6 @@
     </url>
     <url>
          <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/radar_tracks_msgs_converter/</loc>
-         <lastmod>2024-07-23</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://autowarefoundation.github.io/autoware.universe/main/perception/shape_estimation/</loc>
          <lastmod>2024-07-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
