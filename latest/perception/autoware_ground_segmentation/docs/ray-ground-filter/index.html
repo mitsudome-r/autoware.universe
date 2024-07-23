@@ -8,20 +8,20 @@
       
       
       
-        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/latest/perception/ground_segmentation/docs/ransac-ground-filter/">
+        <link rel="canonical" href="https://autowarefoundation.github.io/autoware.universe/latest/perception/autoware_ground_segmentation/docs/ray-ground-filter/">
       
       
-        <link rel="prev" href="../../">
+        <link rel="prev" href="../ransac-ground-filter/">
       
       
-        <link rel="next" href="../ray-ground-filter/">
+        <link rel="next" href="../scan-ground-filter/">
       
       <link rel="icon" href="../../../../docs/assets/images/autoware-foundation.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.20">
     
     
       
-        <title>RANSAC Ground Filter - Autoware Universe Documentation</title>
+        <title>Ray Ground Filter - Autoware Universe Documentation</title>
       
     
     
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ransac-ground-filter" class="md-skip">
+        <a href="#ray-ground-filter" class="md-skip">
           Skip to content
         </a>
       
@@ -116,7 +116,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              RANSAC Ground Filter
+              Ray Ground Filter
             
           </span>
         </div>
@@ -5443,930 +5443,6 @@
               
   
   
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_7" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_lidar_centerpoint/">Autoware lidar centerpoint</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_7_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_7">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware lidar centerpoint
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_8" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_lidar_transfusion/">Autoware lidar transfusion</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_8_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_8">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware lidar transfusion
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_9" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_map_based_prediction/">Autoware map based prediction</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_9_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_9">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware map based prediction
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_10" >
-      
-      
-        
-          
-            
-          
-        
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_multi_object_tracker/">Autoware multi object tracker</a>
-          
-            <label for="__nav_7_10">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_10">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware multi object tracker
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../autoware_multi_object_tracker/models/" class="md-nav__link">
-        Models used in this module
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_11" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_object_merger/">Autoware object merger</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_11">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware object merger
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_12" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_object_range_splitter/">Autoware object range splitter</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_12">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware object range splitter
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_13" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_object_velocity_splitter/">Autoware object velocity splitter</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_13_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_13">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware object velocity splitter
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_14" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_radar_crossing_objects_noise_filter/">Autoware radar crossing objects noise filter</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_14_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_14">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware radar crossing objects noise filter
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_15" >
-      
-      
-        
-          
-            
-          
-        
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_radar_fusion_to_detected_object/">Autoware radar fusion to detected object</a>
-          
-            <label for="__nav_7_15">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_15_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_15">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware radar fusion to detected object
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-            
-              
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_15_2" >
-      
-      
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_7_15_2" id="__nav_7_15_2_label" tabindex="0">
-          Docs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_15_2_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_15_2">
-          <span class="md-nav__icon md-icon"></span>
-          Docs
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../autoware_radar_fusion_to_detected_object/docs/algorithm/" class="md-nav__link">
-        Algorithm
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_16" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_radar_object_clustering/">Autoware radar object clustering</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_16_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_16">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware radar object clustering
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_17" >
-      
-      
-        
-          
-            
-          
-        
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_radar_object_tracker/">Autoware radar object tracker</a>
-          
-            <label for="__nav_7_17">
-              <span class="md-nav__icon md-icon"></span>
-            </label>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_17_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_17">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware radar object tracker
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../autoware_radar_object_tracker/models/" class="md-nav__link">
-        models
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_18" >
-      
-      
-        
-          
-        
-      
-      
-        <label class="md-nav__link" for="__nav_7_18" id="__nav_7_18_label" tabindex="0">
-          Autoware raindrop cluster filter
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_18_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_18">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware raindrop cluster filter
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../autoware_raindrop_cluster_filter/raindrop_cluster_filter/" class="md-nav__link">
-        low_intensity_cluster_filter
-      </a>
-    </li>
-  
-
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_19" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_tensorrt_classifier/">Autoware tensorrt classifier</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_19_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_19">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware tensorrt classifier
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_20" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../autoware_tracking_object_merger/">Autoware tracking object merger</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_20_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_20">
-          <span class="md-nav__icon md-icon"></span>
-          Autoware tracking object merger
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_21" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../bytetrack/">Bytetrack</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_21_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_21">
-          <span class="md-nav__icon md-icon"></span>
-          Bytetrack
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_22" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../compare_map_segmentation/">Compare map segmentation</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_22_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_22">
-          <span class="md-nav__icon md-icon"></span>
-          Compare map segmentation
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    
-      
-    
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
-      
-      
-      
-      
-        
-      
-      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_23" >
-      
-      
-        
-          
-            
-          
-        
-      
-      
-        
-        
-        <div class="md-nav__link md-nav__link--index ">
-          <a href="../../../elevation_map_loader/">Elevation map loader</a>
-          
-        </div>
-      
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_23_label" aria-expanded="false">
-        <label class="md-nav__title" for="__nav_7_23">
-          <span class="md-nav__icon md-icon"></span>
-          Elevation map loader
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
     
   
   
@@ -6378,7 +5454,7 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_24" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_7" checked>
       
       
         
@@ -6393,18 +5469,18 @@
         
         
         <div class="md-nav__link md-nav__link--index ">
-          <a href="../../">Ground segmentation</a>
+          <a href="../../">Autoware ground segmentation</a>
           
-            <label for="__nav_7_24">
+            <label for="__nav_7_7">
               <span class="md-nav__icon md-icon"></span>
             </label>
           
         </div>
       
-      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_24_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_7_24">
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_7_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_7_7">
           <span class="md-nav__icon md-icon"></span>
-          Ground segmentation
+          Autoware ground segmentation
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -6423,7 +5499,7 @@
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_24_2" checked>
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_7_2" checked>
       
       
         
@@ -6435,17 +5511,31 @@
         
       
       
-        <label class="md-nav__link" for="__nav_7_24_2" id="__nav_7_24_2_label" tabindex="0">
+        <label class="md-nav__link" for="__nav_7_7_2" id="__nav_7_7_2_label" tabindex="0">
           Docs
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_24_2_label" aria-expanded="true">
-        <label class="md-nav__title" for="__nav_7_24_2">
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_7_2_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_7_7_2">
           <span class="md-nav__icon md-icon"></span>
           Docs
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ransac-ground-filter/" class="md-nav__link">
+        RANSAC Ground Filter
+      </a>
+    </li>
+  
+
+            
           
             
               
@@ -6463,12 +5553,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          RANSAC Ground Filter
+          Ray Ground Filter
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        RANSAC Ground Filter
+        Ray Ground Filter
       </a>
       
         
@@ -6522,6 +5612,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#core-parameters" class="md-nav__link">
+    Core Parameters
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6549,8 +5646,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#referencesexternal-links" class="md-nav__link">
-    References/External links
+  <a href="#optional-referencesexternal-links" class="md-nav__link">
+    (Optional) References/External links
   </a>
   
 </li>
@@ -6577,20 +5674,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../ray-ground-filter/" class="md-nav__link">
-        Ray Ground Filter
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../scan-ground-filter/" class="md-nav__link">
         Scan Ground Filter
       </a>
@@ -6604,6 +5687,930 @@
     </li>
   
 
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_8" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_lidar_centerpoint/">Autoware lidar centerpoint</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_8_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_8">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware lidar centerpoint
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_9" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_lidar_transfusion/">Autoware lidar transfusion</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_9_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_9">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware lidar transfusion
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_10" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_map_based_prediction/">Autoware map based prediction</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_10">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware map based prediction
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_11" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_multi_object_tracker/">Autoware multi object tracker</a>
+          
+            <label for="__nav_7_11">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_11">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware multi object tracker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autoware_multi_object_tracker/models/" class="md-nav__link">
+        Models used in this module
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_12" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_object_merger/">Autoware object merger</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_12">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware object merger
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_13" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_object_range_splitter/">Autoware object range splitter</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_13_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_13">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware object range splitter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_14" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_object_velocity_splitter/">Autoware object velocity splitter</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_14_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_14">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware object velocity splitter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_15" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_radar_crossing_objects_noise_filter/">Autoware radar crossing objects noise filter</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_15_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_15">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware radar crossing objects noise filter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_16" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_radar_fusion_to_detected_object/">Autoware radar fusion to detected object</a>
+          
+            <label for="__nav_7_16">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_16_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_16">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware radar fusion to detected object
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_16_2" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7_16_2" id="__nav_7_16_2_label" tabindex="0">
+          Docs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_16_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_16_2">
+          <span class="md-nav__icon md-icon"></span>
+          Docs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autoware_radar_fusion_to_detected_object/docs/algorithm/" class="md-nav__link">
+        Algorithm
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_17" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_radar_object_clustering/">Autoware radar object clustering</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_17_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_17">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware radar object clustering
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_18" >
+      
+      
+        
+          
+            
+          
+        
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_radar_object_tracker/">Autoware radar object tracker</a>
+          
+            <label for="__nav_7_18">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_18_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_18">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware radar object tracker
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autoware_radar_object_tracker/models/" class="md-nav__link">
+        models
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_19" >
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7_19" id="__nav_7_19_label" tabindex="0">
+          Autoware raindrop cluster filter
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_19_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_19">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware raindrop cluster filter
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../autoware_raindrop_cluster_filter/raindrop_cluster_filter/" class="md-nav__link">
+        low_intensity_cluster_filter
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_20" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_tensorrt_classifier/">Autoware tensorrt classifier</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_20_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_20">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware tensorrt classifier
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_21" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../autoware_tracking_object_merger/">Autoware tracking object merger</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_21_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_21">
+          <span class="md-nav__icon md-icon"></span>
+          Autoware tracking object merger
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_22" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../bytetrack/">Bytetrack</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_22_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_22">
+          <span class="md-nav__icon md-icon"></span>
+          Bytetrack
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_23" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../compare_map_segmentation/">Compare map segmentation</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_23_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_23">
+          <span class="md-nav__icon md-icon"></span>
+          Compare map segmentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+      
+      
+        
+      
+      <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7_24" >
+      
+      
+        
+          
+            
+          
+        
+      
+      
+        
+        
+        <div class="md-nav__link md-nav__link--index ">
+          <a href="../../../elevation_map_loader/">Elevation map loader</a>
+          
+        </div>
+      
+      <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_24_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_7_24">
+          <span class="md-nav__icon md-icon"></span>
+          Elevation map loader
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
             
           
         </ul>
@@ -13299,6 +13306,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#core-parameters" class="md-nav__link">
+    Core Parameters
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -13326,8 +13340,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#referencesexternal-links" class="md-nav__link">
-    References/External links
+  <a href="#optional-referencesexternal-links" class="md-nav__link">
+    (Optional) References/External links
   </a>
   
 </li>
@@ -13357,17 +13371,19 @@
   
 
 
-<div><h1 id="ransac-ground-filter">RANSAC Ground Filter<a class="headerlink" href="#ransac-ground-filter" title="Permanent link">#</a></h1>
+<div><h1 id="ray-ground-filter">Ray Ground Filter<a class="headerlink" href="#ray-ground-filter" title="Permanent link">#</a></h1>
 <h2 id="purpose">Purpose<a class="headerlink" href="#purpose" title="Permanent link">#</a></h2>
 <p>The purpose of this node is that remove the ground points from the input pointcloud.</p>
 <h2 id="inner-workings-algorithms">Inner-workings / Algorithms<a class="headerlink" href="#inner-workings-algorithms" title="Permanent link">#</a></h2>
-<p>Apply the input points to the plane, and set the points at a certain distance from the plane as points other than the ground. Normally, whn using this method, the input points is filtered so that it is almost flat before use. Since the drivable area is often flat, there are methods such as filtering by lane.</p>
+<p>The points is separated radially (Ray), and the ground is classified for each Ray sequentially from the point close to ego-vehicle based on the geometric information such as the distance and angle between the points.</p>
+<p><img alt="ray-xy" src="../image/ground_filter-ray-xy.drawio.svg"></p>
 <h2 id="inputs-outputs">Inputs / Outputs<a class="headerlink" href="#inputs-outputs" title="Permanent link">#</a></h2>
 <p>This implementation inherits <code>autoware::pointcloud_preprocessor::Filter</code> class, please refer <a href="../../">README</a>.</p>
 <h2 id="parameters">Parameters<a class="headerlink" href="#parameters" title="Permanent link">#</a></h2>
 <h3 id="node-parameters">Node Parameters<a class="headerlink" href="#node-parameters" title="Permanent link">#</a></h3>
 <p>This implementation inherits <code>autoware::pointcloud_preprocessor::Filter</code> class, please refer <a href="../../">README</a>.</p>
-<h4 id="core-parameters">Core Parameters<a class="headerlink" href="#core-parameters" title="Permanent link">#</a></h4>
+<h3 id="core-parameters">Core Parameters<a class="headerlink" href="#core-parameters" title="Permanent link">#</a></h3>
+<p><img alt="ray-xz" src="../image/ground_filter-ray-xz.drawio.svg"></p>
 <table>
 <thead>
 <tr>
@@ -13378,66 +13394,77 @@
 </thead>
 <tbody>
 <tr>
-<td><code>base_frame</code></td>
+<td><code>input_frame</code></td>
 <td>string</td>
-<td>base_link frame</td>
+<td>frame id of input pointcloud</td>
 </tr>
 <tr>
-<td><code>unit_axis</code></td>
+<td><code>output_frame</code></td>
 <td>string</td>
-<td>The axis which we need to search ground plane</td>
+<td>frame id of output pointcloud</td>
 </tr>
 <tr>
-<td><code>max_iterations</code></td>
-<td>int</td>
-<td>The maximum number of iterations</td>
-</tr>
-<tr>
-<td><code>outlier_threshold</code></td>
+<td><code>general_max_slope</code></td>
 <td>double</td>
-<td>The distance threshold to the model [m]</td>
+<td>The triangle created by <code>general_max_slope</code> is called the global cone. If the point is outside the global cone, it is judged to be a point that is no on the ground</td>
 </tr>
 <tr>
-<td><code>plane_slope_threshold</code></td>
+<td><code>initial_max_slope</code></td>
 <td>double</td>
-<td>The slope threshold to prevent mis-fitting [deg]</td>
+<td>Generally, the point where the object first hits is far from ego-vehicle because of sensor blind spot, so resolution is different from that point and thereafter, so this parameter exists to set a separate <code>local_max_slope</code></td>
 </tr>
 <tr>
-<td><code>voxel_size_x</code></td>
+<td><code>local_max_slope</code></td>
 <td>double</td>
-<td>voxel size x [m]</td>
+<td>The triangle created by <code>local_max_slope</code> is called the local cone. This parameter for classification based on the continuity of points</td>
 </tr>
 <tr>
-<td><code>voxel_size_y</code></td>
+<td><code>min_height_threshold</code></td>
 <td>double</td>
-<td>voxel size y [m]</td>
+<td>This parameter is used instead of <code>height_threshold</code> because it's difficult to determine continuity in the local cone when the points are too close to each other.</td>
 </tr>
 <tr>
-<td><code>voxel_size_z</code></td>
+<td><code>radial_divider_angle</code></td>
 <td>double</td>
-<td>voxel size z [m]</td>
+<td>The angle of ray</td>
 </tr>
 <tr>
-<td><code>height_threshold</code></td>
+<td><code>concentric_divider_distance</code></td>
 <td>double</td>
-<td>The height threshold from ground plane for no ground points [m]</td>
+<td>Only check points which radius is larger than <code>concentric_divider_distance</code></td>
 </tr>
 <tr>
-<td><code>debug</code></td>
-<td>bool</td>
-<td>whether to output debug information</td>
+<td><code>reclass_distance_threshold</code></td>
+<td>double</td>
+<td>To check if point is to far from previous one, if so classify again</td>
+</tr>
+<tr>
+<td><code>min_x</code></td>
+<td>double</td>
+<td>The parameter to set vehicle footprint manually</td>
+</tr>
+<tr>
+<td><code>max_x</code></td>
+<td>double</td>
+<td>The parameter to set vehicle footprint manually</td>
+</tr>
+<tr>
+<td><code>min_y</code></td>
+<td>double</td>
+<td>The parameter to set vehicle footprint manually</td>
+</tr>
+<tr>
+<td><code>max_y</code></td>
+<td>double</td>
+<td>The parameter to set vehicle footprint manually</td>
 </tr>
 </tbody>
 </table>
 <h2 id="assumptions-known-limits">Assumptions / Known limits<a class="headerlink" href="#assumptions-known-limits" title="Permanent link">#</a></h2>
-<ul>
-<li>This method can't handle slopes.</li>
-<li>The input points is filtered so that it is almost flat.</li>
-</ul>
+<p>The input_frame is set as parameter but it must be fixed as base_link for the current algorithm.</p>
 <h2 id="optional-error-detection-and-handling">(Optional) Error detection and handling<a class="headerlink" href="#optional-error-detection-and-handling" title="Permanent link">#</a></h2>
 <h2 id="optional-performance-characterization">(Optional) Performance characterization<a class="headerlink" href="#optional-performance-characterization" title="Permanent link">#</a></h2>
-<h2 id="referencesexternal-links">References/External links<a class="headerlink" href="#referencesexternal-links" title="Permanent link">#</a></h2>
-<p><a href="https://pcl.readthedocs.io/projects/tutorials/en/latest/planar_segmentation.html">https://pcl.readthedocs.io/projects/tutorials/en/latest/planar_segmentation.html</a></p>
+<h2 id="optional-referencesexternal-links">(Optional) References/External links<a class="headerlink" href="#optional-referencesexternal-links" title="Permanent link">#</a></h2>
 <h2 id="optional-future-extensions-unimplemented-parts">(Optional) Future extensions / Unimplemented parts<a class="headerlink" href="#optional-future-extensions-unimplemented-parts" title="Permanent link">#</a></h2></div>
 
 
@@ -13465,7 +13492,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../../" class="md-footer__link md-footer__link--prev" aria-label="Previous: ground_segmentation" rel="prev">
+          <a href="../ransac-ground-filter/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RANSAC Ground Filter" rel="prev">
             <div class="md-footer__button md-icon">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
             </div>
@@ -13474,20 +13501,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                ground_segmentation
+                RANSAC Ground Filter
               </div>
             </div>
           </a>
         
         
           
-          <a href="../ray-ground-filter/" class="md-footer__link md-footer__link--next" aria-label="Next: Ray Ground Filter" rel="next">
+          <a href="../scan-ground-filter/" class="md-footer__link md-footer__link--next" aria-label="Next: Scan Ground Filter" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Ray Ground Filter
+                Scan Ground Filter
               </div>
             </div>
             <div class="md-footer__button md-icon">
