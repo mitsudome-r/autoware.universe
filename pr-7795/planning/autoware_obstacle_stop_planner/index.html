@@ -13065,7 +13065,7 @@
 
 <div><h1 id="macro-rendering-error"><em>Macro Rendering Error</em><a class="headerlink" href="#macro-rendering-error" title="Permanent link">#</a></h1>
 <p><em>File</em>: <code>planning/autoware_obstacle_stop_planner/README.md</code></p>
-<p><em>JSONDecodeError</em>: Expecting ',' delimiter: line 216 column 1 (char 8517)</p>
+<p><em>AttributeError</em>: 'list' object has no attribute 'keys'</p>
 <div class="highlight"><pre><span></span><code>Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/mkdocs_macros/plugin.py", line 527, in render
     return md_template.render(**page_variables)
@@ -13074,17 +13074,13 @@
   File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/site-packages/jinja2/environment.py", line 939, in handle_exception
     raise rewrite_traceback_stack(source=source)
   File "&lt;template&gt;", line 193, in top-level template code
-  File "/home/runner/work/autoware.universe/autoware.universe/mkdocs_macros.py", line 71, in json_to_markdown
-    data = json.load(f)
-  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/json/__init__.py", line 293, in load
-    return loads(fp.read(),
-  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/json/__init__.py", line 357, in loads
-    return _default_decoder.decode(s)
-  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/json/decoder.py", line 337, in decode
-    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
-  File "/opt/hostedtoolcache/Python/3.8.18/x64/lib/python3.8/json/decoder.py", line 353, in raw_decode
-    obj, end = self.scan_once(s, idx)
-json.decoder.JSONDecodeError: Expecting ',' delimiter: line 216 column 1 (char 8517)
+  File "/home/runner/work/autoware.universe/autoware.universe/mkdocs_macros.py", line 72, in json_to_markdown
+    return format_json(data)
+  File "/home/runner/work/autoware.universe/autoware.universe/mkdocs_macros.py", line 63, in format_json
+    markdown_table = tabulate(extract_parameter_info(parameters), headers="keys", tablefmt="github")
+  File "/home/runner/work/autoware.universe/autoware.universe/mkdocs_macros.py", line 45, in extract_parameter_info
+    if "$ref" in v.keys():
+AttributeError: 'list' object has no attribute 'keys'
 </code></pre></div></div>
 
 
