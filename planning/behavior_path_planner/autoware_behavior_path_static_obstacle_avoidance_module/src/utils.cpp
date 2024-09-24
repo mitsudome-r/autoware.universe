@@ -66,32 +66,6 @@ geometry_msgs::msg::Polygon toMsg(
   return ret;
 }
 
-template <class T>
-size_t findFirstNearestIndex(const T & points, const geometry_msgs::msg::Point & point)
-{
-  autoware::motion_utils::validateNonEmpty(points);
-
-  double min_dist = std::numeric_limits<double>::max();
-  size_t min_idx = 0;
-  bool decreasing = false;
-
-  for (size_t i = 0; i < points.size(); ++i) {
-    const auto dist = autoware::universe_utils::calcSquaredDistance2d(points.at(i), point);
-    if (dist < min_dist) {
-      decreasing = true;
-      min_dist = dist;
-      min_idx = i;
-      continue;
-    }
-
-    if (decreasing) {
-      return min_idx;
-    }
-  }
-
-  return min_idx;
-}
-
 geometry_msgs::msg::Polygon createVehiclePolygon(
   const autoware::vehicle_info_utils::VehicleInfo & vehicle_info, const double offset)
 {
@@ -281,8 +255,6 @@ bool isWithinIntersection(
   if (location == "private") {
     return false;
   }
-
-  const auto object_polygon = autoware::universe_utils::toPolygon2d(object.object);
 
   const auto polygon =
     route_handler->getLaneletMapPtr()->polygonLayer.get(std::atoi(area_id.c_str()));
