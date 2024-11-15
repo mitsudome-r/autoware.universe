@@ -86,7 +86,7 @@ map_origin:
 
 ## Published Topics
 
-- `~/map_projector_info` (tier4_map_msgs/MapProjectorInfo) : This topic shows the definition of map projector information
+- `~/map_projector_info` (autoware_map_msgs/MapProjectorInfo) : This topic shows the definition of map projector information
 
 ## Parameters
 
