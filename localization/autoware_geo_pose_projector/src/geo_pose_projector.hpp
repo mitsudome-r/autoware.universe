@@ -15,8 +15,8 @@
 #ifndef GEO_POSE_PROJECTOR_HPP_
 #define GEO_POSE_PROJECTOR_HPP_
 
-#include <autoware/universe_component_interface_specs/map.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/map.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <geographic_msgs/msg/geo_pose_with_covariance_stamped.hpp>

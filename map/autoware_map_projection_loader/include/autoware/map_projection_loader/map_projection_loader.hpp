@@ -17,8 +17,8 @@
 
 #include "rclcpp/rclcpp.hpp"
 
-#include <autoware/universe_component_interface_specs/map.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/map.hpp>
 
 #include <string>
 

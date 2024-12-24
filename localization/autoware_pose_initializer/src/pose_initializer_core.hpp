@@ -17,8 +17,8 @@
 
 #include "autoware/localization_util/diagnostics_module.hpp"
 
-#include <autoware/universe_component_interface_specs/localization.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/localization.hpp>
 #include <autoware/universe_utils/ros/logger_level_configure.hpp>
 #include <rclcpp/rclcpp.hpp>
 

@@ -15,8 +15,8 @@
 #ifndef ADAPI_PAUSE_INTERFACE_HPP_
 #define ADAPI_PAUSE_INTERFACE_HPP_
 
-#include <autoware/universe_component_interface_specs/control.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/control.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <autoware_control_msgs/msg/control.hpp>

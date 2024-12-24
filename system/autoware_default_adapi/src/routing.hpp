@@ -16,9 +16,9 @@
 #define ROUTING_HPP_
 
 #include <autoware/adapi_specs/routing.hpp>
+#include <autoware/component_interface_utils/status.hpp>
 #include <autoware/universe_component_interface_specs/planning.hpp>
 #include <autoware/universe_component_interface_specs/system.hpp>
-#include <autoware/component_interface_utils/status.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 // This file should be included after messages.
@@ -33,7 +33,8 @@ public:
   explicit RoutingNode(const rclcpp::NodeOptions & options);
 
 private:
-  using OperationModeState = autoware::universe_component_interface_specs::system::OperationModeState;
+  using OperationModeState =
+    autoware::universe_component_interface_specs::system::OperationModeState;
   using State = autoware::universe_component_interface_specs::planning::RouteState;
   using Route = autoware::universe_component_interface_specs::planning::LaneletRoute;
 
@@ -47,10 +48,13 @@ private:
   Srv<autoware::adapi_specs::routing::ClearRoute> srv_clear_route_;
   Sub<autoware::universe_component_interface_specs::planning::RouteState> sub_state_;
   Sub<autoware::universe_component_interface_specs::planning::LaneletRoute> sub_route_;
-  Cli<autoware::universe_component_interface_specs::planning::SetWaypointRoute> cli_set_waypoint_route_;
-  Cli<autoware::universe_component_interface_specs::planning::SetLaneletRoute> cli_set_lanelet_route_;
+  Cli<autoware::universe_component_interface_specs::planning::SetWaypointRoute>
+    cli_set_waypoint_route_;
+  Cli<autoware::universe_component_interface_specs::planning::SetLaneletRoute>
+    cli_set_lanelet_route_;
   Cli<autoware::universe_component_interface_specs::planning::ClearRoute> cli_clear_route_;
-  Cli<autoware::universe_component_interface_specs::system::ChangeOperationMode> cli_operation_mode_;
+  Cli<autoware::universe_component_interface_specs::system::ChangeOperationMode>
+    cli_operation_mode_;
   Sub<autoware::universe_component_interface_specs::system::OperationModeState> sub_operation_mode_;
   bool is_auto_mode_;
   State::Message state_;

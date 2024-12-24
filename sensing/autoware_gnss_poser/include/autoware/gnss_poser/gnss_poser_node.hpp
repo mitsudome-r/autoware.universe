@@ -14,8 +14,8 @@
 #ifndef AUTOWARE__GNSS_POSER__GNSS_POSER_NODE_HPP_
 #define AUTOWARE__GNSS_POSER__GNSS_POSER_NODE_HPP_
 
-#include <autoware/universe_component_interface_specs/map.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/map.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <autoware_sensing_msgs/msg/gnss_ins_orientation_stamped.hpp>

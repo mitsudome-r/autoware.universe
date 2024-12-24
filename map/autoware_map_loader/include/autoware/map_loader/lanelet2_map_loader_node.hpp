@@ -15,8 +15,8 @@
 #ifndef AUTOWARE__MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
 #define AUTOWARE__MAP_LOADER__LANELET2_MAP_LOADER_NODE_HPP_
 
-#include <autoware/universe_component_interface_specs/map.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/map.hpp>
 #include <autoware_lanelet2_extension/version.hpp>
 #include <rclcpp/rclcpp.hpp>
 

@@ -14,8 +14,8 @@
 
 #include "ekf_localization_trigger_module.hpp"
 
-#include <autoware/universe_component_interface_specs/localization.hpp>
 #include <autoware/component_interface_utils/rclcpp/exceptions.hpp>
+#include <autoware/universe_component_interface_specs/localization.hpp>
 
 #include <memory>
 #include <string>

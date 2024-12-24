@@ -15,8 +15,8 @@
 #ifndef MODERATE_STOP_INTERFACE_HPP_
 #define MODERATE_STOP_INTERFACE_HPP_
 
-#include <autoware/universe_component_interface_specs/control.hpp>
 #include <autoware/component_interface_utils/rclcpp.hpp>
+#include <autoware/universe_component_interface_specs/control.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <string>
