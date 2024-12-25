@@ -15,15 +15,15 @@
 #ifndef AUTOWARE__DYNAMIC_LANELET_PROVIDER__DYNAMIC_LANELET_PROVIDER_HPP_
 #define AUTOWARE__DYNAMIC_LANELET_PROVIDER__DYNAMIC_LANELET_PROVIDER_HPP_
 
-#include <component_interface_specs/map.hpp>
-#include <component_interface_utils/rclcpp.hpp>
+#include <autoware/component_interface_specs/map.hpp>
+#include <autoware/component_interface_utils/rclcpp.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include "autoware_map_msgs/msg/lanelet_map_meta_data.hpp"
 #include "autoware_map_msgs/srv/get_selected_lanelet2_map.hpp"
 #include <geometry_msgs/msg/point.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <tier4_map_msgs/msg/map_projector_info.hpp>
+#include <autoware_map_msgs/msg/map_projector_info.hpp>
 
 #include <optional>
 #include <string>
@@ -61,7 +61,7 @@ private:
 
   rclcpp::Subscription<nav_msgs::msg::Odometry>::SharedPtr odometry_sub_;
 
-  component_interface_utils::Subscription<map_interface::LaneletMapMetaData>::SharedPtr
+  component_interface_utils::Subscription<autoware::component_interface_specs::map::LaneletMapMetaData>::SharedPtr
     lanelet_map_meta_data_sub_;
 
   rclcpp::TimerBase::SharedPtr map_update_timer_;

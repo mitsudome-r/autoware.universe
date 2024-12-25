@@ -84,7 +84,7 @@ DynamicLaneletProviderNode::DynamicLaneletProviderNode(const rclcpp::NodeOptions
     "input/odometry", 1,
     std::bind(&DynamicLaneletProviderNode::onOdometry, this, std::placeholders::_1));
 
-  const auto metadata_adaptor = component_interface_utils::NodeAdaptor(this);
+  const auto metadata_adaptor = autoware::component_interface_utils::NodeAdaptor(this);
   metadata_adaptor.init_sub(
     lanelet_map_meta_data_sub_,
     [this](const autoware_map_msgs::msg::LaneletMapMetaData::SharedPtr msg) {

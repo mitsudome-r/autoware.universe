@@ -14,9 +14,10 @@
 
 #include "autoware/universe_utils/ros/marker_helper.hpp"
 
+#include <string>
+
 namespace autoware::universe_utils
 {
-// cppcheck-suppress unusedFunction
 visualization_msgs::msg::Marker createDefaultMarker(
   const std::string & frame_id, const rclcpp::Time & now, const std::string & ns, const int32_t id,
   const int32_t type, const geometry_msgs::msg::Vector3 & scale,
@@ -41,7 +42,6 @@ visualization_msgs::msg::Marker createDefaultMarker(
   return marker;
 }
 
-// cppcheck-suppress unusedFunction
 visualization_msgs::msg::Marker createDeletedDefaultMarker(
   const rclcpp::Time & now, const std::string & ns, const int32_t id)
 {
@@ -55,7 +55,6 @@ visualization_msgs::msg::Marker createDeletedDefaultMarker(
   return marker;
 }
 
-// cppcheck-suppress unusedFunction
 void appendMarkerArray(
   const visualization_msgs::msg::MarkerArray & additional_marker_array,
   visualization_msgs::msg::MarkerArray * marker_array,
