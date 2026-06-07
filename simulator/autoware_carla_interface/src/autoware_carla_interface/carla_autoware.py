@@ -75,8 +75,32 @@ class InitializeInterface(object):
         self.agent_role_name = self.param_["ego_vehicle_role_name"]
         self.vehicle_type = self.param_["vehicle_type"]
         self.spawn_point = self.param_["spawn_point"]
+        self.spawn_road_id = self.param_["spawn_road_id"]
+        self.spawn_lane_id = self.param_["spawn_lane_id"]
+        self.spawn_s = self.param_["spawn_s"]
         self.use_traffic_manager = self.param_["use_traffic_manager"]
         self.max_real_delta_seconds = self.param_["max_real_delta_seconds"]
+
+    def _parse_spawn_from_opendrive(self):
+        """Parse OpenDRIVE spawn parameters and return transform when valid."""
+        if self.spawn_s < 0.0:
+            return None
+
+        road_id = self.spawn_road_id
+        lane_id = self.spawn_lane_id
+        longitudinal_s = self.spawn_s
+
+        waypoint = self.world.get_map().get_waypoint_xodr(road_id, lane_id, longitudinal_s)
+        if waypoint is None:
+            print(
+                f"Warning: No waypoint found for road_id={road_id}, lane_id={lane_id}, s={longitudinal_s}. "
+                "Falling back to spawn_point/random."
+            )
+            return None
+
+        spawn_point = waypoint.transform
+        spawn_point.location.z += 2.0
+        return spawn_point
 
     def _parse_spawn_point(self):
         """Parse spawn point string and return transform with randomize flag."""
@@ -159,7 +183,12 @@ class InitializeInterface(object):
         CarlaDataProvider.set_world(self.world)
         CarlaDataProvider.set_client(client)
 
-        spawn_point, randomize = self._parse_spawn_point()
+        opendrive_spawn_point = self._parse_spawn_from_opendrive()
+        if opendrive_spawn_point is not None:
+            spawn_point = opendrive_spawn_point
+            randomize = False
+        else:
+            spawn_point, randomize = self._parse_spawn_point()
         self.ego_actor = CarlaDataProvider.request_new_actor(
             self.vehicle_type, spawn_point, self.agent_role_name, random_location=randomize
         )

@@ -11,6 +11,9 @@
     <arg name="ego_vehicle_role_name" default="ego_vehicle"/>
     <arg name="vehicle_type" default="vehicle.toyota.prius"/>
     <arg name="spawn_point" default="None" description="location of ego vehicle spawn (default is random), example = [0.2 , 4.1, 0.4, 0., 0., 0.]"/>
+    <arg name="spawn_road_id" default="0" description="OpenDRIVE road id for ego spawn (used with spawn_lane_id and spawn_s; set spawn_s >= 0 to enable)"/>
+    <arg name="spawn_lane_id" default="0" description="OpenDRIVE lane id for ego spawn (used with spawn_road_id and spawn_s; set spawn_s >= 0 to enable)"/>
+    <arg name="spawn_s" default="-1.0" description="OpenDRIVE longitudinal s position for ego spawn (set >= 0 to enable OpenDRIVE spawn)"/>
     <arg name="map_path" default="" description="Autoware map directory path (map name will be extracted for CARLA)"/>
     <arg name="sync_mode" default="True"/>
     <arg name="fixed_delta_seconds" default="0.05" description="Time step for CARLA, FPS=1/value"/>
@@ -35,6 +38,9 @@
       <param name="carla_map" value="$(var carla_map)"/>
       <param name="ego_vehicle_role_name" value="$(var ego_vehicle_role_name)"/>
       <param name="spawn_point" value="$(var spawn_point)"/>
+      <param name="spawn_road_id" value="$(var spawn_road_id)"/>
+      <param name="spawn_lane_id" value="$(var spawn_lane_id)"/>
+      <param name="spawn_s" value="$(var spawn_s)"/>
       <param name="vehicle_type" value="$(var vehicle_type)"/>
       <param name="use_traffic_manager" value="$(var use_traffic_manager)"/>
       <param name="max_real_delta_seconds" value="$(var max_real_delta_seconds)"/>
