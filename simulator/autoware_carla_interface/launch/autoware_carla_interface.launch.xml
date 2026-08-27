@@ -11,13 +11,25 @@
     <arg name="ego_vehicle_role_name" default="ego_vehicle"/>
     <arg name="vehicle_type" default="vehicle.toyota.prius"/>
     <arg name="spawn_point" default="None" description="location of ego vehicle spawn (default is random), example = [0.2 , 4.1, 0.4, 0., 0., 0.]"/>
+    <arg name="spawn_waypoint_road_id" default="-1" description="OpenDRIVE road id for waypoint-based spawn. Takes precedence over spawn_point when >= 0"/>
+    <arg name="spawn_waypoint_lane_id" default="0" description="OpenDRIVE lane id for waypoint-based spawn"/>
+    <arg name="spawn_waypoint_s" default="0.0" description="OpenDRIVE s coordinate [m] for waypoint-based spawn"/>
     <arg name="map_path" default="" description="Autoware map directory path (map name will be extracted for CARLA)"/>
+
+    <!-- PoV Highway preset: spawn the European HGV truck on the PoV_Highway map at the
+         same location as pov_highway_demo.py (road_id=2, right lane (-2), s=500) -->
+    <arg name="use_pov_highway" default="false" description="Load the PoV_Highway map and spawn the truck at the pov_highway_demo location"/>
+    <let name="vehicle_type" value="vehicle.carlamotors.european_hgv" if="$(var use_pov_highway)"/>
+    <let name="spawn_waypoint_road_id" value="2" if="$(var use_pov_highway)"/>
+    <let name="spawn_waypoint_lane_id" value="-2" if="$(var use_pov_highway)"/>
+    <let name="spawn_waypoint_s" value="500.0" if="$(var use_pov_highway)"/>
     <arg name="sync_mode" default="True"/>
     <arg name="fixed_delta_seconds" default="0.05" description="Time step for CARLA, FPS=1/value"/>
     <arg name="use_traffic_manager" default="False"/>
     <arg name="max_real_delta_seconds" default="0.05"/>
 
     <let name="carla_map" value="$(eval &quot;__import__('os').path.basename('$(var map_path)'.strip().rstrip('/')) or 'Town01'&quot;)"/>
+    <let name="carla_map" value="PoV_Highway" if="$(var use_pov_highway)"/>
 
     <log message="[CARLA Interface] Map Path: '$(var map_path)' -> Loading CARLA Map: '$(var carla_map)'"/>
 
@@ -42,6 +54,9 @@
       <param name="carla_map" value="$(var carla_map)"/>
       <param name="ego_vehicle_role_name" value="$(var ego_vehicle_role_name)"/>
       <param name="spawn_point" value="$(var spawn_point)"/>
+      <param name="spawn_waypoint_road_id" value="$(var spawn_waypoint_road_id)"/>
+      <param name="spawn_waypoint_lane_id" value="$(var spawn_waypoint_lane_id)"/>
+      <param name="spawn_waypoint_s" value="$(var spawn_waypoint_s)"/>
       <param name="vehicle_type" value="$(var vehicle_type)"/>
       <param name="use_traffic_manager" value="$(var use_traffic_manager)"/>
       <param name="max_real_delta_seconds" value="$(var max_real_delta_seconds)"/>

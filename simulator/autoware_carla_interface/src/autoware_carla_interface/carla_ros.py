@@ -67,6 +67,11 @@ class carla_ros2_interface(object):
             "carla_map": (rclpy.Parameter.Type.STRING, None),
             "ego_vehicle_role_name": (rclpy.Parameter.Type.STRING, None),
             "spawn_point": (rclpy.Parameter.Type.STRING, None),
+            # OpenDRIVE waypoint-based spawn (takes precedence over spawn_point
+            # when spawn_waypoint_road_id >= 0)
+            "spawn_waypoint_road_id": (rclpy.Parameter.Type.INTEGER, -1),
+            "spawn_waypoint_lane_id": (rclpy.Parameter.Type.INTEGER, 0),
+            "spawn_waypoint_s": (rclpy.Parameter.Type.DOUBLE, 0.0),
             "vehicle_type": (rclpy.Parameter.Type.STRING, None),
             "use_traffic_manager": (rclpy.Parameter.Type.BOOL, None),
             "max_real_delta_seconds": (rclpy.Parameter.Type.DOUBLE, None),

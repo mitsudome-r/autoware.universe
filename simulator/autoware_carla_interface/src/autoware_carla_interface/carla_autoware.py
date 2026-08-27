@@ -75,6 +75,9 @@ class InitializeInterface(object):
         self.agent_role_name = self.param_["ego_vehicle_role_name"]
         self.vehicle_type = self.param_["vehicle_type"]
         self.spawn_point = self.param_["spawn_point"]
+        self.spawn_waypoint_road_id = self.param_["spawn_waypoint_road_id"]
+        self.spawn_waypoint_lane_id = self.param_["spawn_waypoint_lane_id"]
+        self.spawn_waypoint_s = self.param_["spawn_waypoint_s"]
         self.use_traffic_manager = self.param_["use_traffic_manager"]
         self.max_real_delta_seconds = self.param_["max_real_delta_seconds"]
 
@@ -95,6 +98,26 @@ class InitializeInterface(object):
         else:
             randomize = True
         return spawn_point, randomize
+
+    def _get_waypoint_spawn_point(self):
+        """Resolve the spawn transform from OpenDRIVE waypoint parameters (road/lane/s)."""
+        waypoint = self.world.get_map().get_waypoint_xodr(
+            self.spawn_waypoint_road_id,
+            self.spawn_waypoint_lane_id,
+            self.spawn_waypoint_s,
+        )
+        if waypoint is None:
+            raise RuntimeError(
+                "No waypoint found for road_id={}, lane_id={}, s={} on map {}".format(
+                    self.spawn_waypoint_road_id,
+                    self.spawn_waypoint_lane_id,
+                    self.spawn_waypoint_s,
+                    self.carla_map,
+                )
+            )
+        spawn_point = waypoint.transform
+        spawn_point.location.z += 1.0  # raise so the vehicle does not clip into the road
+        return spawn_point
 
     def _setup_traffic_manager(self, client):
         """Configure traffic manager with NPC vehicles."""
@@ -159,7 +182,11 @@ class InitializeInterface(object):
         CarlaDataProvider.set_world(self.world)
         CarlaDataProvider.set_client(client)
 
-        spawn_point, randomize = self._parse_spawn_point()
+        if self.spawn_waypoint_road_id >= 0:
+            spawn_point = self._get_waypoint_spawn_point()
+            randomize = False
+        else:
+            spawn_point, randomize = self._parse_spawn_point()
         self.ego_actor = CarlaDataProvider.request_new_actor(
             self.vehicle_type, spawn_point, self.agent_role_name, random_location=randomize
         )
