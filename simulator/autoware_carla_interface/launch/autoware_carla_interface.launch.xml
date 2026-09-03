@@ -40,6 +40,9 @@
       description="Whether to use the light-weight sensor mapping YAML that reduces the number of sensors and their frequencies for performance optimization"
     />
     <arg name="sensor_kit_name" default="carla_sensor_kit_description" description="Name of the sensor kit package containing calibration"/>
+    <!-- The PoV Highway truck is much larger than the Prius, so use the HGV-specific calibration
+         (carla_hgv_sensor_kit) unless the user explicitly overrides sensor_kit_name. -->
+    <let name="sensor_kit_name" value="carla_hgv_sensor_kit_description" if="$(eval &quot;'$(var use_pov_highway)'.lower() in ('true', '1') and '$(var sensor_kit_name)' == 'carla_sensor_kit_description'&quot;)"/>
     <let name="sensor_mapping_file_default" value="$(find-pkg-share autoware_carla_interface)/config/sensor_mapping_light_weight.yaml" if="$(var use_light_weight_sensor_mapping)"/>
     <let name="sensor_mapping_file_default" value="$(find-pkg-share autoware_carla_interface)/config/sensor_mapping.yaml" unless="$(var use_light_weight_sensor_mapping)"/>
     <arg name="sensor_mapping_file" default="$(var sensor_mapping_file_default)" description="Path to sensor mapping YAML"/>

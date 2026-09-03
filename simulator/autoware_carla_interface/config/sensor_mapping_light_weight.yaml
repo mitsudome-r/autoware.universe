@@ -5,6 +5,8 @@
 # Enable via the `use_light_weight_sensor_mapping` launch argument.
 
 # Default sensor kit to use (must be the _description package containing config/sensor_kit_calibration.yaml)
+# Sensor positions come from the sensor kit, not from this file; the launch file switches to
+# carla_hgv_sensor_kit_description automatically when use_pov_highway is true.
 default_sensor_kit_name: carla_sensor_kit_description
 
 sensor_mappings:
@@ -92,7 +94,7 @@ enabled_sensors:
   # LiDAR
   - velodyne_top_base_link
 
-  # Cameras (6 for 360-degree coverage)
+  # Camera (front only)
   - CAM_FRONT/camera_link
 
   # IMU and GNSS
